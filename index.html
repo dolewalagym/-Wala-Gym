@@ -376,7 +376,7 @@
 
       table.innerHTML = html;
     }
-
+let editingId = null;
     form.addEventListener("submit", function(e) {
 
       e.preventDefault();
@@ -414,17 +414,22 @@
           document.getElementById("notes").value
       };
 
-      members.push(member);
+    if (editingId !== null) {
+  const index = members.findIndex(
+    m => m.id === editingId
+  );
 
-      saveMembers();
+  if (index !== -1) {
+    member.id = editingId;
+    members[index] = member;
+  }
 
-      form.reset();
-
-      updateDashboard();
-
-      displayMembers();
-
-      alert("Member added successfully!");
+  editingId = null;
+  alert("Member updated successfully!");
+} else {
+  members.push(member);
+  alert("Member added successfully!");
+}
     });
 
     function deleteMember(id) {
