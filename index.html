@@ -261,7 +261,7 @@
         ></textarea>
 <input type="file" id="photo" accept="image/*" class="full" />
         <button type="submit" class="full">
-          Add Member
+          <span id="submitText">Add Member</span>
         </button>
 
       </form>
@@ -377,6 +377,7 @@
       table.innerHTML = html;
     }
 let editingId = null;
+    document.getElementById("submitText").textContent = "Save Changes";
     function editMember(id) {
   const member = members.find(m => m.id === id);
 
@@ -448,6 +449,7 @@ let editingId = null;
   }
 saveMembers();
   editingId = null;
+      document.getElementById("submitText").textContent = "Add Member";
   alert("Member updated successfully!");
 } else {
   members.push(member);
