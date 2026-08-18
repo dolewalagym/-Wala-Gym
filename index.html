@@ -448,6 +448,8 @@ let editingId = null;
     members[index] = member;
   }
 saveMembers();
+      updateDashboard();
+displayMembers();
   editingId = null;
       document.getElementById("submitText").textContent = "Add Member";
   alert("Member updated successfully!");
