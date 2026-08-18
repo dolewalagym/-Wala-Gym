@@ -483,26 +483,91 @@ displayMembers();
   displayMembers();
   alert("Member added successfully!");
 }
-    });
-function viewMember(id) {
+    });function viewMember(id) {
 
   const member = members.find(m => m.id === id);
 
   if (!member) return;
 
-  alert(
-    "👤 Member Details\n\n" +
-    "Name: " + member.name + "\n" +
-    "Phone: " + member.phone + "\n" +
-    "Entry Fee: ₹" + member.entryFee + "\n" +
-    "Membership Fee: ₹" + member.membershipFee + "\n" +
-    "Plan: " + member.plan + "\n" +
-    "Joining Date: " + member.joiningDate + "\n" +
-    "Expiry Date: " + member.expiryDate + "\n" +
-    "Gender: " + member.gender + "\n" +
-    "Status: " + member.status + "\n" +
-    "Notes: " + member.notes
-  );
+  const popup = document.createElement("div");
+
+  popup.style.position = "fixed";
+  popup.style.top = "0";
+  popup.style.left = "0";
+  popup.style.width = "100%";
+  popup.style.height = "100%";
+  popup.style.background = "rgba(0,0,0,0.85)";
+  popup.style.display = "flex";
+  popup.style.justifyContent = "center";
+  popup.style.alignItems = "center";
+  popup.style.zIndex = "9999";
+  popup.style.padding = "20px";
+  popup.style.boxSizing = "border-box";
+
+  popup.innerHTML = `
+    <div style="
+      background:white;
+      width:100%;
+      max-width:420px;
+      max-height:90vh;
+      overflow:auto;
+      border-radius:20px;
+      padding:20px;
+      text-align:center;
+      box-sizing:border-box;
+    ">
+
+      ${
+        member.photo
+        ? `<img src="${member.photo}" style="
+            width:220px;
+            height:220px;
+            object-fit:cover;
+            border-radius:15px;
+            display:block;
+            margin:0 auto 20px;
+          ">`
+        : `<div style="
+            width:220px;
+            height:220px;
+            margin:0 auto 20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#eee;
+            border-radius:15px;
+            font-size:60px;
+          ">👤</div>`
+      }
+
+      <h2>👤 ${member.name}</h2>
+
+      <p><b>Phone:</b> ${member.phone}</p>
+      <p><b>Entry Fee:</b> ₹${member.entryFee}</p>
+      <p><b>Membership Fee:</b> ₹${member.membershipFee}</p>
+      <p><b>Plan:</b> ${member.plan}</p>
+      <p><b>Joining Date:</b> ${member.joiningDate}</p>
+      <p><b>Expiry Date:</b> ${member.expiryDate}</p>
+      <p><b>Gender:</b> ${member.gender}</p>
+      <p><b>Status:</b> ${member.status}</p>
+      <p><b>Notes:</b> ${member.notes}</p>
+
+      <button onclick="this.closest('div[style*=fixed]').remove()" style="
+        margin-top:15px;
+        padding:12px 30px;
+        border:none;
+        border-radius:10px;
+        background:#111;
+        color:white;
+        font-size:16px;
+      ">
+        Close
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(popup);
 }
     function deleteMember(id) {
 
