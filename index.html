@@ -455,9 +455,10 @@ let editingId = null;
 
         notes:
           document.getElementById("notes").value,
-        photo: document.getElementById("photo").files[0]
-  ? URL.createObjectURL(document.getElementById("photo").files[0])
-  : ""
+      photo:
+  document.getElementById("photo").files[0]
+    ? URL.createObjectURL(document.getElementById("photo").files[0])
+    : "",
       };
 
     if (editingId !== null) {
