@@ -478,6 +478,9 @@ displayMembers();
   alert("Member updated successfully!");
 } else {
   members.push(member);
+  saveMembers();
+  updateDashboard();
+  displayMembers();
   alert("Member added successfully!");
 }
     });
