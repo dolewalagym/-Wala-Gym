@@ -377,6 +377,29 @@
       table.innerHTML = html;
     }
 let editingId = null;
+    function editMember(id) {
+  const member = members.find(m => m.id === id);
+
+  if (!member) return;
+
+  editingId = id;
+
+  document.getElementById("name").value = member.name || "";
+  document.getElementById("phone").value = member.phone || "";
+  document.getElementById("entryFee").value = member.entryFee || "";
+  document.getElementById("membershipFee").value = member.membershipFee || "";
+  document.getElementById("joiningDate").value = member.joiningDate || "";
+  document.getElementById("expiryDate").value = member.expiryDate || "";
+  document.getElementById("plan").value = member.plan || "";
+  document.getElementById("gender").value = member.gender || "";
+  document.getElementById("status").value = member.status || "";
+  document.getElementById("notes").value = member.notes || "";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
     form.addEventListener("submit", function(e) {
 
       e.preventDefault();
@@ -423,7 +446,7 @@ let editingId = null;
     member.id = editingId;
     members[index] = member;
   }
-
+saveMembers();
   editingId = null;
   alert("Member updated successfully!");
 } else {
