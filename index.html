@@ -480,7 +480,26 @@ displayMembers();
   alert("Member added successfully!");
 }
     });
+function viewMember(id) {
 
+  const member = members.find(m => m.id === id);
+
+  if (!member) return;
+
+  alert(
+    "👤 Member Details\n\n" +
+    "Name: " + member.name + "\n" +
+    "Phone: " + member.phone + "\n" +
+    "Entry Fee: ₹" + member.entryFee + "\n" +
+    "Membership Fee: ₹" + member.membershipFee + "\n" +
+    "Plan: " + member.plan + "\n" +
+    "Joining Date: " + member.joiningDate + "\n" +
+    "Expiry Date: " + member.expiryDate + "\n" +
+    "Gender: " + member.gender + "\n" +
+    "Status: " + member.status + "\n" +
+    "Notes: " + member.notes
+  );
+}
     function deleteMember(id) {
 
       const confirmDelete =
