@@ -420,10 +420,27 @@ let editingId = null;
     behavior: "smooth"
   });
 }
-    form.addEventListener("submit", function(e) {
+    function readPhoto(file) {
+  return new Promise((resolve) => {
+    if (!file) {
+      resolve("");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      resolve(e.target.result);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+    form.addEventListener("submit", async function(e) {
 
       e.preventDefault();
-
+const photoFile = document.getElementById("photo").files[0];
+const photoData = await readPhoto(photoFile);
       const member = {
 
         id: Date.now(),
@@ -455,10 +472,7 @@ let editingId = null;
 
         notes:
           document.getElementById("notes").value,
-      photo:
-  document.getElementById("photo").files[0]
-    ? URL.createObjectURL(document.getElementById("photo").files[0])
-    : "",
+   photo: photoData,
       };
 
     if (editingId !== null) {
