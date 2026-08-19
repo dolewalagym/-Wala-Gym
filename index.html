@@ -2,12 +2,19 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>डोले Wala Gym</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,10 +22,12 @@
       font-family: Arial, sans-serif;
     }
 
+
     body {
       background: #111;
       color: white;
     }
+
 
     header {
       background: #000;
@@ -27,14 +36,17 @@
       border-bottom: 2px solid #333;
     }
 
+
     header h1 {
       font-size: 30px;
       margin-bottom: 8px;
     }
 
+
     header p {
       color: #aaa;
     }
+
 
     .container {
       width: 95%;
@@ -42,12 +54,15 @@
       margin: 25px auto;
     }
 
+
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
       gap: 15px;
       margin-bottom: 25px;
     }
+
 
     .card {
       background: #1d1d1d;
@@ -57,14 +72,17 @@
       text-align: center;
     }
 
+
     .card h2 {
       font-size: 28px;
       margin-bottom: 8px;
     }
 
+
     .card p {
       color: #aaa;
     }
+
 
     .section {
       background: #1d1d1d;
@@ -74,15 +92,19 @@
       margin-bottom: 20px;
     }
 
+
     .section h2 {
       margin-bottom: 18px;
     }
 
+
     form {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
     }
+
 
     input,
     select,
@@ -96,10 +118,12 @@
       outline: none;
     }
 
+
     textarea {
       min-height: 90px;
       resize: vertical;
     }
+
 
     button {
       padding: 12px 18px;
@@ -111,19 +135,23 @@
       cursor: pointer;
     }
 
+
     button:hover {
       opacity: 0.85;
     }
 
+
     .full {
       grid-column: 1 / -1;
     }
+
 
     .cancel-btn {
       background: #333;
       color: white;
       display: none;
     }
+
 
     table {
       width: 100%;
@@ -132,6 +160,7 @@
       overflow: hidden;
     }
 
+
     th,
     td {
       border-bottom: 1px solid #333;
@@ -139,9 +168,11 @@
       text-align: left;
     }
 
+
     th {
       background: #111;
     }
+
 
     .delete {
       background: #333;
@@ -149,11 +180,19 @@
       margin-left: 5px;
     }
 
+
+    .receipt-btn {
+      background: #e00000;
+      color: white;
+      margin-top: 5px;
+    }
+
+
     .whatsapp {
       background: #25D366;
       color: white;
-      margin-top: 10px;
     }
+
 
     .empty {
       text-align: center;
@@ -161,15 +200,20 @@
       padding: 25px;
     }
 
+
     .active-status {
       color: #00ff66;
       font-weight: bold;
     }
 
+
     .expired-status {
       color: #ff4444;
       font-weight: bold;
     }
+
+
+    /* PROFILE POPUP */
 
     .profile-popup {
       position: fixed;
@@ -177,13 +221,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.88);
+      background: rgba(0,0,0,0.88);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       padding: 20px;
     }
+
 
     .profile-box {
       background: white;
@@ -197,6 +242,7 @@
       text-align: center;
     }
 
+
     .profile-photo {
       width: 220px;
       height: 220px;
@@ -205,6 +251,7 @@
       display: block;
       margin: 0 auto 20px;
     }
+
 
     .no-photo {
       width: 220px;
@@ -218,11 +265,13 @@
       font-size: 60px;
     }
 
+
     .profile-info {
       text-align: left;
       margin-top: 15px;
       line-height: 1.8;
     }
+
 
     .profile-buttons {
       display: flex;
@@ -232,63 +281,328 @@
       margin-top: 15px;
     }
 
+
     .close-btn {
       background: #111;
       color: white;
     }
 
+
+    /* PDF RECEIPT */
+
+    #receiptContainer {
+      position: fixed;
+      left: -10000px;
+      top: 0;
+      width: 794px;
+      background: white;
+      color: #111;
+      z-index: -1;
+    }
+
+
+    .receipt-page {
+      width: 794px;
+      min-height: 1123px;
+      background: white;
+      padding: 35px;
+      position: relative;
+      border: 3px solid #111;
+    }
+
+
+    .receipt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #111;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+
+    .gym-name {
+      font-size: 34px;
+      font-weight: 900;
+      color: #111;
+    }
+
+
+    .gym-tagline {
+      font-size: 15px;
+      letter-spacing: 3px;
+      margin-top: 7px;
+      color: #555;
+    }
+
+
+    .gym-contact {
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+
+    .receipt-title {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+
+    .receipt-title span {
+      display: inline-block;
+      background: #111;
+      color: white;
+      padding: 10px 30px;
+      border-radius: 5px;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+
+    .receipt-top {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #999;
+      border-bottom: 1px solid #999;
+      padding: 12px 0;
+      margin-bottom: 25px;
+    }
+
+
+    .receipt-top strong {
+      color: #d00000;
+    }
+
+
+    .member-section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #b00000;
+      border-bottom: 2px solid #b00000;
+      padding-bottom: 7px;
+      margin-bottom: 15px;
+    }
+
+
+    .member-area {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+
+    .member-details {
+      flex: 1;
+      font-size: 16px;
+      line-height: 2;
+    }
+
+
+    .member-photo-box {
+      width: 170px;
+      height: 190px;
+      border: 2px solid #d00000;
+      border-radius: 12px;
+      padding: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .member-photo-pdf {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      border-radius: 7px;
+    }
+
+
+    .receipt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+
+    .membership-details {
+      font-size: 16px;
+      line-height: 2;
+    }
+
+
+    .payment-box {
+      border: 2px solid #d00000;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+
+    .payment-title {
+      background: #d00000;
+      color: white;
+      display: inline-block;
+      padding: 7px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+
+    .payment-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px dashed #999;
+      font-size: 16px;
+    }
+
+
+    .payment-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 15px;
+      font-size: 21px;
+      font-weight: bold;
+      color: #b00000;
+    }
+
+
+    .thank-you {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 21px;
+      font-weight: bold;
+      color: #b00000;
+    }
+
+
+    .stay-fit {
+      text-align: center;
+      margin-top: 7px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+
+    .receipt-footer {
+      position: absolute;
+      left: 35px;
+      right: 35px;
+      bottom: 35px;
+      border-top: 2px solid #111;
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+
+    .footer-left {
+      max-width: 60%;
+    }
+
+
+    .footer-title {
+      font-weight: bold;
+      color: #b00000;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+
+    .footer-gym {
+      text-align: right;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+
     @media (max-width: 700px) {
+
       table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
       }
 
+
       header h1 {
         font-size: 24px;
       }
+
 
       .profile-photo,
       .no-photo {
         width: 200px;
         height: 200px;
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
   <header>
+
     <h1>💪 डोले Wala Gym</h1>
+
     <p>Gym Management System</p>
+
   </header>
 
+
   <div class="container">
+
 
     <!-- DASHBOARD -->
 
     <div class="dashboard">
 
+
       <div class="card">
+
         <h2 id="totalMembers">0</h2>
+
         <p>Total Members</p>
+
       </div>
 
+
       <div class="card">
+
         <h2 id="activeMembers">0</h2>
+
         <p>Active Members</p>
+
       </div>
 
+
       <div class="card">
+
         <h2 id="expiredMembers">0</h2>
+
         <p>Expired Members</p>
+
       </div>
 
+
       <div class="card">
+
         <h2 id="todayMembers">0</h2>
+
         <p>Today's Entries</p>
+
       </div>
+
 
     </div>
 
@@ -297,9 +611,14 @@
 
     <div class="section">
 
-      <h2 id="formTitle">➕ Add New Member</h2>
+
+      <h2 id="formTitle">
+        ➕ Add New Member
+      </h2>
+
 
       <form id="memberForm">
+
 
         <input
           type="text"
@@ -308,6 +627,7 @@
           required
         >
 
+
         <input
           type="tel"
           id="phone"
@@ -315,11 +635,13 @@
           required
         >
 
+
         <input
           type="number"
           id="entryFee"
           placeholder="Entry Fee"
         >
+
 
         <input
           type="number"
@@ -327,11 +649,13 @@
           placeholder="Membership Fee"
         >
 
+
         <input
           type="date"
           id="joiningDate"
           required
         >
+
 
         <input
           type="date"
@@ -339,31 +663,72 @@
           required
         >
 
+
         <select id="plan">
-          <option value="">Select Plan</option>
-          <option value="1 Month">1 Month</option>
-          <option value="3 Months">3 Months</option>
-          <option value="6 Months">6 Months</option>
-          <option value="12 Months">12 Months</option>
+
+          <option value="">
+            Select Plan
+          </option>
+
+          <option value="1 Month">
+            1 Month
+          </option>
+
+          <option value="3 Months">
+            3 Months
+          </option>
+
+          <option value="6 Months">
+            6 Months
+          </option>
+
+          <option value="12 Months">
+            12 Months
+          </option>
+
         </select>
+
 
         <select id="gender">
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
+
+          <option value="">
+            Select Gender
+          </option>
+
+          <option value="Male">
+            Male
+          </option>
+
+          <option value="Female">
+            Female
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
         </select>
 
+
         <select id="status">
-          <option value="Active">Active</option>
-          <option value="Expired">Expired</option>
+
+          <option value="Active">
+            Active
+          </option>
+
+          <option value="Expired">
+            Expired
+          </option>
+
         </select>
+
 
         <textarea
           id="notes"
           class="full"
           placeholder="Notes"
         ></textarea>
+
 
         <input
           type="file"
@@ -372,9 +737,18 @@
           class="full"
         >
 
-        <button type="submit" class="full">
-          <span id="submitText">Add Member</span>
+
+        <button
+          type="submit"
+          class="full"
+        >
+
+          <span id="submitText">
+            Add Member
+          </span>
+
         </button>
+
 
         <button
           type="button"
@@ -382,8 +756,11 @@
           class="full cancel-btn"
           onclick="cancelEdit()"
         >
+
           Cancel Edit
+
         </button>
+
 
       </form>
 
@@ -394,7 +771,11 @@
 
     <div class="section">
 
-      <h2>👥 Members</h2>
+
+      <h2>
+        👥 Members
+      </h2>
+
 
       <input
         type="text"
@@ -402,30 +783,51 @@
         placeholder="🔍 Search member by name or phone..."
       >
 
+
       <div id="membersTable"></div>
 
+
     </div>
+
 
   </div>
 
 
+  <!-- HIDDEN PDF RECEIPT -->
+
+  <div id="receiptContainer"></div>
+
+
   <script>
 
-    /* ================================
+    /* =================================
        LOAD MEMBERS
     ================================= */
 
-    let members = JSON.parse(
-      localStorage.getItem("doleWalaGymMembers")
-    ) || [];
+    let members =
+      JSON.parse(
+        localStorage.getItem(
+          "doleWalaGymMembers"
+        )
+      ) || [];
+
 
     let editingId = null;
 
-    const form = document.getElementById("memberForm");
-    const search = document.getElementById("search");
+
+    const form =
+      document.getElementById(
+        "memberForm"
+      );
 
 
-    /* ================================
+    const search =
+      document.getElementById(
+        "search"
+      );
+
+
+    /* =================================
        SAVE MEMBERS
     ================================= */
 
@@ -439,72 +841,123 @@
     }
 
 
-    /* ================================
-       DATE
+    /* =================================
+       TODAY
     ================================= */
 
     function getToday() {
 
-      const date = new Date();
+      const date =
+        new Date();
 
-      const year = date.getFullYear();
+      const year =
+        date.getFullYear();
 
-      const month = String(
-        date.getMonth() + 1
-      ).padStart(2, "0");
+      const month =
+        String(
+          date.getMonth() + 1
+        ).padStart(2, "0");
 
-      const day = String(
-        date.getDate()
-      ).padStart(2, "0");
+      const day =
+        String(
+          date.getDate()
+        ).padStart(2, "0");
 
-      return `${year}-${month}-${day}`;
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+      );
 
     }
 
 
-    /* ================================
+    /* =================================
+       DISPLAY DATE
+    ================================= */
+
+    function formatDate(dateString) {
+
+      if (!dateString) {
+        return "-";
+      }
+
+      const parts =
+        dateString.split("-");
+
+      if (parts.length !== 3) {
+        return dateString;
+      }
+
+      return (
+        parts[2] +
+        "/" +
+        parts[1] +
+        "/" +
+        parts[0]
+      );
+
+    }
+
+
+    /* =================================
        AUTOMATIC STATUS
     ================================= */
 
     function updateExpiredStatus() {
 
-      const today = getToday();
+      const today =
+        getToday();
 
       let changed = false;
 
-      members.forEach(member => {
 
-        if (
-          member.expiryDate &&
-          member.expiryDate < today
-        ) {
+      members.forEach(
+        member => {
 
-          if (member.status !== "Expired") {
+          if (
+            member.expiryDate &&
+            member.expiryDate < today
+          ) {
 
-            member.status = "Expired";
+            if (
+              member.status !==
+              "Expired"
+            ) {
 
-            changed = true;
+              member.status =
+                "Expired";
+
+              changed = true;
+
+            }
+
+          }
+
+          else if (
+            member.expiryDate &&
+            member.expiryDate >= today
+          ) {
+
+            if (
+              member.status !==
+              "Active"
+            ) {
+
+              member.status =
+                "Active";
+
+              changed = true;
+
+            }
 
           }
 
         }
+      );
 
-        else if (
-          member.expiryDate &&
-          member.expiryDate >= today
-        ) {
-
-          if (member.status !== "Active") {
-
-            member.status = "Active";
-
-            changed = true;
-
-          }
-
-        }
-
-      });
 
       if (changed) {
 
@@ -515,7 +968,7 @@
     }
 
 
-    /* ================================
+    /* =================================
        DASHBOARD
     ================================= */
 
@@ -523,82 +976,116 @@
 
       updateExpiredStatus();
 
-      const today = getToday();
+
+      const today =
+        getToday();
+
 
       document.getElementById(
         "totalMembers"
-      ).textContent = members.length;
+      ).textContent =
+        members.length;
+
 
       document.getElementById(
         "activeMembers"
       ).textContent =
         members.filter(
-          member => member.status === "Active"
+          member =>
+            member.status ===
+            "Active"
         ).length;
+
 
       document.getElementById(
         "expiredMembers"
       ).textContent =
         members.filter(
-          member => member.status === "Expired"
+          member =>
+            member.status ===
+            "Expired"
         ).length;
+
 
       document.getElementById(
         "todayMembers"
       ).textContent =
         members.filter(
-          member => member.joiningDate === today
+          member =>
+            member.joiningDate ===
+            today
         ).length;
 
     }
 
 
-    /* ================================
-       PHOTO READER
+    /* =================================
+       READ PHOTO
     ================================= */
 
     function readPhoto(file) {
 
-      return new Promise((resolve) => {
+      return new Promise(
+        resolve => {
 
-        if (!file) {
+          if (!file) {
 
-          resolve("");
+            resolve("");
 
-          return;
+            return;
+
+          }
+
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            function(e) {
+
+              resolve(
+                e.target.result
+              );
+
+            };
+
+
+          reader.readAsDataURL(
+            file
+          );
 
         }
-
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-
-          resolve(e.target.result);
-
-        };
-
-        reader.readAsDataURL(file);
-
-      });
+      );
 
     }
 
 
-    /* ================================
+    /* =================================
        DISPLAY MEMBERS
     ================================= */
 
-    function displayMembers(list = members) {
+    function displayMembers(
+      list = members
+    ) {
 
       updateExpiredStatus();
 
-      const table =
-        document.getElementById("membersTable");
 
-      if (list.length === 0) {
+      const table =
+        document.getElementById(
+          "membersTable"
+        );
+
+
+      if (
+        list.length === 0
+      ) {
 
         table.innerHTML =
-          '<div class="empty">No members added yet.</div>';
+          '<div class="empty">' +
+          'No members added yet.' +
+          '</div>';
 
         return;
 
@@ -631,99 +1118,154 @@
       `;
 
 
-      list.forEach(member => {
-
-        const statusClass =
-          member.status === "Active"
-            ? "active-status"
-            : "expired-status";
+      list.forEach(
+        member => {
 
 
-        html += `
+          const statusClass =
+            member.status ===
+            "Active"
 
-          <tr>
+              ? "active-status"
 
-            <td>
+              : "expired-status";
 
-              ${
-                member.photo
 
-                ?
+          html += `
 
-                `<img
-                  src="${member.photo}"
+            <tr>
+
+
+              <td>
+
+                ${
+                  member.photo
+
+                  ?
+
+                  `<img
+                    src="${member.photo}"
+                    style="
+                      width:50px;
+                      height:50px;
+                      object-fit:cover;
+                      border-radius:50%;
+                      cursor:pointer;
+                    "
+                    onclick="
+                      viewMember(${member.id})
+                    "
+                  >`
+
+                  :
+
+                  `<button
+                    onclick="
+                      viewMember(${member.id})
+                    "
+                  >
+                    👤 View
+                  </button>`
+                }
+
+              </td>
+
+
+              <td>
+
+                <span
                   style="
-                    width:50px;
-                    height:50px;
-                    object-fit:cover;
-                    border-radius:50%;
                     cursor:pointer;
+                    font-weight:bold;
                   "
-                  onclick="viewMember(${member.id})"
-                >`
-
-                :
-
-                `<button
-                  onclick="viewMember(${member.id})"
+                  onclick="
+                    viewMember(${member.id})
+                  "
                 >
-                  👤 View
-                </button>`
-              }
 
-            </td>
+                  ${member.name}
+
+                </span>
+
+              </td>
 
 
-            <td>
+              <td>
+                ${member.phone}
+              </td>
 
-              <span
-                style="
-                  cursor:pointer;
-                  font-weight:bold;
-                "
-                onclick="viewMember(${member.id})"
+
+              <td>
+                ${member.plan || "-"}
+              </td>
+
+
+              <td>
+                ${member.joiningDate || "-"}
+              </td>
+
+
+              <td>
+                ${member.expiryDate || "-"}
+              </td>
+
+
+              <td
+                class="${statusClass}"
               >
-                ${member.name}
-              </span>
 
-            </td>
+                ${member.status || "-"}
 
-
-            <td>${member.phone}</td>
-
-            <td>${member.plan || "-"}</td>
-
-            <td>${member.joiningDate || "-"}</td>
-
-            <td>${member.expiryDate || "-"}</td>
-
-            <td class="${statusClass}">
-              ${member.status || "-"}
-            </td>
+              </td>
 
 
-            <td>
+              <td>
 
-              <button
-                onclick="editMember(${member.id})"
-              >
-                ✏️ Edit
-              </button>
 
-              <button
-                class="delete"
-                onclick="deleteMember(${member.id})"
-              >
-                🗑️ Delete
-              </button>
+                <button
+                  onclick="
+                    editMember(${member.id})
+                  "
+                >
 
-            </td>
+                  ✏️ Edit
 
-          </tr>
+                </button>
 
-        `;
 
-      });
+                <button
+                  class="receipt-btn"
+                  onclick="
+                    generateReceipt(${member.id})
+                  "
+                >
+
+                  🧾 PDF
+
+                </button>
+
+
+                <button
+                  class="delete"
+                  onclick="
+                    deleteMember(${member.id})
+                  "
+                >
+
+                  🗑️ Delete
+
+                </button>
+
+
+              </td>
+
+
+            </tr>
+
+          `;
+
+        }
+      );
 
 
       html += `
@@ -735,12 +1277,13 @@
       `;
 
 
-      table.innerHTML = html;
+      table.innerHTML =
+        html;
 
     }
 
 
-    /* ================================
+    /* =================================
        ADD / EDIT MEMBER
     ================================= */
 
@@ -752,90 +1295,125 @@
 
 
         const photoFile =
-          document.getElementById("photo").files[0];
+          document.getElementById(
+            "photo"
+          ).files[0];
 
 
         let photoData = "";
 
+
         if (photoFile) {
 
           photoData =
-            await readPhoto(photoFile);
+            await readPhoto(
+              photoFile
+            );
 
         }
 
 
-        /* ============================
-           EDIT MEMBER
-        ============================ */
+        /* =============================
+           EDIT
+        ============================= */
 
-        if (editingId !== null) {
+        if (
+          editingId !== null
+        ) {
+
 
           const index =
             members.findIndex(
-              member => member.id === editingId
+              member =>
+                member.id ===
+                editingId
             );
 
 
-          if (index !== -1) {
+          if (
+            index !== -1
+          ) {
 
-            const oldMember = members[index];
 
+            const oldMember =
+              members[index];
 
-            /*
-              IMPORTANT:
-              Agar edit ke time new photo nahi
-              lagayi to purani photo safe rahegi.
-            */
 
             members[index] = {
 
-              id: editingId,
+              id:
+                editingId,
+
 
               name:
-                document.getElementById("name").value,
+                document.getElementById(
+                  "name"
+                ).value,
+
 
               phone:
-                document.getElementById("phone").value,
+                document.getElementById(
+                  "phone"
+                ).value,
+
 
               entryFee:
-                document.getElementById("entryFee").value,
+                document.getElementById(
+                  "entryFee"
+                ).value,
+
 
               membershipFee:
                 document.getElementById(
                   "membershipFee"
                 ).value,
 
+
               joiningDate:
                 document.getElementById(
                   "joiningDate"
                 ).value,
+
 
               expiryDate:
                 document.getElementById(
                   "expiryDate"
                 ).value,
 
+
               plan:
-                document.getElementById("plan").value,
+                document.getElementById(
+                  "plan"
+                ).value,
+
 
               gender:
                 document.getElementById(
                   "gender"
                 ).value,
 
+
               status:
                 document.getElementById(
                   "status"
                 ).value,
+
 
               notes:
                 document.getElementById(
                   "notes"
                 ).value,
 
+
               photo:
-                photoData || oldMember.photo || ""
+                photoData ||
+                oldMember.photo ||
+                "",
+
+
+              receiptNo:
+                oldMember.receiptNo ||
+                createReceiptNumber()
 
             };
 
@@ -848,74 +1426,105 @@
 
           displayMembers();
 
+
           alert(
             "✅ Member updated successfully!"
           );
 
+
           cancelEdit();
+
 
           return;
 
         }
 
 
-        /* ============================
-           ADD NEW MEMBER
-        ============================ */
+        /* =============================
+           NEW MEMBER
+        ============================= */
 
         const member = {
 
-          id: Date.now(),
+
+          id:
+            Date.now(),
+
 
           name:
-            document.getElementById("name").value,
+            document.getElementById(
+              "name"
+            ).value,
+
 
           phone:
-            document.getElementById("phone").value,
+            document.getElementById(
+              "phone"
+            ).value,
+
 
           entryFee:
-            document.getElementById("entryFee").value,
+            document.getElementById(
+              "entryFee"
+            ).value,
+
 
           membershipFee:
             document.getElementById(
               "membershipFee"
             ).value,
 
+
           joiningDate:
             document.getElementById(
               "joiningDate"
             ).value,
+
 
           expiryDate:
             document.getElementById(
               "expiryDate"
             ).value,
 
+
           plan:
-            document.getElementById("plan").value,
+            document.getElementById(
+              "plan"
+            ).value,
+
 
           gender:
             document.getElementById(
               "gender"
             ).value,
 
+
           status:
             document.getElementById(
               "status"
             ).value,
+
 
           notes:
             document.getElementById(
               "notes"
             ).value,
 
+
           photo:
-            photoData
+            photoData,
+
+
+          receiptNo:
+            createReceiptNumber()
 
         };
 
 
-        members.push(member);
+        members.push(
+          member
+        );
+
 
         saveMembers();
 
@@ -923,9 +1532,11 @@
 
         displayMembers();
 
+
         alert(
           "✅ Member added successfully!"
         );
+
 
         resetForm();
 
@@ -933,7 +1544,47 @@
     );
 
 
-    /* ================================
+    /* =================================
+       RECEIPT NUMBER
+    ================================= */
+
+    function createReceiptNumber() {
+
+      const now =
+        new Date();
+
+
+      const year =
+        String(
+          now.getFullYear()
+        ).slice(-2);
+
+
+      const month =
+        String(
+          now.getMonth() + 1
+        ).padStart(2, "0");
+
+
+      const random =
+        Math.floor(
+          100000 +
+          Math.random() * 900000
+        );
+
+
+      return (
+        "DWG/" +
+        year +
+        month +
+        "/" +
+        random
+      );
+
+    }
+
+
+    /* =================================
        EDIT MEMBER
     ================================= */
 
@@ -941,11 +1592,14 @@
 
       const member =
         members.find(
-          member => member.id === id
+          member =>
+            member.id === id
         );
 
 
-      if (!member) return;
+      if (!member) {
+        return;
+      }
 
 
       editingId = id;
@@ -969,48 +1623,65 @@
         "block";
 
 
-      document.getElementById("name").value =
+      document.getElementById(
+        "name"
+      ).value =
         member.name || "";
 
-      document.getElementById("phone").value =
+
+      document.getElementById(
+        "phone"
+      ).value =
         member.phone || "";
 
-      document.getElementById("entryFee").value =
+
+      document.getElementById(
+        "entryFee"
+      ).value =
         member.entryFee || "";
+
 
       document.getElementById(
         "membershipFee"
       ).value =
         member.membershipFee || "";
 
+
       document.getElementById(
         "joiningDate"
       ).value =
         member.joiningDate || "";
+
 
       document.getElementById(
         "expiryDate"
       ).value =
         member.expiryDate || "";
 
-      document.getElementById("plan").value =
+
+      document.getElementById(
+        "plan"
+      ).value =
         member.plan || "";
 
-      document.getElementById("gender").value =
+
+      document.getElementById(
+        "gender"
+      ).value =
         member.gender || "";
 
-      document.getElementById("status").value =
+
+      document.getElementById(
+        "status"
+      ).value =
         member.status || "Active";
 
-      document.getElementById("notes").value =
+
+      document.getElementById(
+        "notes"
+      ).value =
         member.notes || "";
 
-
-      /*
-        File input ko old photo se fill nahi
-        kiya ja sakta. Purani photo automatically
-        safe rahegi.
-      */
 
       document.getElementById(
         "photo"
@@ -1028,7 +1699,7 @@
     }
 
 
-    /* ================================
+    /* =================================
        CANCEL EDIT
     ================================= */
 
@@ -1060,7 +1731,7 @@
     }
 
 
-    /* ================================
+    /* =================================
        RESET FORM
     ================================= */
 
@@ -1068,21 +1739,27 @@
 
       form.reset();
 
+
       document.getElementById(
         "status"
-      ).value = "Active";
+      ).value =
+        "Active";
+
 
       editingId = null;
+
 
       document.getElementById(
         "formTitle"
       ).textContent =
         "➕ Add New Member";
 
+
       document.getElementById(
         "submitText"
       ).textContent =
         "Add Member";
+
 
       document.getElementById(
         "cancelEdit"
@@ -1092,83 +1769,38 @@
     }
 
 
-    /* ================================
-       VIEW MEMBER PROFILE
+    /* =================================
+       VIEW PROFILE
     ================================= */
 
     function viewMember(id) {
 
       const member =
         members.find(
-          member => member.id === id
+          member =>
+            member.id === id
         );
 
 
-      if (!member) return;
+      if (!member) {
+        return;
+      }
 
 
       const popup =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
 
       popup.className =
         "profile-popup";
 
 
-      const phoneNumber =
-        String(member.phone || "")
-          .replace(/\D/g, "");
-
-
-      const whatsappText = encodeURIComponent(
-
-        "💪 डोले Wala Gym\n\n" +
-
-        "👤 Member Receipt\n\n" +
-
-        "Name: " +
-        member.name +
-        "\n" +
-
-        "Phone: " +
-        member.phone +
-        "\n" +
-
-        "Entry Fee: ₹" +
-        (member.entryFee || 0) +
-        "\n" +
-
-        "Membership Fee: ₹" +
-        (member.membershipFee || 0) +
-        "\n" +
-
-        "Plan: " +
-        (member.plan || "-") +
-        "\n" +
-
-        "Joining Date: " +
-        (member.joiningDate || "-") +
-        "\n" +
-
-        "Expiry Date: " +
-        (member.expiryDate || "-") +
-        "\n" +
-
-        "Gender: " +
-        (member.gender || "-") +
-        "\n" +
-
-        "Status: " +
-        (member.status || "-") +
-
-        "\n\nThank you for joining डोले Wala Gym 💪"
-
-      );
-
-
       popup.innerHTML = `
 
         <div class="profile-box">
+
 
           ${
             member.photo
@@ -1193,47 +1825,63 @@
           </h2>
 
 
-          <div class="profile-info">
+          <div
+            class="profile-info"
+          >
 
             <p>
               <b>Phone:</b>
               ${member.phone}
             </p>
 
+
             <p>
               <b>Entry Fee:</b>
               ₹${member.entryFee || 0}
             </p>
+
 
             <p>
               <b>Membership Fee:</b>
               ₹${member.membershipFee || 0}
             </p>
 
+
+            <p>
+              <b>Total Paid:</b>
+              ₹${getTotalPaid(member)}
+            </p>
+
+
             <p>
               <b>Plan:</b>
               ${member.plan || "-"}
             </p>
 
+
             <p>
               <b>Joining Date:</b>
-              ${member.joiningDate || "-"}
+              ${formatDate(member.joiningDate)}
             </p>
+
 
             <p>
               <b>Expiry Date:</b>
-              ${member.expiryDate || "-"}
+              ${formatDate(member.expiryDate)}
             </p>
+
 
             <p>
               <b>Gender:</b>
               ${member.gender || "-"}
             </p>
 
+
             <p>
               <b>Status:</b>
               ${member.status || "-"}
             </p>
+
 
             <p>
               <b>Notes:</b>
@@ -1243,37 +1891,37 @@
           </div>
 
 
-          <div class="profile-buttons">
+          <div
+            class="profile-buttons"
+          >
 
-            ${
-              phoneNumber
 
-              ?
+            <button
+              class="receipt-btn"
+              onclick="
+                generateReceipt(${member.id})
+              "
+            >
 
-              `<a
-                href="https://wa.me/91${phoneNumber}?text=${whatsappText}"
-                target="_blank"
-                style="text-decoration:none;"
-              >
-                <button class="whatsapp">
-                  📱 WhatsApp Receipt
-                </button>
-              </a>`
+              🧾 Download PDF Receipt
 
-              :
-
-              ""
-            }
+            </button>
 
 
             <button
               class="close-btn"
-              onclick="this.closest('.profile-popup').remove()"
+              onclick="
+                this.closest('.profile-popup').remove()
+              "
             >
+
               Close
+
             </button>
 
+
           </div>
+
 
         </div>
 
@@ -1284,7 +1932,9 @@
         "click",
         function(e) {
 
-          if (e.target === popup) {
+          if (
+            e.target === popup
+          ) {
 
             popup.remove();
 
@@ -1294,24 +1944,55 @@
       );
 
 
-      document.body.appendChild(popup);
+      document.body.appendChild(
+        popup
+      );
 
     }
 
 
-    /* ================================
-       DELETE MEMBER
+    /* =================================
+       TOTAL PAID
+    ================================= */
+
+    function getTotalPaid(member) {
+
+      const entry =
+        Number(
+          member.entryFee || 0
+        );
+
+
+      const membership =
+        Number(
+          member.membershipFee || 0
+        );
+
+
+      return (
+        entry +
+        membership
+      );
+
+    }
+
+
+    /* =================================
+       DELETE
     ================================= */
 
     function deleteMember(id) {
 
       const member =
         members.find(
-          member => member.id === id
+          member =>
+            member.id === id
         );
 
 
-      if (!member) return;
+      if (!member) {
+        return;
+      }
 
 
       const confirmDelete =
@@ -1322,12 +2003,15 @@
         );
 
 
-      if (!confirmDelete) return;
+      if (!confirmDelete) {
+        return;
+      }
 
 
       members =
         members.filter(
-          member => member.id !== id
+          member =>
+            member.id !== id
         );
 
 
@@ -1340,13 +2024,14 @@
     }
 
 
-    /* ================================
+    /* =================================
        SEARCH
     ================================= */
 
     search.addEventListener(
       "input",
       function() {
+
 
         const value =
           search.value
@@ -1355,27 +2040,580 @@
 
 
         const filtered =
-          members.filter(member =>
+          members.filter(
+            member =>
 
-            String(member.name || "")
+              String(
+                member.name || ""
+              )
               .toLowerCase()
               .includes(value)
 
-            ||
+              ||
 
-            String(member.phone || "")
+              String(
+                member.phone || ""
+              )
               .includes(value)
+          );
 
+
+        displayMembers(
+          filtered
         );
-
-
-        displayMembers(filtered);
 
       }
     );
 
 
-    /* ================================
+    /* =================================
+       PDF RECEIPT
+    ================================= */
+
+    async function generateReceipt(id) {
+
+
+      const member =
+        members.find(
+          member =>
+            member.id === id
+        );
+
+
+      if (!member) {
+        return;
+      }
+
+
+      if (!member.receiptNo) {
+
+        member.receiptNo =
+          createReceiptNumber();
+
+        saveMembers();
+
+      }
+
+
+      const receiptContainer =
+        document.getElementById(
+          "receiptContainer"
+        );
+
+
+      const receiptDate =
+        formatDate(
+          getToday()
+        );
+
+
+      const totalPaid =
+        getTotalPaid(
+          member
+        );
+
+
+      let photoHTML = `
+
+        <div
+          style="
+            width:150px;
+            height:170px;
+            background:#eeeeee;
+            border-radius:8px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:55px;
+          "
+        >
+          👤
+        </div>
+
+      `;
+
+
+      if (member.photo) {
+
+        photoHTML = `
+
+          <img
+            src="${member.photo}"
+            class="member-photo-pdf"
+          >
+
+        `;
+
+      }
+
+
+      receiptContainer.innerHTML = `
+
+        <div class="receipt-page">
+
+
+          <div class="receipt-header">
+
+
+            <div>
+
+              <div class="gym-name">
+                डोले Wala Gym
+              </div>
+
+              <div class="gym-tagline">
+                NO PAIN • NO GAIN
+              </div>
+
+            </div>
+
+
+            <div class="gym-contact">
+
+              📞 9911444809<br>
+
+              📸 @dole_wala_gym<br>
+
+              ✉️ dolewalagym@gmail.com
+
+            </div>
+
+
+          </div>
+
+
+          <div class="receipt-title">
+
+            <span>
+              PAYMENT RECEIPT
+            </span>
+
+          </div>
+
+
+          <div class="receipt-top">
+
+
+            <div>
+
+              Receipt No.<br>
+
+              <strong>
+                ${member.receiptNo}
+              </strong>
+
+            </div>
+
+
+            <div
+              style="text-align:right;"
+            >
+
+              Date<br>
+
+              <strong>
+                ${receiptDate}
+              </strong>
+
+            </div>
+
+
+          </div>
+
+
+          <div
+            class="member-section-title"
+          >
+
+            👤 MEMBER DETAILS
+
+          </div>
+
+
+          <div
+            class="member-area"
+          >
+
+
+            <div
+              class="member-details"
+            >
+
+              <div>
+                <b>Member Name:</b>
+                ${member.name}
+              </div>
+
+
+              <div>
+                <b>Phone Number:</b>
+                ${member.phone}
+              </div>
+
+
+              <div>
+                <b>Gender:</b>
+                ${member.gender || "-"}
+              </div>
+
+
+              <div>
+                <b>Status:</b>
+                ${member.status || "-"}
+              </div>
+
+            </div>
+
+
+            <div
+              class="member-photo-box"
+            >
+
+              ${photoHTML}
+
+            </div>
+
+
+          </div>
+
+
+          <div
+            class="receipt-grid"
+          >
+
+
+            <div>
+
+
+              <div
+                class="member-section-title"
+              >
+
+                🏋️ MEMBERSHIP DETAILS
+
+              </div>
+
+
+              <div
+                class="membership-details"
+              >
+
+                <div>
+                  <b>Plan:</b>
+                  ${member.plan || "-"}
+                </div>
+
+
+                <div>
+                  <b>Joining Date:</b>
+                  ${formatDate(
+                    member.joiningDate
+                  )}
+                </div>
+
+
+                <div>
+                  <b>Expiry Date:</b>
+                  ${formatDate(
+                    member.expiryDate
+                  )}
+                </div>
+
+              </div>
+
+
+            </div>
+
+
+            <div
+              class="payment-box"
+            >
+
+
+              <div
+                class="payment-title"
+              >
+
+                PAYMENT DETAILS
+
+              </div>
+
+
+              <div
+                class="payment-row"
+              >
+
+                <span>
+                  Entry Fee
+                </span>
+
+                <span>
+                  ₹${Number(
+                    member.entryFee || 0
+                  ).toFixed(2)}
+                </span>
+
+              </div>
+
+
+              <div
+                class="payment-row"
+              >
+
+                <span>
+                  Membership Fee
+                </span>
+
+                <span>
+                  ₹${Number(
+                    member.membershipFee || 0
+                  ).toFixed(2)}
+                </span>
+
+              </div>
+
+
+              <div
+                class="payment-total"
+              >
+
+                <span>
+                  TOTAL PAID
+                </span>
+
+                <span>
+                  ₹${totalPaid.toFixed(2)}
+                </span>
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+
+          <div
+            class="thank-you"
+          >
+
+            Thank you for joining
+            डोले Wala Gym!
+
+          </div>
+
+
+          <div
+            class="stay-fit"
+          >
+
+            Stay Fit • Stay Strong
+
+          </div>
+
+
+          <div
+            class="receipt-footer"
+          >
+
+
+            <div
+              class="footer-left"
+            >
+
+              <div
+                class="footer-title"
+              >
+
+                Contact & Social
+
+              </div>
+
+
+              📞 9911444809<br>
+
+              📸 @dole_wala_gym<br>
+
+              ✉️ dolewalagym@gmail.com
+
+
+              <br><br>
+
+
+              <b>
+                Thank you for choosing us.
+              </b>
+
+            </div>
+
+
+            <div
+              class="footer-gym"
+            >
+
+              💪<br>
+
+              डोले Wala Gym
+
+              <br>
+
+              <span
+                style="
+                  font-size:12px;
+                  color:#555;
+                "
+              >
+                NO PAIN • NO GAIN
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      `;
+
+
+      /* WAIT FOR PHOTO */
+
+      await new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            300
+          )
+      );
+
+
+      try {
+
+
+        const canvas =
+          await html2canvas(
+            receiptContainer
+              .querySelector(
+                ".receipt-page"
+              ),
+            {
+              scale: 2,
+              useCORS: true,
+              backgroundColor:
+                "#ffffff"
+            }
+          );
+
+
+        const imgData =
+          canvas.toDataURL(
+            "image/jpeg",
+            0.95
+          );
+
+
+        const {
+          jsPDF
+        } =
+          window.jspdf;
+
+
+        const pdf =
+          new jsPDF(
+            "p",
+            "mm",
+            "a4"
+          );
+
+
+        const pageWidth =
+          pdf.internal
+            .pageSize
+            .getWidth();
+
+
+        const pageHeight =
+          pdf.internal
+            .pageSize
+            .getHeight();
+
+
+        const imgWidth =
+          pageWidth;
+
+
+        const imgHeight =
+          canvas.height *
+          imgWidth /
+          canvas.width;
+
+
+        let finalHeight =
+          imgHeight;
+
+
+        if (
+          finalHeight >
+          pageHeight
+        ) {
+
+          finalHeight =
+            pageHeight;
+
+        }
+
+
+        pdf.addImage(
+          imgData,
+          "JPEG",
+          0,
+          0,
+          imgWidth,
+          finalHeight
+        );
+
+
+        const safeName =
+          String(
+            member.name
+          )
+          .replace(
+            /[^a-zA-Z0-9]/g,
+            "_"
+          );
+
+
+        pdf.save(
+          "Dole_Wala_Gym_Receipt_" +
+          safeName +
+          ".pdf"
+        );
+
+
+      }
+
+      catch(error) {
+
+        console.error(
+          error
+        );
+
+        alert(
+          "❌ PDF banane mein problem aa gayi. Page ko refresh karke dobara try karein."
+        );
+
+      }
+
+
+      receiptContainer.innerHTML =
+        "";
+
+    }
+
+
+    /* =================================
        START APP
     ================================= */
 
@@ -1387,6 +2625,19 @@
 
 
   </script>
+
+
+  <!-- PDF LIBRARIES -->
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+  ></script>
+
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+  ></script>
+
 
 </body>
 
