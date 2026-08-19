@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"> 
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>डोले Wala Gym</title>
 
   <style>
@@ -103,8 +105,8 @@
       padding: 12px 18px;
       border: none;
       border-radius: 8px;
-      background: #fff;
-      color: #000;
+      background: white;
+      color: black;
       font-weight: bold;
       cursor: pointer;
     }
@@ -115,6 +117,12 @@
 
     .full {
       grid-column: 1 / -1;
+    }
+
+    .cancel-btn {
+      background: #333;
+      color: white;
+      display: none;
     }
 
     table {
@@ -138,12 +146,95 @@
     .delete {
       background: #333;
       color: white;
+      margin-left: 5px;
+    }
+
+    .whatsapp {
+      background: #25D366;
+      color: white;
+      margin-top: 10px;
     }
 
     .empty {
       text-align: center;
       color: #888;
       padding: 25px;
+    }
+
+    .active-status {
+      color: #00ff66;
+      font-weight: bold;
+    }
+
+    .expired-status {
+      color: #ff4444;
+      font-weight: bold;
+    }
+
+    .profile-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.88);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .profile-box {
+      background: white;
+      color: black;
+      width: 100%;
+      max-width: 430px;
+      max-height: 95vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .profile-photo {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 15px;
+      display: block;
+      margin: 0 auto 20px;
+    }
+
+    .no-photo {
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eee;
+      border-radius: 15px;
+      font-size: 60px;
+    }
+
+    .profile-info {
+      text-align: left;
+      margin-top: 15px;
+      line-height: 1.8;
+    }
+
+    .profile-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .close-btn {
+      background: #111;
+      color: white;
     }
 
     @media (max-width: 700px) {
@@ -155,6 +246,12 @@
 
       header h1 {
         font-size: 24px;
+      }
+
+      .profile-photo,
+      .no-photo {
+        width: 200px;
+        height: 200px;
       }
     }
   </style>
@@ -169,7 +266,10 @@
 
   <div class="container">
 
+    <!-- DASHBOARD -->
+
     <div class="dashboard">
+
       <div class="card">
         <h2 id="totalMembers">0</h2>
         <p>Total Members</p>
@@ -189,10 +289,15 @@
         <h2 id="todayMembers">0</h2>
         <p>Today's Entries</p>
       </div>
+
     </div>
 
+
+    <!-- ADD MEMBER -->
+
     <div class="section">
-      <h2>➕ Add New Member</h2>
+
+      <h2 id="formTitle">➕ Add New Member</h2>
 
       <form id="memberForm">
 
@@ -259,366 +364,1030 @@
           class="full"
           placeholder="Notes"
         ></textarea>
-<input type="file" id="photo" accept="image/*" class="full" />
+
+        <input
+          type="file"
+          id="photo"
+          accept="image/*"
+          class="full"
+        >
+
         <button type="submit" class="full">
           <span id="submitText">Add Member</span>
         </button>
 
+        <button
+          type="button"
+          id="cancelEdit"
+          class="full cancel-btn"
+          onclick="cancelEdit()"
+        >
+          Cancel Edit
+        </button>
+
       </form>
+
     </div>
 
+
+    <!-- MEMBERS -->
+
     <div class="section">
+
       <h2>👥 Members</h2>
 
       <input
         type="text"
         id="search"
-        placeholder="Search member by name or phone..."
+        placeholder="🔍 Search member by name or phone..."
       >
 
       <div id="membersTable"></div>
+
     </div>
 
   </div>
 
+
   <script>
+
+    /* ================================
+       LOAD MEMBERS
+    ================================= */
 
     let members = JSON.parse(
       localStorage.getItem("doleWalaGymMembers")
     ) || [];
 
+    let editingId = null;
+
     const form = document.getElementById("memberForm");
     const search = document.getElementById("search");
 
+
+    /* ================================
+       SAVE MEMBERS
+    ================================= */
+
     function saveMembers() {
+
       localStorage.setItem(
         "doleWalaGymMembers",
         JSON.stringify(members)
       );
+
     }
+
+
+    /* ================================
+       DATE
+    ================================= */
+
+    function getToday() {
+
+      const date = new Date();
+
+      const year = date.getFullYear();
+
+      const month = String(
+        date.getMonth() + 1
+      ).padStart(2, "0");
+
+      const day = String(
+        date.getDate()
+      ).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+
+    }
+
+
+    /* ================================
+       AUTOMATIC STATUS
+    ================================= */
+
+    function updateExpiredStatus() {
+
+      const today = getToday();
+
+      let changed = false;
+
+      members.forEach(member => {
+
+        if (
+          member.expiryDate &&
+          member.expiryDate < today
+        ) {
+
+          if (member.status !== "Expired") {
+
+            member.status = "Expired";
+
+            changed = true;
+
+          }
+
+        }
+
+        else if (
+          member.expiryDate &&
+          member.expiryDate >= today
+        ) {
+
+          if (member.status !== "Active") {
+
+            member.status = "Active";
+
+            changed = true;
+
+          }
+
+        }
+
+      });
+
+      if (changed) {
+
+        saveMembers();
+
+      }
+
+    }
+
+
+    /* ================================
+       DASHBOARD
+    ================================= */
 
     function updateDashboard() {
 
-      const today = new Date().toISOString().split("T")[0];
+      updateExpiredStatus();
 
-      document.getElementById("totalMembers").textContent =
-        members.length;
+      const today = getToday();
 
-      document.getElementById("activeMembers").textContent =
-        members.filter(m => m.status === "Active").length;
+      document.getElementById(
+        "totalMembers"
+      ).textContent = members.length;
 
-      document.getElementById("expiredMembers").textContent =
-        members.filter(m => m.status === "Expired").length;
+      document.getElementById(
+        "activeMembers"
+      ).textContent =
+        members.filter(
+          member => member.status === "Active"
+        ).length;
 
-      document.getElementById("todayMembers").textContent =
-        members.filter(m => m.joiningDate === today).length;
+      document.getElementById(
+        "expiredMembers"
+      ).textContent =
+        members.filter(
+          member => member.status === "Expired"
+        ).length;
+
+      document.getElementById(
+        "todayMembers"
+      ).textContent =
+        members.filter(
+          member => member.joiningDate === today
+        ).length;
+
     }
-function displayMembers(list = members) {
 
-  const table = document.getElementById("membersTable");
 
-  if (list.length === 0) {
-    table.innerHTML =
-      '<div class="empty">No members added yet.</div>';
-    return;
-  }
+    /* ================================
+       PHOTO READER
+    ================================= */
 
-  let html = `
-    <table>
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Plan</th>
-          <th>Joining</th>
-          <th>Expiry</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  list.forEach(member => {
-
-    html += `
-      <tr>
-        <td>
-          ${
-            member.photo
-              ? `<img src="${member.photo}" 
-                   style="width:50px;height:50px;object-fit:cover;border-radius:50%;cursor:pointer;"
-                   onclick="viewMember(${member.id})">`
-              : `<button onclick="viewMember(${member.id})">View</button>`
-          }
-        </td>
-
-        <td>
-          <span
-            style="cursor:pointer;font-weight:bold;"
-            onclick="viewMember(${member.id})"
-          >
-            ${member.name}
-          </span>
-        </td>
-
-        <td>${member.phone}</td>
-        <td>${member.plan}</td>
-        <td>${member.joiningDate}</td>
-        <td>${member.expiryDate}</td>
-        <td>${member.status}</td>
-
-        <td>
-          <button
-            class="edit"
-            onclick="editMember(${member.id})"
-          >
-            Edit
-          </button>
-
-          <button
-            class="delete"
-            onclick="deleteMember(${member.id})"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    `;
-  });
-
-  html += `
-      </tbody>
-    </table>
-  `;
-
-  table.innerHTML = html;
-}
-let editingId = null;
-    document.getElementById("submitText").textContent = "Save Changes";
-    function editMember(id) {
-  const member = members.find(m => m.id === id);
-
-  if (!member) return;
-
-  editingId = id;
-
-  document.getElementById("name").value = member.name || "";
-  document.getElementById("phone").value = member.phone || "";
-  document.getElementById("entryFee").value = member.entryFee || "";
-  document.getElementById("membershipFee").value = member.membershipFee || "";
-  document.getElementById("joiningDate").value = member.joiningDate || "";
-  document.getElementById("expiryDate").value = member.expiryDate || "";
-  document.getElementById("plan").value = member.plan || "";
-  document.getElementById("gender").value = member.gender || "";
-  document.getElementById("status").value = member.status || "";
-  document.getElementById("notes").value = member.notes || "";
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
     function readPhoto(file) {
-  return new Promise((resolve) => {
-    if (!file) {
-      resolve("");
-      return;
+
+      return new Promise((resolve) => {
+
+        if (!file) {
+
+          resolve("");
+
+          return;
+
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+          resolve(e.target.result);
+
+        };
+
+        reader.readAsDataURL(file);
+
+      });
+
     }
 
-    const reader = new FileReader();
 
-    reader.onload = function(e) {
-      resolve(e.target.result);
-    };
+    /* ================================
+       DISPLAY MEMBERS
+    ================================= */
 
-    reader.readAsDataURL(file);
-  });
-}
-    form.addEventListener("submit", async function(e) {
+    function displayMembers(list = members) {
 
-      e.preventDefault();
-const photoFile = document.getElementById("photo").files[0];
-const photoData = await readPhoto(photoFile);
-      const member = {
+      updateExpiredStatus();
 
-        id: Date.now(),
+      const table =
+        document.getElementById("membersTable");
 
-        name: document.getElementById("name").value,
+      if (list.length === 0) {
 
-        phone: document.getElementById("phone").value,
+        table.innerHTML =
+          '<div class="empty">No members added yet.</div>';
 
-        entryFee:
-          document.getElementById("entryFee").value,
+        return;
 
-        membershipFee:
-          document.getElementById("membershipFee").value,
-
-        joiningDate:
-          document.getElementById("joiningDate").value,
-
-        expiryDate:
-          document.getElementById("expiryDate").value,
-
-        plan:
-          document.getElementById("plan").value,
-
-        gender:
-          document.getElementById("gender").value,
-
-        status:
-          document.getElementById("status").value,
-
-        notes:
-          document.getElementById("notes").value,
-   photo: photoData,
-      };
-
-    if (editingId !== null) {
-  const index = members.findIndex(
-    m => m.id === editingId
-  );
-
-  if (index !== -1) {
-    member.id = editingId;
-    members[index] = member;
-  }
-saveMembers();
-      updateDashboard();
-displayMembers();
-  editingId = null;
-      document.getElementById("submitText").textContent = "Add Member";
-  alert("Member updated successfully!");
-} else {
-  members.push(member);
-  saveMembers();
-  updateDashboard();
-  displayMembers();
-  alert("Member added successfully!");
-}
-    });function viewMember(id) {
-
-  const member = members.find(m => m.id === id);
-
-  if (!member) return;
-
-  const popup = document.createElement("div");
-
-  popup.style.position = "fixed";
-  popup.style.top = "0";
-  popup.style.left = "0";
-  popup.style.width = "100%";
-  popup.style.height = "100%";
-  popup.style.background = "rgba(0,0,0,0.85)";
-  popup.style.display = "flex";
-  popup.style.justifyContent = "center";
-  popup.style.alignItems = "center";
-  popup.style.zIndex = "9999";
-  popup.style.padding = "20px";
-  popup.style.boxSizing = "border-box";
-
-  popup.innerHTML = `
-    <div style="
-      background:white;
-      width:100%;
-      max-width:420px;
-      max-height:95vh;
-      overflow:auto;
-      border-radius:20px;
-      padding:20px;
-      text-align:center;
-      box-sizing:border-box;
-    ">
-
-      ${
-        member.photo
-        ? `<img src="${member.photo}" style="
-            width:220px;
-            height:220px;
-            object-fit:cover;
-            border-radius:15px;
-            display:block;
-            margin:0 auto 20px;
-          ">`
-        : `<div style="
-            width:220px;
-            height:220px;
-            margin:0 auto 20px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#eee;
-            border-radius:15px;
-            font-size:60px;
-          ">👤</div>`
       }
 
-      <h2>👤 ${member.name}</h2>
 
-      <p><b>Phone:</b> ${member.phone}</p>
-      <p><b>Entry Fee:</b> ₹${member.entryFee}</p>
-      <p><b>Membership Fee:</b> ₹${member.membershipFee}</p>
-      <p><b>Plan:</b> ${member.plan}</p>
-      <p><b>Joining Date:</b> ${member.joiningDate}</p>
-      <p><b>Expiry Date:</b> ${member.expiryDate}</p>
-      <p><b>Gender:</b> ${member.gender}</p>
-      <p><b>Status:</b> ${member.status}</p>
-      <p><b>Notes:</b> ${member.notes}</p>
+      let html = `
 
-      <button onclick="this.closest('div[style*=fixed]').remove()" style="
-        margin-top:15px;
-        padding:12px 30px;
-        border:none;
-        border-radius:10px;
-        background:#111;
-        color:white;
-        font-size:16px;
-      ">
-        Close
-      </button>
+        <table>
 
-    </div>
-  `;
+          <thead>
 
-  document.body.appendChild(popup);
-}
+            <tr>
+
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Plan</th>
+              <th>Joining</th>
+              <th>Expiry</th>
+              <th>Status</th>
+              <th>Action</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+      `;
+
+
+      list.forEach(member => {
+
+        const statusClass =
+          member.status === "Active"
+            ? "active-status"
+            : "expired-status";
+
+
+        html += `
+
+          <tr>
+
+            <td>
+
+              ${
+                member.photo
+
+                ?
+
+                `<img
+                  src="${member.photo}"
+                  style="
+                    width:50px;
+                    height:50px;
+                    object-fit:cover;
+                    border-radius:50%;
+                    cursor:pointer;
+                  "
+                  onclick="viewMember(${member.id})"
+                >`
+
+                :
+
+                `<button
+                  onclick="viewMember(${member.id})"
+                >
+                  👤 View
+                </button>`
+              }
+
+            </td>
+
+
+            <td>
+
+              <span
+                style="
+                  cursor:pointer;
+                  font-weight:bold;
+                "
+                onclick="viewMember(${member.id})"
+              >
+                ${member.name}
+              </span>
+
+            </td>
+
+
+            <td>${member.phone}</td>
+
+            <td>${member.plan || "-"}</td>
+
+            <td>${member.joiningDate || "-"}</td>
+
+            <td>${member.expiryDate || "-"}</td>
+
+            <td class="${statusClass}">
+              ${member.status || "-"}
+            </td>
+
+
+            <td>
+
+              <button
+                onclick="editMember(${member.id})"
+              >
+                ✏️ Edit
+              </button>
+
+              <button
+                class="delete"
+                onclick="deleteMember(${member.id})"
+              >
+                🗑️ Delete
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      });
+
+
+      html += `
+
+          </tbody>
+
+        </table>
+
+      `;
+
+
+      table.innerHTML = html;
+
+    }
+
+
+    /* ================================
+       ADD / EDIT MEMBER
+    ================================= */
+
+    form.addEventListener(
+      "submit",
+      async function(e) {
+
+        e.preventDefault();
+
+
+        const photoFile =
+          document.getElementById("photo").files[0];
+
+
+        let photoData = "";
+
+        if (photoFile) {
+
+          photoData =
+            await readPhoto(photoFile);
+
+        }
+
+
+        /* ============================
+           EDIT MEMBER
+        ============================ */
+
+        if (editingId !== null) {
+
+          const index =
+            members.findIndex(
+              member => member.id === editingId
+            );
+
+
+          if (index !== -1) {
+
+            const oldMember = members[index];
+
+
+            /*
+              IMPORTANT:
+              Agar edit ke time new photo nahi
+              lagayi to purani photo safe rahegi.
+            */
+
+            members[index] = {
+
+              id: editingId,
+
+              name:
+                document.getElementById("name").value,
+
+              phone:
+                document.getElementById("phone").value,
+
+              entryFee:
+                document.getElementById("entryFee").value,
+
+              membershipFee:
+                document.getElementById(
+                  "membershipFee"
+                ).value,
+
+              joiningDate:
+                document.getElementById(
+                  "joiningDate"
+                ).value,
+
+              expiryDate:
+                document.getElementById(
+                  "expiryDate"
+                ).value,
+
+              plan:
+                document.getElementById("plan").value,
+
+              gender:
+                document.getElementById(
+                  "gender"
+                ).value,
+
+              status:
+                document.getElementById(
+                  "status"
+                ).value,
+
+              notes:
+                document.getElementById(
+                  "notes"
+                ).value,
+
+              photo:
+                photoData || oldMember.photo || ""
+
+            };
+
+          }
+
+
+          saveMembers();
+
+          updateDashboard();
+
+          displayMembers();
+
+          alert(
+            "✅ Member updated successfully!"
+          );
+
+          cancelEdit();
+
+          return;
+
+        }
+
+
+        /* ============================
+           ADD NEW MEMBER
+        ============================ */
+
+        const member = {
+
+          id: Date.now(),
+
+          name:
+            document.getElementById("name").value,
+
+          phone:
+            document.getElementById("phone").value,
+
+          entryFee:
+            document.getElementById("entryFee").value,
+
+          membershipFee:
+            document.getElementById(
+              "membershipFee"
+            ).value,
+
+          joiningDate:
+            document.getElementById(
+              "joiningDate"
+            ).value,
+
+          expiryDate:
+            document.getElementById(
+              "expiryDate"
+            ).value,
+
+          plan:
+            document.getElementById("plan").value,
+
+          gender:
+            document.getElementById(
+              "gender"
+            ).value,
+
+          status:
+            document.getElementById(
+              "status"
+            ).value,
+
+          notes:
+            document.getElementById(
+              "notes"
+            ).value,
+
+          photo:
+            photoData
+
+        };
+
+
+        members.push(member);
+
+        saveMembers();
+
+        updateDashboard();
+
+        displayMembers();
+
+        alert(
+          "✅ Member added successfully!"
+        );
+
+        resetForm();
+
+      }
+    );
+
+
+    /* ================================
+       EDIT MEMBER
+    ================================= */
+
+    function editMember(id) {
+
+      const member =
+        members.find(
+          member => member.id === id
+        );
+
+
+      if (!member) return;
+
+
+      editingId = id;
+
+
+      document.getElementById(
+        "formTitle"
+      ).textContent =
+        "✏️ Edit Member";
+
+
+      document.getElementById(
+        "submitText"
+      ).textContent =
+        "Save Changes";
+
+
+      document.getElementById(
+        "cancelEdit"
+      ).style.display =
+        "block";
+
+
+      document.getElementById("name").value =
+        member.name || "";
+
+      document.getElementById("phone").value =
+        member.phone || "";
+
+      document.getElementById("entryFee").value =
+        member.entryFee || "";
+
+      document.getElementById(
+        "membershipFee"
+      ).value =
+        member.membershipFee || "";
+
+      document.getElementById(
+        "joiningDate"
+      ).value =
+        member.joiningDate || "";
+
+      document.getElementById(
+        "expiryDate"
+      ).value =
+        member.expiryDate || "";
+
+      document.getElementById("plan").value =
+        member.plan || "";
+
+      document.getElementById("gender").value =
+        member.gender || "";
+
+      document.getElementById("status").value =
+        member.status || "Active";
+
+      document.getElementById("notes").value =
+        member.notes || "";
+
+
+      /*
+        File input ko old photo se fill nahi
+        kiya ja sakta. Purani photo automatically
+        safe rahegi.
+      */
+
+      document.getElementById(
+        "photo"
+      ).value = "";
+
+
+      window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+      });
+
+    }
+
+
+    /* ================================
+       CANCEL EDIT
+    ================================= */
+
+    function cancelEdit() {
+
+      editingId = null;
+
+
+      document.getElementById(
+        "formTitle"
+      ).textContent =
+        "➕ Add New Member";
+
+
+      document.getElementById(
+        "submitText"
+      ).textContent =
+        "Add Member";
+
+
+      document.getElementById(
+        "cancelEdit"
+      ).style.display =
+        "none";
+
+
+      resetForm();
+
+    }
+
+
+    /* ================================
+       RESET FORM
+    ================================= */
+
+    function resetForm() {
+
+      form.reset();
+
+      document.getElementById(
+        "status"
+      ).value = "Active";
+
+      editingId = null;
+
+      document.getElementById(
+        "formTitle"
+      ).textContent =
+        "➕ Add New Member";
+
+      document.getElementById(
+        "submitText"
+      ).textContent =
+        "Add Member";
+
+      document.getElementById(
+        "cancelEdit"
+      ).style.display =
+        "none";
+
+    }
+
+
+    /* ================================
+       VIEW MEMBER PROFILE
+    ================================= */
+
+    function viewMember(id) {
+
+      const member =
+        members.find(
+          member => member.id === id
+        );
+
+
+      if (!member) return;
+
+
+      const popup =
+        document.createElement("div");
+
+
+      popup.className =
+        "profile-popup";
+
+
+      const phoneNumber =
+        String(member.phone || "")
+          .replace(/\D/g, "");
+
+
+      const whatsappText = encodeURIComponent(
+
+        "💪 डोले Wala Gym\n\n" +
+
+        "👤 Member Receipt\n\n" +
+
+        "Name: " +
+        member.name +
+        "\n" +
+
+        "Phone: " +
+        member.phone +
+        "\n" +
+
+        "Entry Fee: ₹" +
+        (member.entryFee || 0) +
+        "\n" +
+
+        "Membership Fee: ₹" +
+        (member.membershipFee || 0) +
+        "\n" +
+
+        "Plan: " +
+        (member.plan || "-") +
+        "\n" +
+
+        "Joining Date: " +
+        (member.joiningDate || "-") +
+        "\n" +
+
+        "Expiry Date: " +
+        (member.expiryDate || "-") +
+        "\n" +
+
+        "Gender: " +
+        (member.gender || "-") +
+        "\n" +
+
+        "Status: " +
+        (member.status || "-") +
+
+        "\n\nThank you for joining डोले Wala Gym 💪"
+
+      );
+
+
+      popup.innerHTML = `
+
+        <div class="profile-box">
+
+          ${
+            member.photo
+
+            ?
+
+            `<img
+              src="${member.photo}"
+              class="profile-photo"
+            >`
+
+            :
+
+            `<div class="no-photo">
+              👤
+            </div>`
+          }
+
+
+          <h2>
+            👤 ${member.name}
+          </h2>
+
+
+          <div class="profile-info">
+
+            <p>
+              <b>Phone:</b>
+              ${member.phone}
+            </p>
+
+            <p>
+              <b>Entry Fee:</b>
+              ₹${member.entryFee || 0}
+            </p>
+
+            <p>
+              <b>Membership Fee:</b>
+              ₹${member.membershipFee || 0}
+            </p>
+
+            <p>
+              <b>Plan:</b>
+              ${member.plan || "-"}
+            </p>
+
+            <p>
+              <b>Joining Date:</b>
+              ${member.joiningDate || "-"}
+            </p>
+
+            <p>
+              <b>Expiry Date:</b>
+              ${member.expiryDate || "-"}
+            </p>
+
+            <p>
+              <b>Gender:</b>
+              ${member.gender || "-"}
+            </p>
+
+            <p>
+              <b>Status:</b>
+              ${member.status || "-"}
+            </p>
+
+            <p>
+              <b>Notes:</b>
+              ${member.notes || "-"}
+            </p>
+
+          </div>
+
+
+          <div class="profile-buttons">
+
+            ${
+              phoneNumber
+
+              ?
+
+              `<a
+                href="https://wa.me/91${phoneNumber}?text=${whatsappText}"
+                target="_blank"
+                style="text-decoration:none;"
+              >
+                <button class="whatsapp">
+                  📱 WhatsApp Receipt
+                </button>
+              </a>`
+
+              :
+
+              ""
+            }
+
+
+            <button
+              class="close-btn"
+              onclick="this.closest('.profile-popup').remove()"
+            >
+              Close
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      popup.addEventListener(
+        "click",
+        function(e) {
+
+          if (e.target === popup) {
+
+            popup.remove();
+
+          }
+
+        }
+      );
+
+
+      document.body.appendChild(popup);
+
+    }
+
+
+    /* ================================
+       DELETE MEMBER
+    ================================= */
+
     function deleteMember(id) {
 
+      const member =
+        members.find(
+          member => member.id === id
+        );
+
+
+      if (!member) return;
+
+
       const confirmDelete =
-        confirm("Are you sure you want to delete this member?");
+        confirm(
+          "Are you sure you want to delete " +
+          member.name +
+          "?"
+        );
+
 
       if (!confirmDelete) return;
 
+
       members =
-        members.filter(member => member.id !== id);
+        members.filter(
+          member => member.id !== id
+        );
+
 
       saveMembers();
 
       updateDashboard();
 
       displayMembers();
+
     }
 
-    search.addEventListener("input", function() {
 
-      const value =
-        search.value.toLowerCase();
+    /* ================================
+       SEARCH
+    ================================= */
 
-      const filtered =
-        members.filter(member =>
-          member.name.toLowerCase().includes(value) ||
-          member.phone.includes(value)
+    search.addEventListener(
+      "input",
+      function() {
+
+        const value =
+          search.value
+            .toLowerCase()
+            .trim();
+
+
+        const filtered =
+          members.filter(member =>
+
+            String(member.name || "")
+              .toLowerCase()
+              .includes(value)
+
+            ||
+
+            String(member.phone || "")
+              .includes(value)
+
         );
 
-      displayMembers(filtered);
-    });
+
+        displayMembers(filtered);
+
+      }
+    );
+
+
+    /* ================================
+       START APP
+    ================================= */
+
+    updateExpiredStatus();
 
     updateDashboard();
 
     displayMembers();
 
+
   </script>
 
 </body>
+
 </html>
