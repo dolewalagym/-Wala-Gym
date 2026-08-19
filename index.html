@@ -1,2644 +1,1934 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>डोले Wala Gym</title>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-
-    body {
-      background: #111;
-      color: white;
-    }
-
-
-    header {
-      background: #000;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #333;
-    }
-
-
-    header h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-
-    header p {
-      color: #aaa;
-    }
-
-
-    .container {
-      width: 95%;
-      max-width: 1100px;
-      margin: 25px auto;
-    }
-
-
-    .dashboard {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-
-    .card {
-      background: #1d1d1d;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-    }
-
-
-    .card h2 {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-
-    .card p {
-      color: #aaa;
-    }
-
-
-    .section {
-      background: #1d1d1d;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-
-    .section h2 {
-      margin-bottom: 18px;
-    }
-
-
-    form {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-    }
-
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #444;
-      background: #111;
-      color: white;
-      outline: none;
-    }
-
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-
-    button {
-      padding: 12px 18px;
-      border: none;
-      border-radius: 8px;
-      background: white;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-
-    button:hover {
-      opacity: 0.85;
-    }
-
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-
-    .cancel-btn {
-      background: #333;
-      color: white;
-      display: none;
-    }
-
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-      overflow: hidden;
-    }
-
-
-    th,
-    td {
-      border-bottom: 1px solid #333;
-      padding: 12px 8px;
-      text-align: left;
-    }
-
-
-    th {
-      background: #111;
-    }
-
-
-    .delete {
-      background: #333;
-      color: white;
-      margin-left: 5px;
-    }
-
-
-    .receipt-btn {
-      background: #e00000;
-      color: white;
-      margin-top: 5px;
-    }
-
-
-    .whatsapp {
-      background: #25D366;
-      color: white;
-    }
-
-
-    .empty {
-      text-align: center;
-      color: #888;
-      padding: 25px;
-    }
-
-
-    .active-status {
-      color: #00ff66;
-      font-weight: bold;
-    }
-
-
-    .expired-status {
-      color: #ff4444;
-      font-weight: bold;
-    }
-
-
-    /* PROFILE POPUP */
-
-    .profile-popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.88);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      padding: 20px;
-    }
-
-
-    .profile-box {
-      background: white;
-      color: black;
-      width: 100%;
-      max-width: 430px;
-      max-height: 95vh;
-      overflow-y: auto;
-      border-radius: 20px;
-      padding: 20px;
-      text-align: center;
-    }
-
-
-    .profile-photo {
-      width: 220px;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 15px;
-      display: block;
-      margin: 0 auto 20px;
-    }
-
-
-    .no-photo {
-      width: 220px;
-      height: 220px;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #eee;
-      border-radius: 15px;
-      font-size: 60px;
-    }
-
-
-    .profile-info {
-      text-align: left;
-      margin-top: 15px;
-      line-height: 1.8;
-    }
-
-
-    .profile-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-
-
-    .close-btn {
-      background: #111;
-      color: white;
-    }
-
-
-    /* PDF RECEIPT */
-
-    #receiptContainer {
-      position: fixed;
-      left: -10000px;
-      top: 0;
-      width: 794px;
-      background: white;
-      color: #111;
-      z-index: -1;
-    }
-
-
-    .receipt-page {
-      width: 794px;
-      min-height: 1123px;
-      background: white;
-      padding: 35px;
-      position: relative;
-      border: 3px solid #111;
-    }
-
-
-    .receipt-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 3px solid #111;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-    }
-
-
-    .gym-name {
-      font-size: 34px;
-      font-weight: 900;
-      color: #111;
-    }
-
-
-    .gym-tagline {
-      font-size: 15px;
-      letter-spacing: 3px;
-      margin-top: 7px;
-      color: #555;
-    }
-
-
-    .gym-contact {
-      text-align: right;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-
-    .receipt-title {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-
-    .receipt-title span {
-      display: inline-block;
-      background: #111;
-      color: white;
-      padding: 10px 30px;
-      border-radius: 5px;
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-
-    .receipt-top {
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #999;
-      border-bottom: 1px solid #999;
-      padding: 12px 0;
-      margin-bottom: 25px;
-    }
-
-
-    .receipt-top strong {
-      color: #d00000;
-    }
-
-
-    .member-section-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #b00000;
-      border-bottom: 2px solid #b00000;
-      padding-bottom: 7px;
-      margin-bottom: 15px;
-    }
-
-
-    .member-area {
-      display: flex;
-      justify-content: space-between;
-      gap: 25px;
-    }
-
-
-    .member-details {
-      flex: 1;
-      font-size: 16px;
-      line-height: 2;
-    }
-
-
-    .member-photo-box {
-      width: 170px;
-      height: 190px;
-      border: 2px solid #d00000;
-      border-radius: 12px;
-      padding: 7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-
-    .member-photo-pdf {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-      border-radius: 7px;
-    }
-
-
-    .receipt-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-      margin-top: 30px;
-    }
-
-
-    .membership-details {
-      font-size: 16px;
-      line-height: 2;
-    }
-
-
-    .payment-box {
-      border: 2px solid #d00000;
-      border-radius: 10px;
-      padding: 20px;
-    }
-
-
-    .payment-title {
-      background: #d00000;
-      color: white;
-      display: inline-block;
-      padding: 7px 20px;
-      border-radius: 6px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-
-    .payment-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 9px 0;
-      border-bottom: 1px dashed #999;
-      font-size: 16px;
-    }
-
-
-    .payment-total {
-      display: flex;
-      justify-content: space-between;
-      padding-top: 15px;
-      font-size: 21px;
-      font-weight: bold;
-      color: #b00000;
-    }
-
-
-    .thank-you {
-      text-align: center;
-      margin-top: 50px;
-      font-size: 21px;
-      font-weight: bold;
-      color: #b00000;
-    }
-
-
-    .stay-fit {
-      text-align: center;
-      margin-top: 7px;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-
-    .receipt-footer {
-      position: absolute;
-      left: 35px;
-      right: 35px;
-      bottom: 35px;
-      border-top: 2px solid #111;
-      padding-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-
-    .footer-left {
-      max-width: 60%;
-    }
-
-
-    .footer-title {
-      font-weight: bold;
-      color: #b00000;
-      font-size: 15px;
-      margin-bottom: 5px;
-    }
-
-
-    .footer-gym {
-      text-align: right;
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-
-    @media (max-width: 700px) {
-
-      table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-
-
-      header h1 {
-        font-size: 24px;
-      }
-
-
-      .profile-photo,
-      .no-photo {
-        width: 200px;
-        height: 200px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>डोले Wala Gym — Management</title>
+
+<style>
+:root{--bg:#080909;--panel:#121414;--panel2:#191b1b;--line:#2b2f2f;--text:#f4f4f4;--muted:#9ea4a4;--accent:#ffc400;--danger:#ff4d4d;--ok:#22c55e;--shadow:0 12px 35px rgba(0,0,0,.3)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#0d0f0f;border-right:1px solid var(--line);padding:18px 14px;position:fixed;inset:0 auto 0 0;z-index:20}
+.brand{font-weight:900;color:var(--accent);font-size:22px;padding:12px 10px 22px;display:flex;gap:10px;align-items:center}
+.brand span{font-size:28px}
+.nav{display:grid;gap:8px}
+.nav button{background:transparent;color:#d8d8d8;text-align:left;padding:13px 14px;border-radius:10px;font-weight:700}
+.nav button:hover,.nav button.active{background:var(--accent);color:#111}
+.main{margin-left:245px;width:calc(100% - 245px);padding:24px;max-width:1600px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.title h1{margin:0;font-size:30px}
+.title p{margin:5px 0;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 14px;border-radius:9px;font-weight:800;background:#242727;color:#fff}
+.btn.primary{background:var(--accent);color:#111}
+.btn.danger{background:#5b2020;color:#fff}
+.btn.green{background:#17652f;color:#fff}
+.btn.small{padding:7px 9px;font-size:13px}
+.page{display:none}
+.page.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.stat{font-size:27px;font-weight:900;margin-top:8px}
+.label{color:var(--muted);font-size:13px;font-weight:700}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:18px}
+.panelhead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+.panelhead h2{margin:0;font-size:19px}
+.tablewrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{color:var(--accent);font-size:13px}
+td{font-size:14px}
+.muted{color:var(--muted)}
+.badge{padding:5px 8px;border-radius:999px;background:#242727;font-size:12px;font-weight:800}
+.badge.ok{background:#123d24;color:#5ee88b}
+.badge.warn{background:#4a3910;color:#ffd84d}
+.searchbar{display:flex;gap:9px;flex-wrap:wrap}
+.input,.select,.textarea{background:#0c0e0e;color:#fff;border:1px solid #353939;border-radius:9px;padding:10px 11px;outline:none}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--accent)}
+.searchbar .input{min-width:220px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.field label{display:block;color:#c6caca;font-size:12px;font-weight:800;margin:0 0 6px}
+.field.full{grid-column:1/-1}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modal.show{display:flex}
+.modalbox{width:min(720px,100%);max-height:92vh;overflow:auto;background:#111313;border:1px solid var(--line);border-radius:16px;padding:20px}
+.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modalhead h3{margin:0}
+.x{background:transparent;color:#fff;font-size:25px}
+.toast{position:fixed;right:20px;bottom:20px;background:#e9fff0;color:#0d351a;padding:12px 15px;border-radius:10px;font-weight:800;display:none;z-index:100}
+.toast.show{display:block}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.receipt{background:#fff;color:#111;width:100%;max-width:720px;margin:auto;padding:30px;border-radius:4px}
+.receipt .rhead{display:flex;justify-content:space-between;border-bottom:2px solid #111;padding-bottom:16px}
+.receipt h2{margin:0}
+.receipt table{min-width:0}
+.receipt th{color:#111}
+.receipt td,.receipt th{border-bottom:1px solid #ddd}
+.receipt .total{font-size:20px;font-weight:900;text-align:right;margin-top:15px}
+.receipt .foot{border-top:1px solid #ddd;margin-top:20px;padding-top:12px;font-size:12px;color:#555}
+.menuBtns{display:flex;gap:6px;flex-wrap:wrap}
+.mobile{display:none}
+
+@media(max-width:900px){
+.sidebar{width:72px}
+.brand{justify-content:center}
+.brand .brandtext,.nav button .txt{display:none}
+.nav button{text-align:center;padding:13px 8px}
+.main{margin-left:72px;width:calc(100% - 72px);padding:15px}
+.cards{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+.topbar{align-items:flex-start;gap:12px}
+.topbar .actions{display:none}
+.cards{grid-template-columns:1fr 1fr}
+.formgrid{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+.mobile{display:block}
+.main{padding:12px}
+.panel{padding:13px}
+.receipt{padding:18px}
+.receipt .rhead{gap:10px;flex-direction:column}
+}
+
+@media print{
+body{background:#fff}
+.sidebar,.topbar,.noPrint{display:none!important}
+.main{margin:0;width:100%;padding:0}
+.page{display:none!important}
+.page.receiptpage{display:block!important}
+.receipt{box-shadow:none;border:0;max-width:none}
+}
+
+.login-screen{position:fixed;inset:0;background:radial-gradient(circle at 50% 10%,#242000 0,#090a0a 38%,#050606 100%);display:flex;align-items:center;justify-content:center;padding:18px;z-index:1000}
+.login-card{width:min(430px,100%);background:#111414;border:1px solid #343838;border-radius:18px;padding:30px;box-shadow:0 25px 70px rgba(0,0,0,.65)}
+.login-logo{width:70px;height:70px;border-radius:18px;background:#ffc400;color:#111;display:grid;place-items:center;font-size:36px;margin:0 auto 15px}
+.login-card h1{text-align:center;margin:0;color:#ffc400;font-size:25px}
+.login-card .sub{text-align:center;color:#9ea4a4;margin:7px 0 24px}
+.login-card label{display:block;color:#d5d8d8;font-size:12px;font-weight:800;margin:0 0 6px}
+.login-card .login-input{width:100%;background:#090b0b;color:#fff;border:1px solid #383d3d;border-radius:10px;padding:12px;margin-bottom:14px;outline:none}
+.login-card .login-input:focus{border-color:#ffc400}
+.login-btn{width:100%;padding:12px;border-radius:10px;background:#ffc400;color:#111;font-weight:900;margin-top:4px}
+.login-error{color:#ff7777;background:#3c1616;border:1px solid #632626;padding:9px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none}
+.login-note{font-size:11px;color:#737979;text-align:center;margin-top:15px;line-height:1.5}
+.lock-btn{background:#242727;color:#fff;padding:9px 12px;border-radius:9px;font-weight:800}
+.password-row{display:flex;gap:7px}
+.password-row .login-input{margin-bottom:14px}
+.avatar{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#242727;border:2px solid #444;display:inline-block;vertical-align:middle}
+.avatar.big{width:82px;height:82px;border-radius:16px}
+.membercell{display:flex;align-items:center;gap:10px}
+.photo-preview{display:flex;align-items:center;gap:12px;margin-top:8px}
+</style>
+
+<!-- PDF libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
-
-
 <body>
 
+<div id="loginScreen" class="login-screen">
+<div class="login-card">
+<div class="login-logo">💪</div>
+<h1>डोले Wala Gym</h1>
+<div class="sub">Secure Management Login</div>
+
+<div id="loginError" class="login-error">Invalid ID or password.</div>
+
+<label>Login ID</label>
+<input id="loginId" class="login-input" value="9911444809" autocomplete="username">
+
+<label>Password</label>
+<div class="password-row">
+<input id="loginPassword" type="password" class="login-input" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+<button type="button" class="btn" style="height:45px" onclick="toggleLoginPassword()">👁</button>
+</div>
+
+<button class="login-btn" onclick="login()">🔐 Login</button>
+
+<div class="login-note">
+Your management screen is protected by a login on this device.
+<br>
+For stronger security, keep your computer/browser account protected too.
+</div>
+</div>
+</div>
+
+<div class="app">
+
+<aside class="sidebar">
+<div class="brand">
+<span>💪</span>
+<div class="brandtext">डोले Wala Gym</div>
+</div>
+
+<div class="nav">
+<button class="active" data-page="dashboard">📊 <span class="txt">Dashboard</span></button>
+<button data-page="members">👥 <span class="txt">Members</span></button>
+<button data-page="payments">💳 <span class="txt">Payments</span></button>
+<button data-page="attendance">✅ <span class="txt">Attendance</span></button>
+<button data-page="receipts">🧾 <span class="txt">Receipts</span></button>
+<button data-page="reports">📈 <span class="txt">Reports</span></button>
+<button data-page="settings">⚙️ <span class="txt">Settings</span></button>
+</div>
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+<div class="title">
+<h1 id="pageTitle">Dashboard</h1>
+<p id="pageSub">डोले Wala Gym Management</p>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="openMember()">+ Add Member</button>
+<button class="btn" onclick="openPayment()">+ Add Payment</button>
+<button class="lock-btn" onclick="lockApp()">🔒 Lock</button>
+</div>
+
+<button class="btn primary mobile" onclick="openMember()">+ Member</button>
+</div>
+
+<section id="dashboard" class="page active">
+<div class="cards">
+<div class="card"><div class="label">Total Members</div><div class="stat" id="statMembers">0</div></div>
+<div class="card"><div class="label">Active Members</div><div class="stat" id="statActive">0</div></div>
+<div class="card"><div class="label">This Month Collection</div><div class="stat" id="statCollection">₹0</div></div>
+<div class="card"><div class="label">Expired / Due</div><div class="stat" id="statDue">0</div></div>
+</div>
+
+<div class="panel">
+<div class="panelhead">
+<h2>Recent Payments</h2>
+<button class="btn small" onclick="go('payments')">View All</button>
+</div>
+
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Member</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Receipt</th>
+</tr>
+</thead>
+<tbody id="dashPayments"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="members" class="page">
+<div class="panel">
+<div class="panelhead">
+<h2>Members</h2>
+<button class="btn primary" onclick="openMember()">+ Add Member</button>
+</div>
+
+<div class="searchbar">
+<input id="memberSearch" class="input" placeholder="Search name / phone..." oninput="renderMembers">
+<select id="memberStatus" class="select" onchange="renderMembers()">
+<option value="all">All Status</option>
+<option value="active">Active</option>
+<option value="expired">Expired</option>
+</select>
+</div>
+
+<div class="tablewrap" style="margin-top:14px">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Phone</th>
+<th>Plan</th>
+<th>Join Date</th>
+<th>Expiry</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="membersTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="payments" class="page">
+<div class="panel">
+<div class="panelhead">
+<h2>Payments</h2>
+<button class="btn primary" onclick="openPayment()">+ Add Payment</button>
+</div>
+
+<div class="searchbar">
+<input id="paySearch" class="input" placeholder="Search member..." oninput="renderPayments()">
+<select id="payMethod" class="select" onchange="renderPayments()">
+<option value="all">All Methods</option>
+<option>Cash</option>
+<option>UPI</option>
+<option>Card</option>
+<option>Bank Transfer</option>
+</select>
+</div>
+
+<div class="tablewrap" style="margin-top:14px">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Receipt No.</th>
+<th>Member</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="paymentsTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="attendance" class="page">
+<div class="panel">
+<div class="panelhead">
+<h2>Attendance</h2>
+<button class="btn primary" onclick="markAttendance()">+ Mark Today</button>
+</div>
+
+<div class="searchbar">
+<input id="attDate" type="date" class="input" onchange="renderAttendance()">
+<input id="attSearch" class="input" placeholder="Search member..." oninput="renderAttendance()">
+</div>
+
+<div class="tablewrap" style="margin-top:14px">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Member</th>
+<th>Phone</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="attTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="receipts" class="page">
+<div class="panel">
+<div class="panelhead">
+<h2>Payment Receipts</h2>
+</div>
+
+<p class="muted">
+Har payment ke saath receipt automatically create hoti hai.
+Yahan se PDF download aur share kar sakte hain.
+</p>
+
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Receipt No.</th>
+<th>Date</th>
+<th>Member</th>
+<th>Amount</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="receiptsTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="reports" class="page">
+<div class="cards">
+<div class="card"><div class="label">Total Collection</div><div class="stat" id="reportTotal">₹0</div></div>
+<div class="card"><div class="label">Total Payments</div><div class="stat" id="reportCount">0</div></div>
+<div class="card"><div class="label">Cash</div><div class="stat" id="reportCash">₹0</div></div>
+<div class="card"><div class="label">Online</div><div class="stat" id="reportOnline">₹0</div></div>
+</div>
+
+<div class="panel">
+<div class="panelhead"><h2>Backup & Restore</h2></div>
+
+<p class="muted">
+App ka data isi device/browser me save hota hai.
+Backup download karke safe rakhein.
+</p>
+
+<div class="actions">
+<button class="btn primary" onclick="backup()">Download Backup</button>
+
+<label class="btn" style="display:inline-flex;align-items:center">
+Restore Backup
+<input id="restoreFile" type="file" accept=".json" hidden onchange="restoreBackup(event)">
+</label>
+
+<button class="btn danger" onclick="clearAll()">Delete All Data</button>
+</div>
+</div>
+</section>
+
+<section id="settings" class="page">
+
+<div class="panel">
+<div class="panelhead"><h2>Gym Settings</h2></div>
+
+<div class="formgrid">
+<div class="field">
+<label>Gym Name</label>
+<input id="setName" class="input" value="डोले Wala Gym">
+</div>
+
+<div class="field">
+<label>Gym Phone</label>
+<input id="setPhone" class="input" value="9911444809">
+</div>
+
+<div class="field">
+<label>Instagram</label>
+<input id="setInstagram" class="input" value="@dole_wala_gym">
+</div>
+
+<div class="field">
+<label>Address</label>
+<input id="setAddress" class="input" placeholder="Gym address">
+</div>
+
+<div class="field full">
+<label>Receipt Footer</label>
+<textarea id="setFooter" class="textarea" rows="3">Thank you for choosing डोले Wala Gym. Keep training hard!</textarea>
+</div>
+</div>
+
+<button class="btn primary" style="margin-top:14px" onclick="saveSettings()">Save Settings</button>
+</div>
+
+<div class="panel" style="margin-top:18px">
+<div class="panelhead"><h2>🔐 Login Security</h2></div>
+
+<p class="muted">
+Login ID: <b>9911444809</b>. Change your password here whenever you want.
+</p>
+
+<div class="formgrid">
+<div class="field">
+<label>Current Password</label>
+<input id="currentPassword" type="password" class="input">
+</div>
+
+<div class="field">
+<label>New Password</label>
+<input id="newPassword" type="password" class="input" minlength="6">
+</div>
+
+<div class="field">
+<label>Confirm New Password</label>
+<input id="confirmPassword" type="password" class="input" minlength="6">
+</div>
+</div>
+
+<button class="btn primary" style="margin-top:14px" onclick="changePassword()">Change Password</button>
+</div>
+
+</section>
+
+<section id="receiptpage" class="page receiptpage">
+
+<div class="noPrint" style="margin-bottom:15px;display:flex;gap:8px;flex-wrap:wrap">
+
+<button class="btn" onclick="go('receipts')">← Back</button>
+
+<button class="btn primary" onclick="downloadReceiptPDF()">📄 Download PDF</button>
+
+<button class="btn green" id="receiptShare">📤 Share PDF</button>
+
+<button class="btn" onclick="window.print()">🖨 Print</button>
+
+</div>
+
+<div id="receiptPreview"></div>
+
+</section>
+
+</main>
+</div>
+
+<div id="modal" class="modal">
+<div class="modalbox">
+<div class="modalhead">
+<h3 id="modalTitle"></h3>
+<button class="x" onclick="closeModal()">×</button>
+</div>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const KEY='doleWalaGym_v2';
+
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
+members:[],
+payments:[],
+attendance:[],
+settings:{
+name:'डोले Wala Gym',
+phone:'9911444809',
+instagram:'@dole_wala_gym',
+address:'',
+footer:'Thank you for choosing डोले Wala Gym. Keep training hard!'
+}
+};
+
+const $=id=>document.getElementById(id);
+
+const today=()=>new Date().toISOString().slice(0,10);
+
+function save(){
+localStorage.setItem(KEY,JSON.stringify(db));
+renderAll();
+}
+
+function esc(s){
+return String(s??'').replace(/[&<>"']/g,m=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[m]))
+}
+
+function money(n){
+return '₹'+Number(n||0).toLocaleString('en-IN')
+}
+
+function uid(prefix='ID'){
+return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7).toUpperCase()
+}
+
+function receiptNo(){
+return 'DWG-'+new Date().getFullYear()+'-'+String(db.payments.length+1).padStart(4,'0')
+}
+
+function formatDate(d){
+if(!d)return '-';
+let [y,m,day]=d.split('-');
+return `${day}-${m}-${y}`
+}
+
+function toast(t){
+$('toast').textContent=t;
+$('toast').classList.add('show');
+setTimeout(()=>$('toast').classList.remove('show'),2200)
+}
+
+function go(page){
+
+document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+
+$(page).classList.add('active');
+
+document.querySelectorAll('.nav button').forEach(b=>
+b.classList.toggle('active',b.dataset.page===page)
+);
+
+let title={
+dashboard:'Dashboard',
+members:'Members',
+payments:'Payments',
+attendance:'Attendance',
+receipts:'Receipts',
+reports:'Reports',
+settings:'Settings',
+receiptpage:'Payment Receipt'
+}[page]||'Dashboard';
+
+$('pageTitle').textContent=title;
+
+$('pageSub').textContent=db.settings.name+' Management';
+
+if(page==='members')renderMembers();
+if(page==='payments')renderPayments();
+if(page==='attendance')renderAttendance();
+if(page==='receipts')renderReceipts();
+if(page==='reports')renderReports();
+if(page==='dashboard')renderDashboard();
+}
+
+document.querySelectorAll('.nav button').forEach(b=>
+b.onclick=()=>go(b.dataset.page)
+);
+
+function openModal(title,body){
+$('modalTitle').textContent=title;
+$('modalBody').innerHTML=body;
+$('modal').classList.add('show')
+}
+
+function closeModal(){
+$('modal').classList.remove('show')
+}
+
+$('modal').addEventListener('click',e=>{
+if(e.target.id==='modal')closeModal()
+})
+
+window._memberPhotoData=undefined;
+
+function previewMemberPhoto(e){
+
+const f=e.target.files[0];
+
+if(!f)return;
+
+const r=new FileReader();
+
+r.onload=()=>{
+window._memberPhotoData=r.result;
+
+$('mPhotoPreview').src=r.result;
+
+$('mPhotoPreview').style.display='block'
+};
+
+r.readAsDataURL(f);
+}
+
+function openMember(id=null){
+
+let m=db.members.find(x=>x.id===id)||{
+id:'',
+name:'',
+phone:'',
+plan:'Monthly',
+joinDate:today(),
+expiryDate:'',
+gender:'',
+notes:''
+};
+
+window._memberPhotoData=undefined;
+
+openModal(id?'Edit Member':'Add Member',`
+
+<form onsubmit="saveMember(event,'${m.id}')">
+
+<div class="formgrid">
+
+<div class="field">
+<label>Full Name *</label>
+<input required id="mName" class="input" value="${esc(m.name)}">
+</div>
+
+<div class="field">
+<label>WhatsApp / Phone *</label>
+<input required id="mPhone" class="input" value="${esc(m.phone)}">
+</div>
+
+<div class="field">
+<label>Member Photo</label>
+<input id="mPhoto" type="file" accept="image/*" class="input" onchange="previewMemberPhoto(event)">
+</div>
+
+<div class="field">
+<label>Photo Preview</label>
+<div class="photo-preview">
+<img id="mPhotoPreview" class="avatar big" src="${m.photo||''}" style="${m.photo?'':'display:none'}">
+<span class="muted">Photo member profile में दिखाई देगी.</span>
+</div>
+</div>
+
+<div class="field">
+<label>Plan</label>
+
+<select id="mPlan" class="select">
+
+<option ${m.plan==='Monthly'?'selected':''}>Monthly</option>
+
+<option ${m.plan==='3 Months'?'selected':''}>3 Months</option>
+
+<option ${m.plan==='6 Months'?'selected':''}>6 Months</option>
+
+<option ${m.plan==='12 Months'?'selected':''}>12 Months</option>
+
+</select>
+</div>
+
+<div class="field">
+<label>Gender</label>
+
+<select id="mGender" class="select">
+
+<option value="">Select</option>
+
+<option ${m.gender==='Male'?'selected':''}>Male</option>
+
+<option ${m.gender==='Female'?'selected':''}>Female</option>
+
+</select>
+</div>
+
+<div class="field">
+<label>Join Date</label>
+<input id="mJoin" type="date" class="input" value="${m.joinDate}">
+</div>
+
+<div class="field">
+<label>Expiry Date</label>
+<input id="mExpiry" type="date" class="input" value="${m.expiryDate}">
+</div>
+
+<div class="field full">
+<label>Notes</label>
+<textarea id="mNotes" class="textarea" rows="3">${esc(m.notes)}</textarea>
+</div>
+
+<div class="field full">
+
+<button type="button" class="btn"
+onclick="window._memberPhotoData='';$('mPhotoPreview').style.display='none';$('mPhoto').value='';">
+
+🗑 Remove Photo
+
+</button>
+
+</div>
+
+</div>
+
+<div class="actions" style="margin-top:15px">
+
+<button class="btn primary">
+${id?'Update Member':'Save Member'}
+</button>
+
+</div>
+
+</form>
+`)
+}
+
+function saveMember(e,id){
 
-  <header>
+e.preventDefault();
 
-    <h1>💪 डोले Wala Gym</h1>
+let old=db.members.find(x=>x.id===id);
 
-    <p>Gym Management System</p>
+let m={
+id:id||uid('MEM'),
+name:$('mName').value.trim(),
+phone:$('mPhone').value.trim(),
 
-  </header>
+photo:window._memberPhotoData!==undefined
+?window._memberPhotoData
+:(old?.photo||''),
 
+plan:$('mPlan').value,
+gender:$('mGender').value,
+joinDate:$('mJoin').value,
+expiryDate:$('mExpiry').value,
+notes:$('mNotes').value.trim()
+};
 
-  <div class="container">
+if(id)
+db.members=db.members.map(x=>x.id===id?m:x);
+else
+db.members.unshift(m);
 
+closeModal();
 
-    <!-- DASHBOARD -->
+save();
 
-    <div class="dashboard">
+toast(id?'Member updated':'Member added');
+}
 
+function deleteMember(id){
 
-      <div class="card">
+let m=db.members.find(x=>x.id===id);
 
-        <h2 id="totalMembers">0</h2>
+if(!m)return;
 
-        <p>Total Members</p>
+if(confirm(`Delete member "${m.name}"?`)){
 
-      </div>
+db.members=db.members.filter(x=>x.id!==id);
 
+save();
 
-      <div class="card">
+toast('Member deleted')
+}
+}
 
-        <h2 id="activeMembers">0</h2>
+function memberStatus(m){
+return m.expiryDate && m.expiryDate<today()
+?'Expired'
+:'Active'
+}
 
-        <p>Active Members</p>
+function openPayment(id=null){
 
-      </div>
+let p=db.payments.find(x=>x.id===id)||{
+id:'',
+memberId:db.members[0]?.id||'',
+date:today(),
+amount:'',
+method:'Cash',
+notes:''
+};
 
+openModal(id?'Edit Payment':'Add Payment',`
 
-      <div class="card">
+<form onsubmit="savePayment(event,'${p.id}')">
 
-        <h2 id="expiredMembers">0</h2>
+<div class="formgrid">
 
-        <p>Expired Members</p>
+<div class="field full">
 
-      </div>
+<label>Member *</label>
 
+<select required id="pMember" class="select">
 
-      <div class="card">
+${db.members.map(m=>
+`<option value="${m.id}" ${m.id===p.memberId?'selected':''}>
+${esc(m.name)} — ${esc(m.phone)}
+</option>`
+).join('')}
 
-        <h2 id="todayMembers">0</h2>
+</select>
 
-        <p>Today's Entries</p>
+</div>
 
-      </div>
+<div class="field">
 
+<label>Date *</label>
 
-    </div>
+<input required id="pDate" type="date" class="input" value="${p.date}">
 
+</div>
 
-    <!-- ADD MEMBER -->
+<div class="field">
 
-    <div class="section">
+<label>Amount (₹) *</label>
 
+<input required min="0" step="1" id="pAmount" type="number" class="input" value="${p.amount}">
 
-      <h2 id="formTitle">
-        ➕ Add New Member
-      </h2>
+</div>
 
+<div class="field">
 
-      <form id="memberForm">
+<label>Payment Method</label>
 
+<select id="pMethod" class="select">
 
-        <input
-          type="text"
-          id="name"
-          placeholder="Member Name"
-          required
-        >
+${['Cash','UPI','Card','Bank Transfer'].map(x=>
+`<option ${x===p.method?'selected':''}>${x}</option>`
+).join('')}
 
+</select>
 
-        <input
-          type="tel"
-          id="phone"
-          placeholder="Phone Number"
-          required
-        >
+</div>
 
+<div class="field full">
 
-        <input
-          type="number"
-          id="entryFee"
-          placeholder="Entry Fee"
-        >
+<label>Notes</label>
 
+<textarea id="pNotes" class="textarea" rows="2">${esc(p.notes)}</textarea>
 
-        <input
-          type="number"
-          id="membershipFee"
-          placeholder="Membership Fee"
-        >
+</div>
 
+</div>
 
-        <input
-          type="date"
-          id="joiningDate"
-          required
-        >
+<div class="actions" style="margin-top:15px">
 
+<button class="btn primary">
+${id?'Update Payment':'Save Payment & Create Receipt'}
+</button>
 
-        <input
-          type="date"
-          id="expiryDate"
-          required
-        >
+</div>
 
+</form>
+`);
 
-        <select id="plan">
+if(!db.members.length){
 
-          <option value="">
-            Select Plan
-          </option>
+$('modalBody').innerHTML=
+'<div class="empty">Pehle ek member add karein.</div>'+
+'<button class="btn primary" onclick="closeModal();openMember()">+ Add Member</button>'
+}
+}
 
-          <option value="1 Month">
-            1 Month
-          </option>
+function savePayment(e,id){
 
-          <option value="3 Months">
-            3 Months
-          </option>
+e.preventDefault();
 
-          <option value="6 Months">
-            6 Months
-          </option>
+let old=db.payments.find(x=>x.id===id);
 
-          <option value="12 Months">
-            12 Months
-          </option>
+let p={
+id:id||uid('PAY'),
+receiptNo:old?.receiptNo||receiptNo(),
+memberId:$('pMember').value,
+date:$('pDate').value,
+amount:Number($('pAmount').value),
+method:$('pMethod').value,
+notes:$('pNotes').value.trim()
+};
 
-        </select>
+if(id)
+db.payments=db.payments.map(x=>x.id===id?p:x);
+else
+db.payments.unshift(p);
 
+closeModal();
 
-        <select id="gender">
+save();
 
-          <option value="">
-            Select Gender
-          </option>
+toast(id?'Payment updated':'Payment saved — Receipt created');
 
-          <option value="Male">
-            Male
-          </option>
+if(!id)showReceipt(p.id);
+}
 
-          <option value="Female">
-            Female
-          </option>
+function deletePayment(id){
 
-          <option value="Other">
-            Other
-          </option>
+let p=db.payments.find(x=>x.id===id);
 
-        </select>
+if(!p)return;
 
+if(confirm(`Delete payment ${p.receiptNo}? This cannot be undone unless you restore a backup.`)){
 
-        <select id="status">
+db.payments=db.payments.filter(x=>x.id!==id);
 
-          <option value="Active">
-            Active
-          </option>
+save();
 
-          <option value="Expired">
-            Expired
-          </option>
+toast('Payment deleted')
+}
+}
 
-        </select>
+function memberName(id){
+return db.members.find(m=>m.id===id)?.name||'Deleted Member'
+}
 
+function memberPhone(id){
+return db.members.find(m=>m.id===id)?.phone||''
+}
 
-        <textarea
-          id="notes"
-          class="full"
-          placeholder="Notes"
-        ></textarea>
+function renderDashboard(){
 
+let active=db.members.filter(
+m=>memberStatus(m)==='Active'
+).length;
 
-        <input
-          type="file"
-          id="photo"
-          accept="image/*"
-          class="full"
-        >
+let month=new Date().toISOString().slice(0,7);
 
+let col=db.payments
+.filter(p=>p.date.startsWith(month))
+.reduce((a,p)=>a+p.amount,0);
 
-        <button
-          type="submit"
-          class="full"
-        >
+$('statMembers').textContent=db.members.length;
 
-          <span id="submitText">
-            Add Member
-          </span>
+$('statActive').textContent=active;
 
-        </button>
+$('statCollection').textContent=money(col);
 
+$('statDue').textContent=db.members.length-active;
 
-        <button
-          type="button"
-          id="cancelEdit"
-          class="full cancel-btn"
-          onclick="cancelEdit()"
-        >
+$('dashPayments').innerHTML=db.payments.slice(0,6).map(p=>
 
-          Cancel Edit
+`<tr>
+<td>${formatDate(p.date)}</td>
+<td>${esc(memberName(p.memberId))}</td>
+<td><b>${money(p.amount)}</b></td>
+<td>${esc(p.method)}</td>
+<td>
+<button class="btn small" onclick="showReceipt('${p.id}')">
+View
+</button>
+</td>
+</tr>`
 
-        </button>
+).join('')||
+'<tr><td colspan="5" class="empty">No payments yet.</td></tr>'
+}
 
+function renderMembers(){
 
-      </form>
+let q=($('memberSearch')?.value||'').toLowerCase();
 
-    </div>
+let st=$('memberStatus')?.value||'all';
 
+let arr=db.members.filter(m=>
+(m.name+' '+m.phone).toLowerCase().includes(q)&&
+(st==='all'||memberStatus(m).toLowerCase()===st)
+);
 
-    <!-- MEMBERS -->
+$('membersTable').innerHTML=arr.map(m=>
 
-    <div class="section">
+`<tr>
 
+<td>
 
-      <h2>
-        👥 Members
-      </h2>
+<div class="membercell">
 
+${m.photo?
+`<img class="avatar" src="${m.photo}" alt="">`
+:
+`<div class="avatar" style="display:grid;place-items:center">👤</div>`
+}
 
-      <input
-        type="text"
-        id="search"
-        placeholder="🔍 Search member by name or phone..."
-      >
+<div>
+<b>${esc(m.name)}</b>
+<div class="muted">${esc(m.gender||'')}</div>
+</div>
 
+</div>
 
-      <div id="membersTable"></div>
+</td>
 
+<td>${esc(m.phone)}</td>
 
-    </div>
+<td>${esc(m.plan)}</td>
 
+<td>${formatDate(m.joinDate)}</td>
 
-  </div>
+<td>${formatDate(m.expiryDate)}</td>
 
+<td>
+<span class="badge ${memberStatus(m)==='Active'?'ok':'warn'}">
+${memberStatus(m)}
+</span>
+</td>
 
-  <!-- HIDDEN PDF RECEIPT -->
+<td>
 
-  <div id="receiptContainer"></div>
+<div class="menuBtns">
 
+<button class="btn small"
+onclick="openMember('${m.id}')">
+✏️ Edit
+</button>
 
-  <script>
+<button class="btn small danger"
+onclick="deleteMember('${m.id}')">
+🗑 Delete
+</button>
 
-    /* =================================
-       LOAD MEMBERS
-    ================================= */
+</div>
 
-    let members =
-      JSON.parse(
-        localStorage.getItem(
-          "doleWalaGymMembers"
-        )
-      ) || [];
+</td>
 
+</tr>`
 
-    let editingId = null;
+).join('')||
+'<tr><td colspan="7" class="empty">No members found.</td></tr>'
+}
 
+function renderPayments(){
 
-    const form =
-      document.getElementById(
-        "memberForm"
-      );
+let q=($('paySearch')?.value||'').toLowerCase();
 
+let method=$('payMethod')?.value||'all';
 
-    const search =
-      document.getElementById(
-        "search"
-      );
+let arr=db.payments.filter(p=>
+memberName(p.memberId).toLowerCase().includes(q)&&
+(method==='all'||p.method===method)
+);
 
+$('paymentsTable').innerHTML=arr.map(p=>
 
-    /* =================================
-       SAVE MEMBERS
-    ================================= */
+`<tr>
 
-    function saveMembers() {
+<td>${formatDate(p.date)}</td>
 
-      localStorage.setItem(
-        "doleWalaGymMembers",
-        JSON.stringify(members)
-      );
+<td><b>${p.receiptNo}</b></td>
 
-    }
+<td>${esc(memberName(p.memberId))}</td>
 
+<td><b>${money(p.amount)}</b></td>
 
-    /* =================================
-       TODAY
-    ================================= */
+<td>${esc(p.method)}</td>
 
-    function getToday() {
+<td>
 
-      const date =
-        new Date();
+<div class="menuBtns">
 
-      const year =
-        date.getFullYear();
+<button class="btn small"
+onclick="showReceipt('${p.id}')">
+🧾 Receipt
+</button>
 
-      const month =
-        String(
-          date.getMonth() + 1
-        ).padStart(2, "0");
+<button class="btn small"
+onclick="openPayment('${p.id}')">
+✏️ Edit
+</button>
 
-      const day =
-        String(
-          date.getDate()
-        ).padStart(2, "0");
+<button class="btn small danger"
+onclick="deletePayment('${p.id}')">
+🗑 Delete
+</button>
 
-      return (
-        year +
-        "-" +
-        month +
-        "-" +
-        day
-      );
+</div>
 
-    }
+</td>
 
+</tr>`
 
-    /* =================================
-       DISPLAY DATE
-    ================================= */
+).join('')||
+'<tr><td colspan="6" class="empty">No payments found.</td></tr>'
+}
 
-    function formatDate(dateString) {
+function renderReceipts(){
 
-      if (!dateString) {
-        return "-";
-      }
+$('receiptsTable').innerHTML=db.payments.map(p=>
 
-      const parts =
-        dateString.split("-");
+`<tr>
 
-      if (parts.length !== 3) {
-        return dateString;
-      }
+<td><b>${p.receiptNo}</b></td>
 
-      return (
-        parts[2] +
-        "/" +
-        parts[1] +
-        "/" +
-        parts[0]
-      );
+<td>${formatDate(p.date)}</td>
 
-    }
+<td>${esc(memberName(p.memberId))}</td>
 
+<td>${money(p.amount)}</td>
 
-    /* =================================
-       AUTOMATIC STATUS
-    ================================= */
+<td>
 
-    function updateExpiredStatus() {
+<div class="menuBtns">
 
-      const today =
-        getToday();
+<button class="btn small primary"
+onclick="showReceipt('${p.id}')">
+Open
+</button>
 
-      let changed = false;
+<button class="btn small green"
+onclick="shareReceiptPDF('${p.id}')">
+📤 Share PDF
+</button>
 
+</div>
 
-      members.forEach(
-        member => {
+</td>
 
-          if (
-            member.expiryDate &&
-            member.expiryDate < today
-          ) {
+</tr>`
 
-            if (
-              member.status !==
-              "Expired"
-            ) {
+).join('')||
+'<tr><td colspan="5" class="empty">No receipts yet.</td></tr>'
+}
 
-              member.status =
-                "Expired";
+function renderAttendance(){
 
-              changed = true;
+let d=$('attDate')?.value||today();
 
-            }
+if($('attDate')&&!$('attDate').value)
+$('attDate').value=d;
 
-          }
+let q=($('attSearch')?.value||'').toLowerCase();
 
-          else if (
-            member.expiryDate &&
-            member.expiryDate >= today
-          ) {
+let arr=db.members.filter(m=>
+m.name.toLowerCase().includes(q)||
+m.phone.includes(q)
+);
 
-            if (
-              member.status !==
-              "Active"
-            ) {
+$('attTable').innerHTML=arr.map(m=>{
 
-              member.status =
-                "Active";
+let a=db.attendance.find(
+x=>x.memberId===m.id&&x.date===d
+);
 
-              changed = true;
+return `
 
-            }
+<tr>
 
-          }
+<td>${formatDate(d)}</td>
 
-        }
-      );
+<td>${esc(m.name)}</td>
 
+<td>${esc(m.phone)}</td>
 
-      if (changed) {
+<td>
 
-        saveMembers();
+<span class="badge ${a?.present?'ok':''}">
+${a?.present?'Present':'Absent'}
+</span>
 
-      }
+</td>
 
-    }
+<td>
 
+<button class="btn small ${a?.present?'':'primary'}"
+onclick="toggleAttendance('${m.id}','${d}')">
 
-    /* =================================
-       DASHBOARD
-    ================================= */
+${a?.present?'Mark Absent':'Mark Present'}
 
-    function updateDashboard() {
+</button>
 
-      updateExpiredStatus();
+</td>
 
+</tr>
 
-      const today =
-        getToday();
+`
 
+}).join('')||
+'<tr><td colspan="5" class="empty">No members found.</td></tr>'
+}
 
-      document.getElementById(
-        "totalMembers"
-      ).textContent =
-        members.length;
+function markAttendance(){
 
+if(!db.members.length){
 
-      document.getElementById(
-        "activeMembers"
-      ).textContent =
-        members.filter(
-          member =>
-            member.status ===
-            "Active"
-        ).length;
+toast('Pehle member add karein');
 
+return
+}
 
-      document.getElementById(
-        "expiredMembers"
-      ).textContent =
-        members.filter(
-          member =>
-            member.status ===
-            "Expired"
-        ).length;
+go('attendance')
+}
 
+function toggleAttendance(memberId,date){
 
-      document.getElementById(
-        "todayMembers"
-      ).textContent =
-        members.filter(
-          member =>
-            member.joiningDate ===
-            today
-        ).length;
+let i=db.attendance.findIndex(
+x=>x.memberId===memberId&&x.date===date
+);
 
-    }
+if(i<0)
+db.attendance.push({
+id:uid('ATT'),
+memberId,
+date,
+present:true
+});
+else
+db.attendance[i].present=
+!db.attendance[i].present;
 
+save();
 
-    /* =================================
-       READ PHOTO
-    ================================= */
+renderAttendance()
+}
 
-    function readPhoto(file) {
+function renderReports(){
 
-      return new Promise(
-        resolve => {
+let total=db.payments.reduce(
+(a,p)=>a+p.amount,0
+);
 
-          if (!file) {
+let cash=db.payments
+.filter(p=>p.method==='Cash')
+.reduce((a,p)=>a+p.amount,0);
 
-            resolve("");
+let online=total-cash;
 
-            return;
+$('reportTotal').textContent=money(total);
 
-          }
+$('reportCount').textContent=db.payments.length;
 
+$('reportCash').textContent=money(cash);
 
-          const reader =
-            new FileReader();
+$('reportOnline').textContent=money(online);
+}
 
+function renderSettings(){
 
-          reader.onload =
-            function(e) {
+$('setName').value=db.settings.name;
 
-              resolve(
-                e.target.result
-              );
+$('setPhone').value=db.settings.phone;
 
-            };
+$('setInstagram').value=db.settings.instagram;
 
+$('setAddress').value=db.settings.address;
 
-          reader.readAsDataURL(
-            file
-          );
+$('setFooter').value=db.settings.footer;
+}
 
-        }
-      );
+function saveSettings(){
 
-    }
+db.settings={
+name:$('setName').value.trim()||'डोले Wala Gym',
+phone:$('setPhone').value.trim(),
+instagram:$('setInstagram').value.trim(),
+address:$('setAddress').value.trim(),
+footer:$('setFooter').value.trim()
+};
 
+save();
 
-    /* =================================
-       DISPLAY MEMBERS
-    ================================= */
+toast('Settings saved')
+}
 
-    function displayMembers(
-      list = members
-    ) {
 
-      updateExpiredStatus();
+/* =========================
+   RECEIPT
+========================= */
 
+function showReceipt(id){
 
-      const table =
-        document.getElementById(
-          "membersTable"
-        );
+window.currentReceiptId=id;
 
+let p=db.payments.find(x=>x.id===id);
 
-      if (
-        list.length === 0
-      ) {
+if(!p)return;
 
-        table.innerHTML =
-          '<div class="empty">' +
-          'No members added yet.' +
-          '</div>';
+let m=db.members.find(
+x=>x.id===p.memberId
+)||{
+name:'Deleted Member',
+phone:'',
+plan:''
+};
 
-        return;
+let s=db.settings;
 
-      }
+$('receiptPreview').innerHTML=
 
+`<div class="receipt">
 
-      let html = `
+<div class="rhead">
 
-        <table>
+<div>
 
-          <thead>
+<h2>${esc(s.name)}</h2>
 
-            <tr>
+<div>${esc(s.address)}</div>
 
-              <th>Photo</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Plan</th>
-              <th>Joining</th>
-              <th>Expiry</th>
-              <th>Status</th>
-              <th>Action</th>
+<div>${esc(s.phone)} ${esc(s.instagram)}</div>
 
-            </tr>
+</div>
 
-          </thead>
+<div style="text-align:right">
 
-          <tbody>
+<b>PAYMENT RECEIPT</b>
 
-      `;
+<br>
 
+${esc(p.receiptNo)}
 
-      list.forEach(
-        member => {
+<br>
 
+${formatDate(p.date)}
 
-          const statusClass =
-            member.status ===
-            "Active"
+</div>
 
-              ? "active-status"
+</div>
 
-              : "expired-status";
+<div style="padding:20px 0;display:flex;align-items:center;gap:15px">
 
+${m.photo?
+`<img class="avatar big" src="${m.photo}" alt="">`
+:''}
 
-          html += `
+<div>
 
-            <tr>
+<b>Received From:</b>
+${esc(m.name)}
 
+<br>
 
-              <td>
+<span style="color:#555">
+Phone: ${esc(m.phone)}
+</span>
 
-                ${
-                  member.photo
+</div>
 
-                  ?
+</div>
 
-                  `<img
-                    src="${member.photo}"
-                    style="
-                      width:50px;
-                      height:50px;
-                      object-fit:cover;
-                      border-radius:50%;
-                      cursor:pointer;
-                    "
-                    onclick="
-                      viewMember(${member.id})
-                    "
-                  >`
+<table>
 
-                  :
+<thead>
 
-                  `<button
-                    onclick="
-                      viewMember(${member.id})
-                    "
-                  >
-                    👤 View
-                  </button>`
-                }
+<tr>
 
-              </td>
+<th>Description</th>
+<th>Method</th>
+<th style="text-align:right">Amount</th>
 
+</tr>
 
-              <td>
+</thead>
 
-                <span
-                  style="
-                    cursor:pointer;
-                    font-weight:bold;
-                  "
-                  onclick="
-                    viewMember(${member.id})
-                  "
-                >
+<tbody>
 
-                  ${member.name}
+<tr>
 
-                </span>
+<td>
+Gym Membership — ${esc(m.plan||'')}
+</td>
 
-              </td>
+<td>
+${esc(p.method)}
+</td>
 
+<td style="text-align:right">
 
-              <td>
-                ${member.phone}
-              </td>
+<b>${money(p.amount)}</b>
 
+</td>
 
-              <td>
-                ${member.plan || "-"}
-              </td>
+</tr>
 
+</tbody>
 
-              <td>
-                ${member.joiningDate || "-"}
-              </td>
+</table>
 
+<div class="total">
+Total Paid: ${money(p.amount)}
+</div>
 
-              <td>
-                ${member.expiryDate || "-"}
-              </td>
+<div class="foot">
 
+${esc(s.footer)}
 
-              <td
-                class="${statusClass}"
-              >
+<br>
 
-                ${member.status || "-"}
+Receipt generated by डोले Wala Gym Management.
 
-              </td>
+</div>
 
+</div>`;
 
-              <td>
+$('receiptShare').onclick=
+()=>shareReceiptPDF(id);
 
+go('receiptpage');
+}
 
-                <button
-                  onclick="
-                    editMember(${member.id})
-                  "
-                >
 
-                  ✏️ Edit
+/* =========================
+   ACTUAL PDF GENERATION
+========================= */
 
-                </button>
+async function makeReceiptPDF(){
 
+const el=
+$('receiptPreview').querySelector('.receipt');
 
-                <button
-                  class="receipt-btn"
-                  onclick="
-                    generateReceipt(${member.id})
-                  "
-                >
+if(!el){
 
-                  🧾 PDF
+alert('Pehle receipt open karein.');
 
-                </button>
+return null;
+}
 
+if(
+typeof html2canvas==='undefined'||
+!window.jspdf
+){
 
-                <button
-                  class="delete"
-                  onclick="
-                    deleteMember(${member.id})
-                  "
-                >
+alert(
+'PDF library load nahi hui. Internet on karke app dobara open karein.'
+);
 
-                  🗑️ Delete
+return null;
+}
 
-                </button>
+const canvas=
+await html2canvas(el,{
+scale:2,
+useCORS:true,
+backgroundColor:'#ffffff'
+});
 
+const {jsPDF}=window.jspdf;
 
-              </td>
+const pdf=
+new jsPDF({
+orientation:'portrait',
+unit:'mm',
+format:'a4'
+});
 
+const margin=10;
 
-            </tr>
+const imgW=190;
 
-          `;
+const pageH=277;
 
-        }
-      );
+const pxPerMm=
+canvas.width/imgW;
 
+let srcY=0;
 
-      html += `
+let first=true;
 
-          </tbody>
+while(srcY<canvas.height){
 
-        </table>
+const slicePx=
+Math.min(
+canvas.height-srcY,
+Math.floor(pageH*pxPerMm)
+);
 
-      `;
+const c=
+document.createElement('canvas');
 
+c.width=canvas.width;
 
-      table.innerHTML =
-        html;
+c.height=slicePx;
 
-    }
+const ctx=c.getContext('2d');
 
+ctx.drawImage(
+canvas,
+0,
+srcY,
+canvas.width,
+slicePx,
+0,
+0,
+canvas.width,
+slicePx
+);
 
-    /* =================================
-       ADD / EDIT MEMBER
-    ================================= */
+if(!first)
+pdf.addPage();
 
-    form.addEventListener(
-      "submit",
-      async function(e) {
+first=false;
 
-        e.preventDefault();
+pdf.addImage(
+c.toDataURL('image/jpeg',0.95),
+'JPEG',
+margin,
+margin,
+imgW,
+slicePx/pxPerMm
+);
 
+srcY+=slicePx;
+}
 
-        const photoFile =
-          document.getElementById(
-            "photo"
-          ).files[0];
+return pdf;
+}
 
 
-        let photoData = "";
+/* DOWNLOAD REAL PDF */
 
+async function downloadReceiptPDF(){
 
-        if (photoFile) {
+try{
 
-          photoData =
-            await readPhoto(
-              photoFile
-            );
+const pdf=
+await makeReceiptPDF();
 
-        }
+if(!pdf)return;
 
+pdf.save(
+'Dole-Wala-Gym-Receipt-'+
+(window.currentReceiptId||'receipt')+
+'.pdf'
+);
 
-        /* =============================
-           EDIT
-        ============================= */
+toast('PDF downloaded successfully');
 
-        if (
-          editingId !== null
-        ) {
+}catch(e){
 
+console.error(e);
 
-          const index =
-            members.findIndex(
-              member =>
-                member.id ===
-                editingId
-            );
+alert(
+'PDF nahi ban payi. Internet on karke dobara try karein.'
+);
 
+}
+}
 
-          if (
-            index !== -1
-          ) {
 
+/* SHARE THE ACTUAL PDF FILE */
 
-            const oldMember =
-              members[index];
+async function shareReceiptPDF(id){
 
+try{
 
-            members[index] = {
+window.currentReceiptId=id;
 
-              id:
-                editingId,
+const pdf=
+await makeReceiptPDF();
 
+if(!pdf)return;
 
-              name:
-                document.getElementById(
-                  "name"
-                ).value,
+const blob=
+pdf.output('blob');
 
+const file=
+new File(
+[blob],
+'Dole-Wala-Gym-Receipt-'+id+'.pdf',
+{
+type:'application/pdf'
+}
+);
 
-              phone:
-                document.getElementById(
-                  "phone"
-                ).value,
+if(
+navigator.share &&
+(!navigator.canShare ||
+navigator.canShare({files:[file]}))
+){
 
+await navigator.share({
 
-              entryFee:
-                document.getElementById(
-                  "entryFee"
-                ).value,
+title:'डोले Wala Gym Payment Receipt',
 
+text:'Payment Receipt',
 
-              membershipFee:
-                document.getElementById(
-                  "membershipFee"
-                ).value,
+files:[file]
 
+});
 
-              joiningDate:
-                document.getElementById(
-                  "joiningDate"
-                ).value,
+}else{
 
+pdf.save(file.name);
 
-              expiryDate:
-                document.getElementById(
-                  "expiryDate"
-                ).value,
+alert(
+'Is browser me direct PDF sharing available nahi hai. PDF download ho gayi hai. Ab WhatsApp me isi PDF ko attach karein.'
+);
 
+}
 
-              plan:
-                document.getElementById(
-                  "plan"
-                ).value,
+}catch(e){
 
+if(e.name!=='AbortError'){
 
-              gender:
-                document.getElementById(
-                  "gender"
-                ).value,
+console.error(e);
 
+alert(
+'PDF share nahi ho payi. PDF download karke WhatsApp se share karein.'
+);
 
-              status:
-                document.getElementById(
-                  "status"
-                ).value,
+}
 
+}
+}
 
-              notes:
-                document.getElementById(
-                  "notes"
-                ).value,
 
+/* =========================
+   BACKUP
+========================= */
 
-              photo:
-                photoData ||
-                oldMember.photo ||
-                "",
+function backup(){
 
+let blob=
+new Blob(
+[JSON.stringify(db,null,2)],
+{type:'application/json'}
+);
 
-              receiptNo:
-                oldMember.receiptNo ||
-                createReceiptNumber()
+let a=document.createElement('a');
 
-            };
+a.href=URL.createObjectURL(blob);
 
-          }
+a.download=
+'dole-wala-gym-backup-'+
+today()+
+'.json';
 
+a.click();
 
-          saveMembers();
+URL.revokeObjectURL(a.href);
+}
 
-          updateDashboard();
+function restoreBackup(e){
 
-          displayMembers();
+let f=e.target.files[0];
 
+if(!f)return;
 
-          alert(
-            "✅ Member updated successfully!"
-          );
+let r=new FileReader();
 
+r.onload=()=>{
 
-          cancelEdit();
+try{
 
+let x=JSON.parse(r.result);
 
-          return;
+if(!x.members||!x.payments)
+throw Error();
 
-        }
+db=x;
 
+save();
 
-        /* =============================
-           NEW MEMBER
-        ============================= */
+renderSettings();
 
-        const member = {
+toast('Backup restored');
 
+}catch{
 
-          id:
-            Date.now(),
+alert('Invalid backup file');
 
+}
 
-          name:
-            document.getElementById(
-              "name"
-            ).value,
+};
 
+r.readAsText(f);
+}
 
-          phone:
-            document.getElementById(
-              "phone"
-            ).value,
+function clearAll(){
 
+if(
+confirm(
+'Delete ALL members, payments and attendance? Make sure you have a backup.'
+)
+){
 
-          entryFee:
-            document.getElementById(
-              "entryFee"
-            ).value,
+db={
+members:[],
+payments:[],
+attendance:[],
+settings:db.settings
+};
 
+save();
 
-          membershipFee:
-            document.getElementById(
-              "membershipFee"
-            ).value,
+toast('All data deleted');
+}
+}
 
 
-          joiningDate:
-            document.getElementById(
-              "joiningDate"
-            ).value,
+/* =========================
+   LOGIN
+========================= */
 
+const LOGIN_KEY='doleWalaGym_login_v1';
 
-          expiryDate:
-            document.getElementById(
-              "expiryDate"
-            ).value,
+const LOGIN_ID='9911444809';
 
+const DEFAULT_PASS='Sourabh@1520';
 
-          plan:
-            document.getElementById(
-              "plan"
-            ).value,
+function bytesToHex(buf){
 
+return [...new Uint8Array(buf)]
+.map(b=>b.toString(16).padStart(2,'0'))
+.join('')
+}
 
-          gender:
-            document.getElementById(
-              "gender"
-            ).value,
+async function hashPassword(password){
 
+const data=
+new TextEncoder().encode(password);
 
-          status:
-            document.getElementById(
-              "status"
-            ).value,
+const hash=
+await crypto.subtle.digest(
+'SHA-256',
+data
+);
 
+return bytesToHex(hash);
+}
 
-          notes:
-            document.getElementById(
-              "notes"
-            ).value,
+async function ensureLogin(){
 
+let cfg=
+JSON.parse(
+localStorage.getItem(LOGIN_KEY)||'null'
+);
 
-          photo:
-            photoData,
+if(!cfg){
 
+cfg={
+id:LOGIN_ID,
+hash:await hashPassword(DEFAULT_PASS)
+};
 
-          receiptNo:
-            createReceiptNumber()
+localStorage.setItem(
+LOGIN_KEY,
+JSON.stringify(cfg)
+);
+}
 
-        };
+$('loginId').value=
+cfg.id||LOGIN_ID;
 
+$('loginScreen').style.display='flex';
+}
 
-        members.push(
-          member
-        );
+async function login(){
 
+const cfg=
+JSON.parse(
+localStorage.getItem(LOGIN_KEY)||'null'
+)||
+{
+id:LOGIN_ID,
+hash:await hashPassword(DEFAULT_PASS)
+};
 
-        saveMembers();
+const id=
+$('loginId').value.trim();
 
-        updateDashboard();
+const pass=
+$('loginPassword').value;
 
-        displayMembers();
+const hash=
+await hashPassword(pass);
 
+if(
+id===cfg.id &&
+hash===cfg.hash
+){
 
-        alert(
-          "✅ Member added successfully!"
-        );
+sessionStorage.setItem(
+'doleGymUnlocked',
+'1'
+);
 
+$('loginPassword').value='';
 
-        resetForm();
+$('loginError').style.display='none';
 
-      }
-    );
+$('loginScreen').style.display='none';
 
+toast('Login successful');
 
-    /* =================================
-       RECEIPT NUMBER
-    ================================= */
+}else{
 
-    function createReceiptNumber() {
+$('loginError').style.display='block';
 
-      const now =
-        new Date();
+}
 
+}
 
-      const year =
-        String(
-          now.getFullYear()
-        ).slice(-2);
+function toggleLoginPassword(){
 
+let x=$('loginPassword');
 
-      const month =
-        String(
-          now.getMonth() + 1
-        ).padStart(2, "0");
+x.type=
+x.type==='password'
+?'text'
+:'password';
+}
 
+function lockApp(){
 
-      const random =
-        Math.floor(
-          100000 +
-          Math.random() * 900000
-        );
+sessionStorage.removeItem(
+'doleGymUnlocked'
+);
 
+$('loginPassword').value='';
 
-      return (
-        "DWG/" +
-        year +
-        month +
-        "/" +
-        random
-      );
+$('loginScreen').style.display='flex';
 
-    }
+$('loginPassword').focus();
+}
 
+async function changePassword(){
 
-    /* =================================
-       EDIT MEMBER
-    ================================= */
+let cfg=
+JSON.parse(
+localStorage.getItem(LOGIN_KEY)||'null'
+);
 
-    function editMember(id) {
+if(!cfg){
 
-      const member =
-        members.find(
-          member =>
-            member.id === id
-        );
+await ensureLogin();
 
+return;
+}
 
-      if (!member) {
-        return;
-      }
+let old=
+$('currentPassword').value;
 
+let newp=
+$('newPassword').value;
 
-      editingId = id;
+let conf=
+$('confirmPassword').value;
 
+if(
+(await hashPassword(old))!==cfg.hash
+){
 
-      document.getElementById(
-        "formTitle"
-      ).textContent =
-        "✏️ Edit Member";
+alert('Current password is incorrect.');
 
+return;
+}
 
-      document.getElementById(
-        "submitText"
-      ).textContent =
-        "Save Changes";
+if(newp.length<6){
 
+alert(
+'New password must be at least 6 characters.'
+);
 
-      document.getElementById(
-        "cancelEdit"
-      ).style.display =
-        "block";
+return;
+}
 
+if(newp!==conf){
 
-      document.getElementById(
-        "name"
-      ).value =
-        member.name || "";
+alert(
+'New password and confirmation do not match.'
+);
 
+return;
+}
 
-      document.getElementById(
-        "phone"
-      ).value =
-        member.phone || "";
+cfg.hash=
+await hashPassword(newp);
 
+localStorage.setItem(
+LOGIN_KEY,
+JSON.stringify(cfg)
+);
 
-      document.getElementById(
-        "entryFee"
-      ).value =
-        member.entryFee || "";
+$('currentPassword').value='';
 
+$('newPassword').value='';
 
-      document.getElementById(
-        "membershipFee"
-      ).value =
-        member.membershipFee || "";
+$('confirmPassword').value='';
 
+toast('Password changed successfully');
+}
 
-      document.getElementById(
-        "joiningDate"
-      ).value =
-        member.joiningDate || "";
 
+/* =========================
+   START APP
+========================= */
 
-      document.getElementById(
-        "expiryDate"
-      ).value =
-        member.expiryDate || "";
+function renderAll(){
 
+renderDashboard();
 
-      document.getElementById(
-        "plan"
-      ).value =
-        member.plan || "";
+renderMembers();
 
+renderPayments();
 
-      document.getElementById(
-        "gender"
-      ).value =
-        member.gender || "";
+renderAttendance();
 
+renderReceipts();
 
-      document.getElementById(
-        "status"
-      ).value =
-        member.status || "Active";
+renderReports();
 
+renderSettings();
+}
 
-      document.getElementById(
-        "notes"
-      ).value =
-        member.notes || "";
+renderAll();
 
+(async()=>{
 
-      document.getElementById(
-        "photo"
-      ).value = "";
+if(
+sessionStorage.getItem('doleGymUnlocked')==='1'
+){
 
+$('loginScreen').style.display='none';
 
-      window.scrollTo({
+}else{
 
-        top: 0,
+await ensureLogin();
 
-        behavior: "smooth"
+}
 
-      });
+})();
 
-    }
-
-
-    /* =================================
-       CANCEL EDIT
-    ================================= */
-
-    function cancelEdit() {
-
-      editingId = null;
-
-
-      document.getElementById(
-        "formTitle"
-      ).textContent =
-        "➕ Add New Member";
-
-
-      document.getElementById(
-        "submitText"
-      ).textContent =
-        "Add Member";
-
-
-      document.getElementById(
-        "cancelEdit"
-      ).style.display =
-        "none";
-
-
-      resetForm();
-
-    }
-
-
-    /* =================================
-       RESET FORM
-    ================================= */
-
-    function resetForm() {
-
-      form.reset();
-
-
-      document.getElementById(
-        "status"
-      ).value =
-        "Active";
-
-
-      editingId = null;
-
-
-      document.getElementById(
-        "formTitle"
-      ).textContent =
-        "➕ Add New Member";
-
-
-      document.getElementById(
-        "submitText"
-      ).textContent =
-        "Add Member";
-
-
-      document.getElementById(
-        "cancelEdit"
-      ).style.display =
-        "none";
-
-    }
-
-
-    /* =================================
-       VIEW PROFILE
-    ================================= */
-
-    function viewMember(id) {
-
-      const member =
-        members.find(
-          member =>
-            member.id === id
-        );
-
-
-      if (!member) {
-        return;
-      }
-
-
-      const popup =
-        document.createElement(
-          "div"
-        );
-
-
-      popup.className =
-        "profile-popup";
-
-
-      popup.innerHTML = `
-
-        <div class="profile-box">
-
-
-          ${
-            member.photo
-
-            ?
-
-            `<img
-              src="${member.photo}"
-              class="profile-photo"
-            >`
-
-            :
-
-            `<div class="no-photo">
-              👤
-            </div>`
-          }
-
-
-          <h2>
-            👤 ${member.name}
-          </h2>
-
-
-          <div
-            class="profile-info"
-          >
-
-            <p>
-              <b>Phone:</b>
-              ${member.phone}
-            </p>
-
-
-            <p>
-              <b>Entry Fee:</b>
-              ₹${member.entryFee || 0}
-            </p>
-
-
-            <p>
-              <b>Membership Fee:</b>
-              ₹${member.membershipFee || 0}
-            </p>
-
-
-            <p>
-              <b>Total Paid:</b>
-              ₹${getTotalPaid(member)}
-            </p>
-
-
-            <p>
-              <b>Plan:</b>
-              ${member.plan || "-"}
-            </p>
-
-
-            <p>
-              <b>Joining Date:</b>
-              ${formatDate(member.joiningDate)}
-            </p>
-
-
-            <p>
-              <b>Expiry Date:</b>
-              ${formatDate(member.expiryDate)}
-            </p>
-
-
-            <p>
-              <b>Gender:</b>
-              ${member.gender || "-"}
-            </p>
-
-
-            <p>
-              <b>Status:</b>
-              ${member.status || "-"}
-            </p>
-
-
-            <p>
-              <b>Notes:</b>
-              ${member.notes || "-"}
-            </p>
-
-          </div>
-
-
-          <div
-            class="profile-buttons"
-          >
-
-
-            <button
-              class="receipt-btn"
-              onclick="
-                generateReceipt(${member.id})
-              "
-            >
-
-              🧾 Download PDF Receipt
-
-            </button>
-
-
-            <button
-              class="close-btn"
-              onclick="
-                this.closest('.profile-popup').remove()
-              "
-            >
-
-              Close
-
-            </button>
-
-
-          </div>
-
-
-        </div>
-
-      `;
-
-
-      popup.addEventListener(
-        "click",
-        function(e) {
-
-          if (
-            e.target === popup
-          ) {
-
-            popup.remove();
-
-          }
-
-        }
-      );
-
-
-      document.body.appendChild(
-        popup
-      );
-
-    }
-
-
-    /* =================================
-       TOTAL PAID
-    ================================= */
-
-    function getTotalPaid(member) {
-
-      const entry =
-        Number(
-          member.entryFee || 0
-        );
-
-
-      const membership =
-        Number(
-          member.membershipFee || 0
-        );
-
-
-      return (
-        entry +
-        membership
-      );
-
-    }
-
-
-    /* =================================
-       DELETE
-    ================================= */
-
-    function deleteMember(id) {
-
-      const member =
-        members.find(
-          member =>
-            member.id === id
-        );
-
-
-      if (!member) {
-        return;
-      }
-
-
-      const confirmDelete =
-        confirm(
-          "Are you sure you want to delete " +
-          member.name +
-          "?"
-        );
-
-
-      if (!confirmDelete) {
-        return;
-      }
-
-
-      members =
-        members.filter(
-          member =>
-            member.id !== id
-        );
-
-
-      saveMembers();
-
-      updateDashboard();
-
-      displayMembers();
-
-    }
-
-
-    /* =================================
-       SEARCH
-    ================================= */
-
-    search.addEventListener(
-      "input",
-      function() {
-
-
-        const value =
-          search.value
-            .toLowerCase()
-            .trim();
-
-
-        const filtered =
-          members.filter(
-            member =>
-
-              String(
-                member.name || ""
-              )
-              .toLowerCase()
-              .includes(value)
-
-              ||
-
-              String(
-                member.phone || ""
-              )
-              .includes(value)
-          );
-
-
-        displayMembers(
-          filtered
-        );
-
-      }
-    );
-
-
-    /* =================================
-       PDF RECEIPT
-    ================================= */
-
-    async function generateReceipt(id) {
-
-
-      const member =
-        members.find(
-          member =>
-            member.id === id
-        );
-
-
-      if (!member) {
-        return;
-      }
-
-
-      if (!member.receiptNo) {
-
-        member.receiptNo =
-          createReceiptNumber();
-
-        saveMembers();
-
-      }
-
-
-      const receiptContainer =
-        document.getElementById(
-          "receiptContainer"
-        );
-
-
-      const receiptDate =
-        formatDate(
-          getToday()
-        );
-
-
-      const totalPaid =
-        getTotalPaid(
-          member
-        );
-
-
-      let photoHTML = `
-
-        <div
-          style="
-            width:150px;
-            height:170px;
-            background:#eeeeee;
-            border-radius:8px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:55px;
-          "
-        >
-          👤
-        </div>
-
-      `;
-
-
-      if (member.photo) {
-
-        photoHTML = `
-
-          <img
-            src="${member.photo}"
-            class="member-photo-pdf"
-          >
-
-        `;
-
-      }
-
-
-      receiptContainer.innerHTML = `
-
-        <div class="receipt-page">
-
-
-          <div class="receipt-header">
-
-
-            <div>
-
-              <div class="gym-name">
-                डोले Wala Gym
-              </div>
-
-              <div class="gym-tagline">
-                NO PAIN • NO GAIN
-              </div>
-
-            </div>
-
-
-            <div class="gym-contact">
-
-              📞 9911444809<br>
-
-              📸 @dole_wala_gym<br>
-
-              ✉️ dolewalagym@gmail.com
-
-            </div>
-
-
-          </div>
-
-
-          <div class="receipt-title">
-
-            <span>
-              PAYMENT RECEIPT
-            </span>
-
-          </div>
-
-
-          <div class="receipt-top">
-
-
-            <div>
-
-              Receipt No.<br>
-
-              <strong>
-                ${member.receiptNo}
-              </strong>
-
-            </div>
-
-
-            <div
-              style="text-align:right;"
-            >
-
-              Date<br>
-
-              <strong>
-                ${receiptDate}
-              </strong>
-
-            </div>
-
-
-          </div>
-
-
-          <div
-            class="member-section-title"
-          >
-
-            👤 MEMBER DETAILS
-
-          </div>
-
-
-          <div
-            class="member-area"
-          >
-
-
-            <div
-              class="member-details"
-            >
-
-              <div>
-                <b>Member Name:</b>
-                ${member.name}
-              </div>
-
-
-              <div>
-                <b>Phone Number:</b>
-                ${member.phone}
-              </div>
-
-
-              <div>
-                <b>Gender:</b>
-                ${member.gender || "-"}
-              </div>
-
-
-              <div>
-                <b>Status:</b>
-                ${member.status || "-"}
-              </div>
-
-            </div>
-
-
-            <div
-              class="member-photo-box"
-            >
-
-              ${photoHTML}
-
-            </div>
-
-
-          </div>
-
-
-          <div
-            class="receipt-grid"
-          >
-
-
-            <div>
-
-
-              <div
-                class="member-section-title"
-              >
-
-                🏋️ MEMBERSHIP DETAILS
-
-              </div>
-
-
-              <div
-                class="membership-details"
-              >
-
-                <div>
-                  <b>Plan:</b>
-                  ${member.plan || "-"}
-                </div>
-
-
-                <div>
-                  <b>Joining Date:</b>
-                  ${formatDate(
-                    member.joiningDate
-                  )}
-                </div>
-
-
-                <div>
-                  <b>Expiry Date:</b>
-                  ${formatDate(
-                    member.expiryDate
-                  )}
-                </div>
-
-              </div>
-
-
-            </div>
-
-
-            <div
-              class="payment-box"
-            >
-
-
-              <div
-                class="payment-title"
-              >
-
-                PAYMENT DETAILS
-
-              </div>
-
-
-              <div
-                class="payment-row"
-              >
-
-                <span>
-                  Entry Fee
-                </span>
-
-                <span>
-                  ₹${Number(
-                    member.entryFee || 0
-                  ).toFixed(2)}
-                </span>
-
-              </div>
-
-
-              <div
-                class="payment-row"
-              >
-
-                <span>
-                  Membership Fee
-                </span>
-
-                <span>
-                  ₹${Number(
-                    member.membershipFee || 0
-                  ).toFixed(2)}
-                </span>
-
-              </div>
-
-
-              <div
-                class="payment-total"
-              >
-
-                <span>
-                  TOTAL PAID
-                </span>
-
-                <span>
-                  ₹${totalPaid.toFixed(2)}
-                </span>
-
-              </div>
-
-
-            </div>
-
-
-          </div>
-
-
-          <div
-            class="thank-you"
-          >
-
-            Thank you for joining
-            डोले Wala Gym!
-
-          </div>
-
-
-          <div
-            class="stay-fit"
-          >
-
-            Stay Fit • Stay Strong
-
-          </div>
-
-
-          <div
-            class="receipt-footer"
-          >
-
-
-            <div
-              class="footer-left"
-            >
-
-              <div
-                class="footer-title"
-              >
-
-                Contact & Social
-
-              </div>
-
-
-              📞 9911444809<br>
-
-              📸 @dole_wala_gym<br>
-
-              ✉️ dolewalagym@gmail.com
-
-
-              <br><br>
-
-
-              <b>
-                Thank you for choosing us.
-              </b>
-
-            </div>
-
-
-            <div
-              class="footer-gym"
-            >
-
-              💪<br>
-
-              डोले Wala Gym
-
-              <br>
-
-              <span
-                style="
-                  font-size:12px;
-                  color:#555;
-                "
-              >
-                NO PAIN • NO GAIN
-              </span>
-
-            </div>
-
-
-          </div>
-
-
-        </div>
-
-      `;
-
-
-      /* WAIT FOR PHOTO */
-
-      await new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            300
-          )
-      );
-
-
-      try {
-
-
-        const canvas =
-          await html2canvas(
-            receiptContainer
-              .querySelector(
-                ".receipt-page"
-              ),
-            {
-              scale: 2,
-              useCORS: true,
-              backgroundColor:
-                "#ffffff"
-            }
-          );
-
-
-        const imgData =
-          canvas.toDataURL(
-            "image/jpeg",
-            0.95
-          );
-
-
-        const {
-          jsPDF
-        } =
-          window.jspdf;
-
-
-        const pdf =
-          new jsPDF(
-            "p",
-            "mm",
-            "a4"
-          );
-
-
-        const pageWidth =
-          pdf.internal
-            .pageSize
-            .getWidth();
-
-
-        const pageHeight =
-          pdf.internal
-            .pageSize
-            .getHeight();
-
-
-        const imgWidth =
-          pageWidth;
-
-
-        const imgHeight =
-          canvas.height *
-          imgWidth /
-          canvas.width;
-
-
-        let finalHeight =
-          imgHeight;
-
-
-        if (
-          finalHeight >
-          pageHeight
-        ) {
-
-          finalHeight =
-            pageHeight;
-
-        }
-
-
-        pdf.addImage(
-          imgData,
-          "JPEG",
-          0,
-          0,
-          imgWidth,
-          finalHeight
-        );
-
-
-        const safeName =
-          String(
-            member.name
-          )
-          .replace(
-            /[^a-zA-Z0-9]/g,
-            "_"
-          );
-
-
-        pdf.save(
-          "Dole_Wala_Gym_Receipt_" +
-          safeName +
-          ".pdf"
-        );
-
-
-      }
-
-      catch(error) {
-
-        console.error(
-          error
-        );
-
-        alert(
-          "❌ PDF banane mein problem aa gayi. Page ko refresh karke dobara try karein."
-        );
-
-      }
-
-
-      receiptContainer.innerHTML =
-        "";
-
-    }
-
-
-    /* =================================
-       START APP
-    ================================= */
-
-    updateExpiredStatus();
-
-    updateDashboard();
-
-    displayMembers();
-
-
-  </script>
-
-
-  <!-- PDF LIBRARIES -->
-
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-  ></script>
-
-
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
-  ></script>
-
+</script>
 
 </body>
-
 </html>
