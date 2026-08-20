@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>डोले Wala Gym</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -10,221 +11,705 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101010;color:#fff;font-family:Arial,sans-serif}
-button,input,select,textarea{font:inherit}
-button{border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font-weight:bold}
-input,select,textarea{width:100%;padding:12px;margin-top:6px;margin-bottom:12px;background:#181818;color:#fff;border:1px solid #444;border-radius:8px}
-textarea{min-height:90px;resize:vertical}
-.hidden{display:none!important}
-header{background:#000;padding:18px;text-align:center;border-bottom:2px solid #333}
-header h1{margin:0;font-size:28px}
-header p{margin:6px 0;color:#aaa}
-.container{max-width:1250px;margin:auto;padding:15px}
-.card{background:#191919;border:1px solid #333;border-radius:13px;padding:18px;margin-bottom:18px}
-.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.stat{background:#222;border:1px solid #333;padding:18px;border-radius:10px;text-align:center}
-.stat span{display:block;color:#aaa}
-.stat strong{display:block;font-size:30px;margin-top:7px}
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.btn{background:#fff;color:#000}
-.green{background:#087f23;color:#fff}
-.red{background:#b00020;color:#fff}
-.yellow{background:#b88a00;color:#fff}
-.gray{background:#333;color:#fff}
-.whatsapp{background:#25D366;color:#fff}
-.search{margin-bottom:15px}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:950px}
-th,td{padding:10px;border-bottom:1px solid #333;text-align:left;vertical-align:middle}
-th{background:#222}
-.member-photo{width:58px;height:58px;border-radius:9px;object-fit:cover;background:#333}
-.status{font-weight:bold}
-.active{color:#36e36b}
-.expired{color:#ff4b4b}
-.expiring{color:#ffd43b}
-.login-page{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
-.login-box{width:100%;max-width:400px;background:#191919;border:1px solid #444;border-radius:15px;padding:25px}
-.login-box h1{text-align:center}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;padding:15px}
-.modal-box{background:#191919;border:1px solid #444;border-radius:15px;padding:20px;width:100%;max-width:620px;max-height:92vh;overflow:auto}
-.big-photo{width:240px;height:240px;object-fit:cover;border-radius:15px;display:block;margin:0 auto 18px;background:#333}
-.detail{padding:10px 0;border-bottom:1px solid #333}
-.detail b{color:#aaa}
-.actions{display:flex;flex-wrap:wrap;gap:5px}
-.top-actions{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:15px}
-.message{background:#222;border:1px solid #444;padding:10px;border-radius:8px;margin-bottom:12px}
-.sync{font-size:13px;color:#aaa;margin-top:8px}
-@media(max-width:800px){.dashboard{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}}
-@media(max-width:500px){header h1{font-size:22px}.container{padding:10px}.card{padding:13px}button{padding:10px 12px}}
+
+body{
+  margin:0;
+  background:#101010;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:11px 15px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  margin-bottom:12px;
+  background:#181818;
+  color:#fff;
+  border:1px solid #444;
+  border-radius:8px;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.hidden{
+  display:none!important;
+}
+
+header{
+  background:#000;
+  padding:18px;
+  text-align:center;
+  border-bottom:2px solid #333;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+header p{
+  margin:6px 0;
+  color:#aaa;
+}
+
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:15px;
+}
+
+.card{
+  background:#191919;
+  border:1px solid #333;
+  border-radius:13px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.stat{
+  background:#222;
+  border:1px solid #333;
+  padding:18px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.stat span{
+  display:block;
+  color:#aaa;
+}
+
+.stat strong{
+  display:block;
+  font-size:30px;
+  margin-top:7px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.btn{
+  background:#fff;
+  color:#000;
+}
+
+.green{
+  background:#087f23;
+  color:#fff;
+}
+
+.red{
+  background:#b00020;
+  color:#fff;
+}
+
+.yellow{
+  background:#b88a00;
+  color:#fff;
+}
+
+.gray{
+  background:#333;
+  color:#fff;
+}
+
+.whatsapp{
+  background:#25D366;
+  color:#fff;
+}
+
+.search{
+  margin-bottom:15px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:950px;
+}
+
+th,td{
+  padding:10px;
+  border-bottom:1px solid #333;
+  text-align:left;
+  vertical-align:middle;
+}
+
+th{
+  background:#222;
+}
+
+.member-photo{
+  width:58px;
+  height:58px;
+  border-radius:9px;
+  object-fit:cover;
+  background:#333;
+}
+
+.status{
+  font-weight:bold;
+}
+
+.active{
+  color:#36e36b;
+}
+
+.expired{
+  color:#ff4b4b;
+}
+
+.expiring{
+  color:#ffd43b;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+
+.top-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:15px;
+}
+
+.login-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.login-box{
+  width:100%;
+  max-width:400px;
+  background:#191919;
+  border:1px solid #444;
+  border-radius:15px;
+  padding:25px;
+}
+
+.login-box h1{
+  text-align:center;
+}
+
+.message{
+  background:#222;
+  border:1px solid #444;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:12px;
+}
+
+.sync{
+  font-size:13px;
+  color:#aaa;
+  margin-top:8px;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.88);
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.modal-box{
+  background:#191919;
+  border:1px solid #444;
+  border-radius:15px;
+  padding:20px;
+  width:100%;
+  max-width:620px;
+  max-height:92vh;
+  overflow:auto;
+}
+
+.big-photo{
+  width:240px;
+  height:240px;
+  object-fit:cover;
+  border-radius:15px;
+  display:block;
+  margin:0 auto 18px;
+  background:#333;
+}
+
+.detail{
+  padding:10px 0;
+  border-bottom:1px solid #333;
+}
+
+.detail b{
+  color:#aaa;
+}
+
+@media(max-width:800px){
+  .dashboard{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:500px){
+  header h1{
+    font-size:22px;
+  }
+
+  .container{
+    padding:10px;
+  }
+
+  .card{
+    padding:13px;
+  }
+
+  button{
+    padding:10px 12px;
+  }
+}
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
 <div id="loginPage" class="login-page">
-<div class="login-box">
-<h1>💪 डोले Wala Gym</h1>
-<p style="text-align:center;color:#aaa">Gym Management System</p>
 
-<div id="loginError" class="message hidden"></div>
+  <div class="login-box">
 
-<label>Username</label>
-<input id="loginUsername" value="admin">
+    <h1>💪 डोले Wala Gym</h1>
 
-<label>Password</label>
-<input id="loginPassword" type="password" placeholder="Password">
+    <p style="text-align:center;color:#aaa">
+      Gym Management System
+    </p>
 
-<button class="green" style="width:100%" onclick="login()">🔐 Login</button>
+    <div id="loginError" class="message hidden"></div>
 
-<p style="font-size:12px;color:#777;text-align:center">
-Default Login: admin / 1234
-</p>
+    <label>Username</label>
+    <input id="loginUsername" value="admin">
+
+    <label>Password</label>
+    <input id="loginPassword" type="password">
+
+    <button
+      class="green"
+      style="width:100%"
+      onclick="login()">
+      🔐 Login
+    </button>
+
+    <p style="font-size:12px;color:#777;text-align:center">
+      Default Login: admin / 1234
+    </p>
+
+  </div>
+
 </div>
-</div>
+
+
+<!-- APP -->
 
 <div id="app" class="hidden">
 
 <header>
-<h1>💪 डोले Wala Gym</h1>
-<p>Gym Management System</p>
-<button class="gray" onclick="logout()">Logout</button>
+
+  <h1>💪 डोले Wala Gym</h1>
+
+  <p>Gym Management System</p>
+
+  <button class="gray" onclick="logout()">
+    Logout
+  </button>
+
 </header>
+
 
 <div class="container">
 
-<div class="card">
-<h2>📊 Dashboard</h2>
-<div class="dashboard">
-<div class="stat"><span>Total Members</span><strong id="totalCount">0</strong></div>
-<div class="stat"><span>🟢 Active</span><strong id="activeCount">0</strong></div>
-<div class="stat"><span>🔴 Expired</span><strong id="expiredCount">0</strong></div>
-<div class="stat"><span>🟡 Expiring Soon</span><strong id="expiringCount">0</strong></div>
-</div>
-<div id="syncStatus" class="sync">☁️ Connecting to Supabase...</div>
-</div>
+
+<!-- DASHBOARD -->
 
 <div class="card">
-<h2>💾 Backup / Restore</h2>
-<div class="top-actions">
-<button class="btn" onclick="backupData()">⬇️ Backup</button>
-<label class="btn" style="display:inline-block">
-⬆️ Restore
-<input type="file" id="restoreFile" accept=".json" style="display:none" onchange="restoreData(event)">
-</label>
-<button class="green" onclick="syncNow()">🔄 Sync Now</button>
+
+  <h2>📊 Dashboard</h2>
+
+  <div class="dashboard">
+
+    <div class="stat">
+      <span>Total Members</span>
+      <strong id="totalCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>🟢 Active</span>
+      <strong id="activeCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>🔴 Expired</span>
+      <strong id="expiredCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>🟡 Expiring Soon</span>
+      <strong id="expiringCount">0</strong>
+    </div>
+
+  </div>
+
+  <div id="syncStatus" class="sync">
+    ☁️ Connecting to Supabase...
+  </div>
+
 </div>
-</div>
+
+
+<!-- BACKUP -->
 
 <div class="card">
-<h2 id="formTitle">👤 Add Member</h2>
-<div id="formMessage" class="message hidden"></div>
 
-<form id="memberForm">
-<input type="hidden" id="editingId">
+  <h2>💾 Backup / Restore</h2>
 
-<div class="form-grid">
+  <div class="top-actions">
 
-<div><label>Name *</label><input id="name" required></div>
-<div><label>Phone *</label><input id="phone" required type="tel"></div>
-<div><label>Entry Fee ₹</label><input id="entryFee" type="number" value="0"></div>
-<div><label>Membership Fee ₹</label><input id="membershipFee" type="number" value="0"></div>
-<div><label>Joining Date</label><input id="joiningDate" type="date"></div>
-<div><label>Expiry Date</label><input id="expiryDate" type="date"></div>
+    <button class="btn" onclick="backupData()">
+      ⬇️ Backup
+    </button>
 
-<div>
-<label>Plan</label>
-<select id="plan">
-<option value="">Select Plan</option>
-<option>1 Month</option>
-<option>3 Months</option>
-<option>6 Months</option>
-<option>12 Months</option>
-</select>
-</div>
+    <label class="btn" style="display:inline-block">
 
-<div>
-<label>Gender</label>
-<select id="gender">
-<option value="">Select Gender</option>
-<option>Male</option>
-<option>Female</option>
-<option>Other</option>
-</select>
-</div>
+      ⬆️ Restore
 
-<div>
-<label>Status</label>
-<select id="manualStatus">
-<option value="auto">Automatic</option>
-<option value="Active">Active</option>
-<option value="Expired">Expired</option>
-<option value="Expiring Soon">Expiring Soon</option>
-</select>
-</div>
+      <input
+        type="file"
+        id="restoreFile"
+        accept=".json"
+        style="display:none"
+        onchange="restoreData(event)">
 
-<div><label>Photo</label><input id="photo" type="file" accept="image/*"></div>
+    </label>
+
+    <button class="green" onclick="syncNow()">
+      🔄 Sync Now
+    </button>
+
+  </div>
 
 </div>
 
-<label>Notes</label>
-<textarea id="notes"></textarea>
 
-<button class="green" type="submit">💾 Save Member</button>
-<button class="gray" type="button" onclick="resetForm()">Clear</button>
-</form>
-</div>
+<!-- ADD MEMBER -->
 
 <div class="card">
-<h2>👥 Members</h2>
-<input class="search" id="search" placeholder="🔍 Search by name or phone..." oninput="searchMembers()">
 
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>Photo</th>
-<th>Name</th>
-<th>Phone</th>
-<th>Plan</th>
-<th>Joining</th>
-<th>Expiry</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody id="memberList"></tbody>
-</table>
+  <h2 id="formTitle">
+    👤 Add Member
+  </h2>
+
+  <div id="formMessage" class="message hidden"></div>
+
+  <form id="memberForm">
+
+    <input
+      type="hidden"
+      id="editingId">
+
+    <div class="form-grid">
+
+      <div>
+        <label>Name *</label>
+        <input id="name" required>
+      </div>
+
+      <div>
+        <label>Phone *</label>
+        <input
+          id="phone"
+          required
+          type="tel">
+      </div>
+
+      <div>
+        <label>Entry Fee ₹</label>
+        <input
+          id="entryFee"
+          type="number"
+          value="0">
+      </div>
+
+      <div>
+        <label>Membership Fee ₹</label>
+        <input
+          id="membershipFee"
+          type="number"
+          value="0">
+      </div>
+
+      <div>
+        <label>Joining Date</label>
+        <input
+          id="joiningDate"
+          type="date">
+      </div>
+
+      <div>
+        <label>Expiry Date</label>
+        <input
+          id="expiryDate"
+          type="date">
+      </div>
+
+      <div>
+
+        <label>Plan</label>
+
+        <select id="plan">
+
+          <option value="">
+            Select Plan
+          </option>
+
+          <option>1 Month</option>
+          <option>3 Months</option>
+          <option>6 Months</option>
+          <option>12 Months</option>
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <label>Gender</label>
+
+        <select id="gender">
+
+          <option value="">
+            Select Gender
+          </option>
+
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <label>Status</label>
+
+        <select id="manualStatus">
+
+          <option value="auto">
+            Automatic
+          </option>
+
+          <option value="Active">
+            Active
+          </option>
+
+          <option value="Expired">
+            Expired
+          </option>
+
+          <option value="Expiring Soon">
+            Expiring Soon
+          </option>
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <label>Photo</label>
+
+        <input
+          id="photo"
+          type="file"
+          accept="image/*">
+
+      </div>
+
+    </div>
+
+
+    <label>Notes</label>
+
+    <textarea id="notes"></textarea>
+
+
+    <button
+      class="green"
+      type="submit">
+      💾 Save Member
+    </button>
+
+    <button
+      class="gray"
+      type="button"
+      onclick="resetForm()">
+      Clear
+    </button>
+
+  </form>
+
 </div>
+
+
+<!-- MEMBERS -->
+
+<div class="card">
+
+  <h2>👥 Members</h2>
+
+  <input
+    class="search"
+    id="search"
+    placeholder="🔍 Search by name or phone..."
+    oninput="searchMembers()">
+
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Plan</th>
+          <th>Joining</th>
+          <th>Expiry</th>
+          <th>Status</th>
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="memberList"></tbody>
+
+    </table>
+
+  </div>
+
 </div>
 
 </div>
 </div>
+
+
+<!-- PROFILE MODAL -->
 
 <div id="profileModal" class="modal hidden">
-<div class="modal-box">
-<button class="red" style="float:right" onclick="closeProfile()">✕</button>
-<h2>👤 Member Profile</h2>
 
-<img id="profilePhoto" class="big-photo">
+  <div class="modal-box">
 
-<div id="profileDetails"></div>
+    <button
+      class="red"
+      style="float:right"
+      onclick="closeProfile()">
+      ✕
+    </button>
 
-<br>
+    <h2>👤 Member Profile</h2>
 
-<div class="actions">
-<button class="btn" onclick="profileEdit()">✏️ Edit</button>
-<button class="btn" onclick="createReceipt()">🧾 Payment Receipt</button>
-<button class="whatsapp" onclick="whatsappShare()">📲 WhatsApp</button>
-<button class="green" onclick="renewMembership()">🔄 Renew</button>
+    <img
+      id="profilePhoto"
+      class="big-photo"
+      alt="Member Photo">
+
+
+    <div id="profileDetails"></div>
+
+    <br>
+
+    <div class="actions">
+
+      <button
+        class="btn"
+        onclick="profileEdit()">
+        ✏️ Edit
+      </button>
+
+      <button
+        class="btn"
+        onclick="createReceipt()">
+        🧾 Payment Receipt
+      </button>
+
+      <button
+        class="whatsapp"
+        onclick="whatsappShare()">
+        📲 WhatsApp
+      </button>
+
+      <button
+        class="green"
+        onclick="renewMembership()">
+        🔄 Renew
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
-</div>
-</div>
+
 
 <script>
 
-/* =========================================================
-   SUPABASE CONFIG
-========================================================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
 "https://plmmftyfnxreylqfphag.supabase.co";
@@ -234,1072 +719,1620 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 const TABLE = "members";
-const PHOTO_BUCKET = "member-photos";
 
-const STORAGE_KEY = "doleWalaGymMembers";
+const PHOTO_BUCKET =
+"member-photos";
+
+const STORAGE_KEY =
+"doleWalaGymMembers";
 
 let members = [];
+
 let currentProfileId = null;
-let syncing = false;
 
 
-/* =========================================================
+/* =====================================================
    LOGIN
-========================================================= */
+===================================================== */
 
 function login(){
 
-const username =
-document.getElementById("loginUsername").value.trim();
+  const username =
+  document.getElementById(
+    "loginUsername"
+  ).value.trim();
 
-const password =
-document.getElementById("loginPassword").value;
+  const password =
+  document.getElementById(
+    "loginPassword"
+  ).value;
 
-if(username === "admin" && password === "1234"){
+  if(
+    username === "admin" &&
+    password === "1234"
+  ){
 
-localStorage.setItem(
-"doleWalaGymLoggedIn",
-"true"
-);
+    localStorage.setItem(
+      "doleWalaGymLoggedIn",
+      "true"
+    );
 
-showApp();
+    showApp();
 
-}else{
+  }else{
 
-const box =
-document.getElementById("loginError");
+    const box =
+    document.getElementById(
+      "loginError"
+    );
 
-box.textContent =
-"Username ya password galat hai.";
+    box.textContent =
+    "Username ya password galat hai.";
 
-box.classList.remove("hidden");
+    box.classList.remove(
+      "hidden"
+    );
+
+  }
 
 }
 
-}
 
 function logout(){
 
-localStorage.removeItem(
-"doleWalaGymLoggedIn"
-);
+  localStorage.removeItem(
+    "doleWalaGymLoggedIn"
+  );
 
-location.reload();
+  location.reload();
 
 }
+
 
 function showApp(){
 
-document.getElementById("loginPage")
-.classList.add("hidden");
+  document
+  .getElementById("loginPage")
+  .classList.add("hidden");
 
-document.getElementById("app")
-.classList.remove("hidden");
+  document
+  .getElementById("app")
+  .classList.remove("hidden");
 
-loadApp();
+  loadApp();
 
 }
 
 
-/* =========================================================
-   LOCAL DATA
-========================================================= */
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
 
 function saveLocal(){
 
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(members)
-);
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(members)
+  );
 
 }
+
 
 function loadLocal(){
 
-try{
+  try{
 
-const saved =
-localStorage.getItem(STORAGE_KEY);
+    const data =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
 
-members =
-saved
-? JSON.parse(saved)
-: [];
+    members =
+    data
+    ? JSON.parse(data)
+    : [];
 
-}catch(e){
+  }catch(error){
 
-members=[];
+    members = [];
+
+  }
 
 }
 
+
+/* =====================================================
+   UUID
+===================================================== */
+
+function newId(){
+
+  return crypto.randomUUID();
+
 }
 
 
-/* =========================================================
+/* =====================================================
    STATUS
-========================================================= */
+===================================================== */
 
 function getStatus(member){
 
-if(!member.expiryDate)
-return member.status || "Active";
+  if(!member.expiryDate)
+    return member.status || "Active";
 
-const today = new Date();
-today.setHours(0,0,0,0);
+  const today =
+  new Date();
 
-const expiry = new Date(member.expiryDate);
-expiry.setHours(0,0,0,0);
+  today.setHours(
+    0,0,0,0
+  );
 
-const diff =
-Math.ceil(
-(expiry-today)/86400000
-);
+  const expiry =
+  new Date(
+    member.expiryDate
+  );
 
-if(diff < 0)
-return "Expired";
+  expiry.setHours(
+    0,0,0,0
+  );
 
-if(diff <= 7)
-return "Expiring Soon";
+  const days =
+  Math.ceil(
+    (expiry-today) /
+    86400000
+  );
 
-return "Active";
+  if(days < 0)
+    return "Expired";
+
+  if(days <= 7)
+    return "Expiring Soon";
+
+  return "Active";
 
 }
+
 
 function updateStatuses(){
 
-members.forEach(m=>{
-m.status=getStatus(m);
-});
+  members.forEach(
+    member=>{
+      member.status =
+      getStatus(member);
+    }
+  );
 
-saveLocal();
+  saveLocal();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SUPABASE LOAD
-========================================================= */
+===================================================== */
 
 async function loadFromSupabase(){
 
-setSync("☁️ Loading members from Supabase...");
+  setSync(
+    "☁️ Loading Supabase..."
+  );
 
-const {data,error} =
-await supabaseClient
-.from(TABLE)
-.select("*")
-.order("created_at",{ascending:false});
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+  .from(TABLE)
+  .select("*")
+  .order(
+    "created_at",
+    {ascending:false}
+  );
 
-if(error){
 
-console.error(error);
+  if(error){
 
-setSync(
-"⚠️ Supabase connection error"
-);
+    console.error(
+      "Supabase load error:",
+      error
+    );
 
-return false;
+    setSync(
+      "⚠️ Supabase error: " +
+      error.message
+    );
+
+    return false;
+
+  }
+
+
+  members =
+  (data || [])
+  .map(row=>({
+
+    id:
+    String(row.id),
+
+    createdAt:
+    row.created_at ||
+    row.created ||
+    new Date().toISOString(),
+
+    name:
+    row.name ||
+    row.Name ||
+    "",
+
+    phone:
+    row.phone ||
+    row.Phone ||
+    "",
+
+    entryFee:
+    Number(
+      row.entry_fee ||
+      row.entryFee ||
+      0
+    ),
+
+    membershipFee:
+    Number(
+      row.membership_fee ||
+      row.membershipFee ||
+      0
+    ),
+
+    joiningDate:
+    row.joining_date ||
+    row.joiningDate ||
+    "",
+
+    expiryDate:
+    row.expiry_date ||
+    row.expiryDate ||
+    "",
+
+    plan:
+    row.plan ||
+    "",
+
+    gender:
+    row.gender ||
+    "",
+
+    status:
+    row.status ||
+    "Active",
+
+    notes:
+    row.notes ||
+    "",
+
+    photoPath:
+    row.photo_path ||
+    row.photoPath ||
+    ""
+
+  }));
+
+
+  updateStatuses();
+
+  saveLocal();
+
+  setSync(
+    "☁️ Supabase connected • Data synced"
+  );
+
+  return true;
 
 }
 
-members =
-(data || []).map(row=>({
 
-id:Number(row.id),
-createdAt:row.created_at,
-
-name:row.name || "",
-phone:row.phone || "",
-
-entryFee:Number(row.entry_fee || 0),
-membershipFee:Number(row.membership_fee || 0),
-
-joiningDate:row.joining_date || "",
-expiryDate:row.expiry_date || "",
-
-plan:row.plan || "",
-gender:row.gender || "",
-status:row.status || "Active",
-notes:row.notes || "",
-
-photoPath:row.photo_path || ""
-
-}));
-
-updateStatuses();
-
-saveLocal();
-
-setSync(
-"☁️ Connected • Data synced"
-);
-
-return true;
-
-}
-
-
-/* =========================================================
-   SUPABASE SAVE MEMBER
-========================================================= */
+/* =====================================================
+   SUPABASE SAVE
+===================================================== */
 
 async function saveMemberToSupabase(member){
 
-const row={
+  const row = {
 
-id:Number(member.id),
+    id:
+    String(member.id),
 
-name:member.name,
+    name:
+    member.name || "",
 
-phone:member.phone,
+    phone:
+    member.phone || "",
 
-entry_fee:Number(member.entryFee || 0),
+    entry_fee:
+    Number(
+      member.entryFee || 0
+    ),
 
-membership_fee:Number(member.membershipFee || 0),
+    membership_fee:
+    Number(
+      member.membershipFee || 0
+    ),
 
-joining_date:
-member.joiningDate || null,
+    joining_date:
+    member.joiningDate || null,
 
-expiry_date:
-member.expiryDate || null,
+    expiry_date:
+    member.expiryDate || null,
 
-plan:member.plan || null,
+    plan:
+    member.plan || null,
 
-gender:member.gender || null,
+    gender:
+    member.gender || null,
 
-status:
-getStatus(member),
+    status:
+    getStatus(member),
 
-notes:member.notes || null,
+    notes:
+    member.notes || null,
 
-photo_path:
-member.photoPath || null
+    photo_path:
+    member.photoPath || null
 
-};
-
-const {data,error} =
-await supabaseClient
-.from(TABLE)
-.upsert(row,{onConflict:"id"})
-.select()
-.single();
-
-if(error){
-
-console.error(
-"Supabase save error:",
-error
-);
-
-throw error;
-
-}
-
-return data;
-
-}
+  };
 
 
-/* =========================================================
-   PHOTO UPLOAD
-========================================================= */
-
-async function uploadPhoto(id,file){
-
-if(!file)
-return null;
-
-const extension =
-(file.name.split(".").pop() || "jpg")
-.toLowerCase()
-.replace(/[^a-z0-9]/g,"");
-
-const path =
-id + "-" + Date.now() + "." + extension;
+  const {
+    error
+  } =
+  await supabaseClient
+  .from(TABLE)
+  .upsert(
+    row,
+    {
+      onConflict:"id"
+    }
+  );
 
 
-/* remove old photo first */
+  if(error){
 
-const member =
-members.find(
-m=>String(m.id)===String(id)
-);
+    console.error(
+      "SUPABASE SAVE ERROR:",
+      error
+    );
 
-if(member && member.photoPath){
+    throw error;
 
-await supabaseClient
-.storage
-.from(PHOTO_BUCKET)
-.remove([member.photoPath]);
+  }
 
 }
 
 
-const {error} =
-await supabaseClient
-.storage
-.from(PHOTO_BUCKET)
-.upload(
-path,
-file,
-{
-upsert:true,
-contentType:file.type
-}
-);
+/* =====================================================
+   PHOTO
+===================================================== */
 
-if(error){
+async function uploadPhoto(
+  id,
+  file
+){
 
-console.error(
-"Photo upload error:",
-error
-);
+  if(!file)
+    return null;
 
-throw error;
 
-}
+  const extension =
+  (
+    file.name
+    .split(".")
+    .pop() ||
+    "jpg"
+  )
+  .toLowerCase()
+  .replace(
+    /[^a-z0-9]/g,
+    ""
+  );
 
-return path;
+
+  const path =
+  String(id) +
+  "-" +
+  Date.now() +
+  "." +
+  extension;
+
+
+  const {
+    error
+  } =
+  await supabaseClient
+  .storage
+  .from(PHOTO_BUCKET)
+  .upload(
+    path,
+    file,
+    {
+      upsert:true,
+      contentType:
+      file.type
+    }
+  );
+
+
+  if(error)
+    throw error;
+
+
+  return path;
 
 }
 
 
 function photoUrl(path){
 
-if(!path)
-return "";
+  if(!path)
+    return "";
 
-const {data} =
-supabaseClient
-.storage
-.from(PHOTO_BUCKET)
-.getPublicUrl(path);
 
-return data.publicUrl;
+  const {
+    data
+  } =
+  supabaseClient
+  .storage
+  .from(PHOTO_BUCKET)
+  .getPublicUrl(path);
+
+
+  return data.publicUrl;
 
 }
 
 
-/* =========================================================
-   ADD / EDIT
-========================================================= */
+/* =====================================================
+   FORM SAVE
+===================================================== */
 
 document
 .getElementById("memberForm")
 .addEventListener(
 "submit",
-async function(e){
+async function(event){
 
-e.preventDefault();
-
-const button =
-this.querySelector(
-"button[type=submit]"
-);
-
-button.disabled=true;
-button.textContent="Saving...";
-
-try{
-
-const idValue =
-document.getElementById("editingId").value;
-
-const editing =
-!!idValue;
-
-let member;
-
-if(editing){
-
-member =
-members.find(
-m=>String(m.id)===String(idValue)
-);
-
-if(!member)
-throw new Error(
-"Member not found"
-);
-
-}else{
-
-member={
-id:Date.now(),
-createdAt:new Date().toISOString()
-};
-
-}
+  event.preventDefault();
 
 
-member.name =
-document.getElementById("name").value.trim();
+  const button =
+  this.querySelector(
+    "button[type=submit]"
+  );
 
-member.phone =
-document.getElementById("phone").value.trim();
+  button.disabled=true;
 
-member.entryFee =
-Number(
-document.getElementById("entryFee").value
-)||0;
-
-member.membershipFee =
-Number(
-document.getElementById("membershipFee").value
-)||0;
-
-member.joiningDate =
-document.getElementById("joiningDate").value;
-
-member.expiryDate =
-document.getElementById("expiryDate").value;
-
-member.plan =
-document.getElementById("plan").value;
-
-member.gender =
-document.getElementById("gender").value;
-
-member.status =
-getStatus(member);
-
-member.notes =
-document.getElementById("notes").value;
-
-const photoFile =
-document.getElementById("photo").files[0];
-
-if(photoFile){
-
-member.photoPath =
-await uploadPhoto(
-member.id,
-photoFile
-);
-
-}
-
-await saveMemberToSupabase(
-member
-);
-
-if(!editing){
-
-members.unshift(member);
-
-}
-
-updateStatuses();
-
-saveLocal();
-
-displayMembers();
-
-updateDashboard();
-
-resetForm();
-
-showMessage(
-editing
-? "✅ Member updated successfully."
-: "✅ Member added successfully."
-);
-
-setSync(
-"☁️ Saved to Supabase"
-);
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"❌ Save nahi hua.\n\n" +
-(error.message || error)
-);
-
-}finally{
-
-button.disabled=false;
-button.textContent="💾 Save Member";
-
-}
-
-}
-);
+  button.textContent =
+  "Saving...";
 
 
-/* =========================================================
+  try{
+
+    const editingId =
+    document
+    .getElementById(
+      "editingId"
+    )
+    .value;
+
+
+    const editing =
+    !!editingId;
+
+
+    let member;
+
+
+    if(editing){
+
+      member =
+      members.find(
+        m =>
+        String(m.id) ===
+        String(editingId)
+      );
+
+
+      if(!member)
+        throw new Error(
+          "Member not found"
+        );
+
+    }else{
+
+      member = {
+
+        id:
+        newId(),
+
+        createdAt:
+        new Date()
+        .toISOString(),
+
+        name:"",
+        phone:"",
+        entryFee:0,
+        membershipFee:0,
+        joiningDate:"",
+        expiryDate:"",
+        plan:"",
+        gender:"",
+        status:"Active",
+        notes:"",
+        photoPath:""
+
+      };
+
+    }
+
+
+    member.name =
+    document
+    .getElementById("name")
+    .value
+    .trim();
+
+
+    member.phone =
+    document
+    .getElementById("phone")
+    .value
+    .trim();
+
+
+    member.entryFee =
+    Number(
+      document
+      .getElementById(
+        "entryFee"
+      )
+      .value
+    ) || 0;
+
+
+    member.membershipFee =
+    Number(
+      document
+      .getElementById(
+        "membershipFee"
+      )
+      .value
+    ) || 0;
+
+
+    member.joiningDate =
+    document
+    .getElementById(
+      "joiningDate"
+    )
+    .value;
+
+
+    member.expiryDate =
+    document
+    .getElementById(
+      "expiryDate"
+    )
+    .value;
+
+
+    member.plan =
+    document
+    .getElementById(
+      "plan"
+    )
+    .value;
+
+
+    member.gender =
+    document
+    .getElementById(
+      "gender"
+    )
+    .value;
+
+
+    member.notes =
+    document
+    .getElementById(
+      "notes"
+    )
+    .value;
+
+
+    member.status =
+    getStatus(member);
+
+
+    const photoFile =
+    document
+    .getElementById(
+      "photo"
+    )
+    .files[0];
+
+
+    if(photoFile){
+
+      member.photoPath =
+      await uploadPhoto(
+        member.id,
+        photoFile
+      );
+
+    }
+
+
+    await saveMemberToSupabase(
+      member
+    );
+
+
+    if(!editing){
+
+      members.unshift(
+        member
+      );
+
+    }
+
+
+    updateStatuses();
+
+    saveLocal();
+
+    displayMembers();
+
+    updateDashboard();
+
+    resetForm();
+
+
+    showMessage(
+      editing
+      ? "✅ Member updated successfully."
+      : "✅ Member added successfully."
+    );
+
+
+    setSync(
+      "☁️ Saved to Supabase"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+    alert(
+      "❌ Save nahi hua\n\n" +
+      error.message
+    );
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent =
+    "💾 Save Member";
+
+  }
+
+});
+
+
+/* =====================================================
    DISPLAY
-========================================================= */
+===================================================== */
 
-async function displayMembers(list=members){
+function displayMembers(
+  list = members
+){
 
-const tbody =
-document.getElementById("memberList");
+  const tbody =
+  document
+  .getElementById(
+    "memberList"
+  );
 
-tbody.innerHTML="";
 
-if(!list.length){
+  tbody.innerHTML="";
 
-tbody.innerHTML=
-`<tr>
-<td colspan="8" style="text-align:center">
-No members found
-</td>
-</tr>`;
 
-return;
+  if(!list.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8"
+        style="text-align:center">
+          No members found
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  list.forEach(
+  member=>{
+
+    const tr =
+    document.createElement(
+      "tr"
+    );
+
+
+    const photo =
+    photoUrl(
+      member.photoPath
+    );
+
+
+    const status =
+    getStatus(member);
+
+
+    const statusClass =
+    status === "Active"
+    ? "active"
+    :
+    status === "Expired"
+    ? "expired"
+    : "expiring";
+
+
+    tr.innerHTML = `
+
+      <td>
+
+        ${
+          photo
+          ?
+          `<img
+             src="${photo}"
+             class="member-photo">`
+          :
+          `<div
+             class="member-photo"
+             style="
+               display:flex;
+               align-items:center;
+               justify-content:center
+             ">
+             👤
+           </div>`
+        }
+
+      </td>
+
+
+      <td>
+        <b>
+          ${safe(member.name)}
+        </b>
+      </td>
+
+
+      <td>
+        ${safe(member.phone)}
+      </td>
+
+
+      <td>
+        ${safe(member.plan)}
+      </td>
+
+
+      <td>
+        ${safe(member.joiningDate)}
+      </td>
+
+
+      <td>
+        ${safe(member.expiryDate)}
+      </td>
+
+
+      <td>
+
+        <span
+          class="status ${statusClass}">
+
+          ${
+            status === "Active"
+            ? "🟢 Active"
+            :
+            status === "Expired"
+            ? "🔴 Expired"
+            :
+            "🟡 Expiring Soon"
+          }
+
+        </span>
+
+      </td>
+
+
+      <td>
+
+        <div class="actions">
+
+          <button
+            class="btn"
+            onclick="viewMember('${member.id}')">
+            👁️
+          </button>
+
+          <button
+            class="btn"
+            onclick="editMember('${member.id}')">
+            ✏️
+          </button>
+
+          <button
+            class="red"
+            onclick="deleteMember('${member.id}')">
+            🗑️
+          </button>
+
+        </div>
+
+      </td>
+
+    `;
+
+
+    tbody.appendChild(
+      tr
+    );
+
+  });
 
 }
 
-for(const member of list){
 
-const tr =
-document.createElement("tr");
-
-const photo =
-photoUrl(member.photoPath);
-
-const status =
-getStatus(member);
-
-const statusClass =
-status==="Active"
-?"active"
-:
-status==="Expired"
-?"expired"
-:"expiring";
-
-tr.innerHTML=`
-
-<td>
-${
-photo
-?
-`<img src="${photo}" class="member-photo">`
-:
-`<div class="member-photo"
-style="display:flex;align-items:center;justify-content:center">
-👤
-</div>`
-}
-</td>
-
-<td><b>${safe(member.name)}</b></td>
-
-<td>${safe(member.phone)}</td>
-
-<td>${safe(member.plan)}</td>
-
-<td>${safe(member.joiningDate)}</td>
-
-<td>${safe(member.expiryDate)}</td>
-
-<td>
-<span class="status ${statusClass}">
-${
-status==="Active"
-?"🟢 Active"
-:
-status==="Expired"
-?"🔴 Expired"
-:"🟡 Expiring Soon"
-}
-</span>
-</td>
-
-<td>
-<div class="actions">
-
-<button class="btn"
-onclick="viewMember(${member.id})">
-👁️
-</button>
-
-<button class="btn"
-onclick="editMember(${member.id})">
-✏️
-</button>
-
-<button class="red"
-onclick="deleteMember(${member.id})">
-🗑️
-</button>
-
-</div>
-</td>
-`;
-
-tbody.appendChild(tr);
-
-}
-
-}
-
-
-/* =========================================================
+/* =====================================================
    SEARCH
-========================================================= */
+===================================================== */
 
 function searchMembers(){
 
-const q =
-document.getElementById("search")
-.value
-.toLowerCase()
-.trim();
+  const q =
+  document
+  .getElementById(
+    "search"
+  )
+  .value
+  .toLowerCase()
+  .trim();
 
-if(!q){
 
-displayMembers();
-return;
+  if(!q){
+
+    displayMembers();
+
+    return;
+
+  }
+
+
+  const result =
+  members.filter(
+    member =>
+
+    String(
+      member.name
+    )
+    .toLowerCase()
+    .includes(q)
+
+    ||
+
+    String(
+      member.phone
+    )
+    .toLowerCase()
+    .includes(q)
+  );
+
+
+  displayMembers(
+    result
+  );
 
 }
 
-const result =
-members.filter(m=>
-String(m.name)
-.toLowerCase()
-.includes(q)
-||
-String(m.phone)
-.toLowerCase()
-.includes(q)
-);
 
-displayMembers(result);
-
-}
-
-
-/* =========================================================
+/* =====================================================
    PROFILE
-========================================================= */
+===================================================== */
 
 function viewMember(id){
 
-const member =
-members.find(
-m=>String(m.id)===String(id)
-);
+  const member =
+  members.find(
+    m =>
+    String(m.id) ===
+    String(id)
+  );
 
-if(!member)return;
 
-currentProfileId=member.id;
+  if(!member)
+    return;
 
-const img =
-document.getElementById("profilePhoto");
 
-img.src =
-photoUrl(member.photoPath);
+  currentProfileId =
+  member.id;
 
-const status =
-getStatus(member);
 
-document.getElementById(
-"profileDetails"
-).innerHTML=`
+  const img =
+  document
+  .getElementById(
+    "profilePhoto"
+  );
 
-<div class="detail"><b>Name:</b> ${safe(member.name)}</div>
-<div class="detail"><b>Phone:</b> ${safe(member.phone)}</div>
-<div class="detail"><b>Entry Fee:</b> ₹${member.entryFee||0}</div>
-<div class="detail"><b>Membership Fee:</b> ₹${member.membershipFee||0}</div>
-<div class="detail"><b>Plan:</b> ${safe(member.plan)}</div>
-<div class="detail"><b>Gender:</b> ${safe(member.gender)}</div>
-<div class="detail"><b>Joining Date:</b> ${safe(member.joiningDate)}</div>
-<div class="detail"><b>Expiry Date:</b> ${safe(member.expiryDate)}</div>
-<div class="detail"><b>Notes:</b> ${safe(member.notes)}</div>
 
-<div class="detail">
-<b>Status:</b>
-<span class="status ${
-status==="Active"
-?"active"
-:
-status==="Expired"
-?"expired"
-:"expiring"
-}">
-${
-status==="Active"
-?"🟢 Active"
-:
-status==="Expired"
-?"🔴 Expired"
-:"🟡 Expiring Soon"
+  const url =
+  photoUrl(
+    member.photoPath
+  );
+
+
+  img.src =
+  url || "";
+
+
+  const status =
+  getStatus(member);
+
+
+  document
+  .getElementById(
+    "profileDetails"
+  )
+  .innerHTML = `
+
+    <div class="detail">
+      <b>Name:</b>
+      ${safe(member.name)}
+    </div>
+
+    <div class="detail">
+      <b>Phone:</b>
+      ${safe(member.phone)}
+    </div>
+
+    <div class="detail">
+      <b>Entry Fee:</b>
+      ₹${member.entryFee || 0}
+    </div>
+
+    <div class="detail">
+      <b>Membership Fee:</b>
+      ₹${member.membershipFee || 0}
+    </div>
+
+    <div class="detail">
+      <b>Plan:</b>
+      ${safe(member.plan)}
+    </div>
+
+    <div class="detail">
+      <b>Gender:</b>
+      ${safe(member.gender)}
+    </div>
+
+    <div class="detail">
+      <b>Joining Date:</b>
+      ${safe(member.joiningDate)}
+    </div>
+
+    <div class="detail">
+      <b>Expiry Date:</b>
+      ${safe(member.expiryDate)}
+    </div>
+
+    <div class="detail">
+      <b>Notes:</b>
+      ${safe(member.notes)}
+    </div>
+
+    <div class="detail">
+
+      <b>Status:</b>
+
+      ${
+        status === "Active"
+        ? "🟢 Active"
+        :
+        status === "Expired"
+        ? "🔴 Expired"
+        :
+        "🟡 Expiring Soon"
+      }
+
+    </div>
+
+  `;
+
+
+  document
+  .getElementById(
+    "profileModal"
+  )
+  .classList.remove(
+    "hidden"
+  );
+
 }
-</span>
-</div>
 
-`;
-
-document.getElementById(
-"profileModal"
-).classList.remove("hidden");
-
-}
 
 function closeProfile(){
 
-document.getElementById(
-"profileModal"
-).classList.add("hidden");
+  document
+  .getElementById(
+    "profileModal"
+  )
+  .classList.add(
+    "hidden"
+  );
 
 }
+
 
 function profileEdit(){
 
-if(currentProfileId){
+  if(currentProfileId){
 
-closeProfile();
+    closeProfile();
 
-editMember(
-currentProfileId
-);
+    editMember(
+      currentProfileId
+    );
+
+  }
 
 }
 
-}
 
-
-/* =========================================================
+/* =====================================================
    EDIT
-========================================================= */
+===================================================== */
 
 function editMember(id){
 
-const member =
-members.find(
-m=>String(m.id)===String(id)
-);
+  const member =
+  members.find(
+    m =>
+    String(m.id) ===
+    String(id)
+  );
 
-if(!member)return;
 
-document.getElementById(
-"editingId"
-).value=member.id;
+  if(!member)
+    return;
 
-document.getElementById(
-"formTitle"
-).textContent="✏️ Edit Member";
 
-document.getElementById("name").value=member.name||"";
-document.getElementById("phone").value=member.phone||"";
-document.getElementById("entryFee").value=member.entryFee||0;
-document.getElementById("membershipFee").value=member.membershipFee||0;
-document.getElementById("joiningDate").value=member.joiningDate||"";
-document.getElementById("expiryDate").value=member.expiryDate||"";
-document.getElementById("plan").value=member.plan||"";
-document.getElementById("gender").value=member.gender||"";
-document.getElementById("manualStatus").value="auto";
-document.getElementById("notes").value=member.notes||"";
-document.getElementById("photo").value="";
+  document
+  .getElementById(
+    "editingId"
+  )
+  .value =
+  member.id;
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+
+  document
+  .getElementById(
+    "formTitle"
+  )
+  .textContent =
+  "✏️ Edit Member";
+
+
+  document
+  .getElementById(
+    "name"
+  )
+  .value =
+  member.name || "";
+
+
+  document
+  .getElementById(
+    "phone"
+  )
+  .value =
+  member.phone || "";
+
+
+  document
+  .getElementById(
+    "entryFee"
+  )
+  .value =
+  member.entryFee || 0;
+
+
+  document
+  .getElementById(
+    "membershipFee"
+  )
+  .value =
+  member.membershipFee || 0;
+
+
+  document
+  .getElementById(
+    "joiningDate"
+  )
+  .value =
+  member.joiningDate || "";
+
+
+  document
+  .getElementById(
+    "expiryDate"
+  )
+  .value =
+  member.expiryDate || "";
+
+
+  document
+  .getElementById(
+    "plan"
+  )
+  .value =
+  member.plan || "";
+
+
+  document
+  .getElementById(
+    "gender"
+  )
+  .value =
+  member.gender || "";
+
+
+  document
+  .getElementById(
+    "notes"
+  )
+  .value =
+  member.notes || "";
+
+
+  document
+  .getElementById(
+    "photo"
+  )
+  .value = "";
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
-/* =========================================================
+/* =====================================================
    DELETE
-========================================================= */
+===================================================== */
 
 async function deleteMember(id){
 
-const member =
-members.find(
-m=>String(m.id)===String(id)
-);
+  const member =
+  members.find(
+    m =>
+    String(m.id) ===
+    String(id)
+  );
 
-if(!member)return;
 
-if(!confirm(
-`Kya aap ${member.name} ko permanently delete karna chahte hain?`
-))return;
+  if(!member)
+    return;
 
-try{
 
-if(member.photoPath){
+  if(
+    !confirm(
+      "Kya aap " +
+      member.name +
+      " ko permanently delete karna chahte hain?"
+    )
+  )
+  return;
 
-await supabaseClient
-.storage
-.from(PHOTO_BUCKET)
-.remove([
-member.photoPath
-]);
+
+  try{
+
+    if(member.photoPath){
+
+      await supabaseClient
+      .storage
+      .from(PHOTO_BUCKET)
+      .remove([
+        member.photoPath
+      ]);
+
+    }
+
+
+    const {
+      error
+    } =
+    await supabaseClient
+    .from(TABLE)
+    .delete()
+    .eq(
+      "id",
+      String(id)
+    );
+
+
+    if(error)
+      throw error;
+
+
+    members =
+    members.filter(
+      m =>
+      String(m.id) !==
+      String(id)
+    );
+
+
+    saveLocal();
+
+    displayMembers();
+
+    updateDashboard();
+
+
+    setSync(
+      "☁️ Member permanently deleted"
+    );
+
+
+  }catch(error){
+
+    alert(
+      "❌ Delete nahi hua\n\n" +
+      error.message
+    );
+
+  }
 
 }
 
-const {error} =
-await supabaseClient
-.from(TABLE)
-.delete()
-.eq("id",id);
 
-if(error)
-throw error;
-
-members =
-members.filter(
-m=>String(m.id)!==String(id)
-);
-
-saveLocal();
-
-displayMembers();
-
-updateDashboard();
-
-setSync(
-"☁️ Member permanently deleted"
-);
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"❌ Delete nahi hua.\n"+
-(error.message||error)
-);
-
-}
-
-}
-
-
-/* =========================================================
-   RENEWAL
-========================================================= */
+/* =====================================================
+   RENEW
+===================================================== */
 
 async function renewMembership(){
 
-const member =
-members.find(
-m=>String(m.id)===String(currentProfileId)
-);
+  const member =
+  members.find(
+    m =>
+    String(m.id) ===
+    String(currentProfileId)
+  );
 
-if(!member)return;
 
-const months =
-prompt(
-"Renewal months enter karein:\n\n1 = 1 Month\n3 = 3 Months\n6 = 6 Months\n12 = 12 Months",
-"1"
-);
+  if(!member)
+    return;
 
-if(!months)return;
 
-const n=Number(months);
+  const months =
+  prompt(
+    "Renewal months enter karein:\n\n1 = 1 Month\n3 = 3 Months\n6 = 6 Months\n12 = 12 Months",
+    "1"
+  );
 
-if(![1,3,6,12].includes(n)){
 
-alert("Sirf 1, 3, 6 ya 12 months allowed hain.");
+  if(!months)
+    return;
 
-return;
+
+  const n =
+  Number(months);
+
+
+  if(
+    ![1,3,6,12]
+    .includes(n)
+  ){
+
+    alert(
+      "Sirf 1, 3, 6 ya 12 months allowed hain."
+    );
+
+    return;
+
+  }
+
+
+  let start =
+  new Date();
+
+
+  if(member.expiryDate){
+
+    const expiry =
+    new Date(
+      member.expiryDate
+    );
+
+    if(
+      expiry > start
+    )
+    start = expiry;
+
+  }
+
+
+  const newExpiry =
+  new Date(start);
+
+
+  newExpiry.setMonth(
+    newExpiry.getMonth() + n
+  );
+
+
+  member.expiryDate =
+  newExpiry
+  .toISOString()
+  .split("T")[0];
+
+
+  member.plan =
+  n === 1
+  ? "1 Month"
+  :
+  n === 3
+  ? "3 Months"
+  :
+  n === 6
+  ? "6 Months"
+  :
+  "12 Months";
+
+
+  member.status =
+  "Active";
+
+
+  try{
+
+    await saveMemberToSupabase(
+      member
+    );
+
+    saveLocal();
+
+    displayMembers();
+
+    updateDashboard();
+
+    viewMember(
+      member.id
+    );
+
+
+    alert(
+      "✅ Membership renewed successfully."
+    );
+
+
+  }catch(error){
+
+    alert(
+      "❌ Renewal save nahi hua\n\n" +
+      error.message
+    );
+
+  }
 
 }
 
-let start;
 
-if(member.expiryDate){
-
-const expiry =
-new Date(member.expiryDate);
-
-const today =
-new Date();
-
-start =
-expiry>today
-?expiry
-:today;
-
-}else{
-
-start=new Date();
-
-}
-
-const newExpiry =
-new Date(start);
-
-newExpiry.setMonth(
-newExpiry.getMonth()+n
-);
-
-member.expiryDate =
-newExpiry.toISOString().split("T")[0];
-
-member.plan =
-n===1
-?"1 Month"
-:
-n===3
-?"3 Months"
-:
-n===6
-?"6 Months"
-:"12 Months";
-
-member.status="Active";
-
-try{
-
-await saveMemberToSupabase(member);
-
-saveLocal();
-
-displayMembers();
-
-updateDashboard();
-
-viewMember(member.id);
-
-alert(
-"✅ Membership renewed successfully."
-);
-
-}catch(error){
-
-alert(
-"❌ Renewal save nahi hua."
-);
-
-}
-
-}
-
-
-/* =========================================================
-   RECEIPT
-========================================================= */
+/* =====================================================
+   PDF RECEIPT
+===================================================== */
 
 function createReceipt(){
 
-const member =
-members.find(
-m=>String(m.id)===String(currentProfileId)
-);
+  const member =
+  members.find(
+    m =>
+    String(m.id) ===
+    String(currentProfileId)
+  );
 
-if(!member)return;
 
-const {jsPDF}=window.jspdf;
+  if(!member)
+    return;
 
-const pdf=new jsPDF();
 
-const total =
-Number(member.entryFee||0)+
-Number(member.membershipFee||0);
+  const {
+    jsPDF
+  } =
+  window.jspdf;
 
-pdf.setFontSize(22);
 
-pdf.text(
-"DOLE WALA GYM",
-105,
-20,
-{align:"center"}
-);
+  const pdf =
+  new jsPDF();
 
-pdf.setFontSize(13);
 
-pdf.text(
-"PAYMENT RECEIPT",
-105,
-30,
-{align:"center"}
-);
+  const total =
+  Number(
+    member.entryFee || 0
+  ) +
+  Number(
+    member.membershipFee || 0
+  );
 
-pdf.line(20,36,190,36);
 
-let y=52;
+  pdf.setFontSize(22);
 
-const lines=[
+  pdf.text(
+    "DOLE WALA GYM",
+    105,
+    20,
+    {align:"center"}
+  );
 
-"Receipt Date: "+
-new Date().toLocaleDateString("en-IN"),
 
-"Member Name: "+member.name,
+  pdf.setFontSize(13);
 
-"Phone: "+member.phone,
+  pdf.text(
+    "PAYMENT RECEIPT",
+    105,
+    30,
+    {align:"center"}
+  );
 
-"Plan: "+(member.plan||"-"),
 
-"Joining Date: "+(member.joiningDate||"-"),
+  pdf.line(
+    20,
+    36,
+    190,
+    36
+  );
 
-"Expiry Date: "+(member.expiryDate||"-"),
 
-"Entry Fee: ₹"+(member.entryFee||0),
+  let y=52;
 
-"Membership Fee: ₹"+(member.membershipFee||0)
 
-];
+  const lines=[
 
-lines.forEach(line=>{
+    "Receipt Date: " +
+    new Date()
+    .toLocaleDateString("en-IN"),
 
-pdf.text(line,20,y);
+    "Member Name: " +
+    member.name,
 
-y+=10;
+    "Phone: " +
+    member.phone,
 
-});
+    "Plan: " +
+    (member.plan || "-"),
 
-y+=8;
+    "Joining Date: " +
+    (member.joiningDate || "-"),
 
-pdf.setFontSize(16);
+    "Expiry Date: " +
+    (member.expiryDate || "-"),
 
-pdf.text(
-"TOTAL PAID: ₹"+total,
-20,
-y
-);
+    "Entry Fee: ₹" +
+    (member.entryFee || 0),
 
-y+=25;
+    "Membership Fee: ₹" +
+    (member.membershipFee || 0)
 
-pdf.setFontSize(11);
+  ];
 
-pdf.text(
-"Thank you for choosing Dole Wala Gym.",
-105,
-y,
-{align:"center"}
-);
 
-pdf.save(
-"Dole-Wala-Gym-Receipt-"+
-member.name.replace(/\s+/g,"-")+
-".pdf"
-);
+  lines.forEach(
+    line=>{
+
+      pdf.text(
+        line,
+        20,
+        y
+      );
+
+      y += 10;
+
+    }
+  );
+
+
+  y += 8;
+
+
+  pdf.setFontSize(16);
+
+  pdf.text(
+    "TOTAL PAID: ₹" +
+    total,
+    20,
+    y
+  );
+
+
+  y += 25;
+
+
+  pdf.setFontSize(11);
+
+  pdf.text(
+    "Thank you for choosing Dole Wala Gym.",
+    105,
+    y,
+    {align:"center"}
+  );
+
+
+  pdf.save(
+    "Dole-Wala-Gym-Receipt-" +
+    member.name
+    .replace(/\s+/g,"-") +
+    ".pdf"
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    WHATSAPP
-========================================================= */
+===================================================== */
 
 function whatsappShare(){
 
-const member =
-members.find(
-m=>String(m.id)===String(currentProfileId)
-);
+  const member =
+  members.find(
+    m =>
+    String(m.id) ===
+    String(currentProfileId)
+  );
 
-if(!member)return;
 
-const total =
-Number(member.entryFee||0)+
-Number(member.membershipFee||0);
+  if(!member)
+    return;
 
-const message =
+
+  const total =
+  Number(
+    member.entryFee || 0
+  ) +
+  Number(
+    member.membershipFee || 0
+  );
+
+
+  const message =
+
 `💪 DOLE WALA GYM
 
 🧾 PAYMENT RECEIPT
@@ -1307,483 +2340,446 @@ const message =
 Name: ${member.name}
 Phone: ${member.phone}
 
-Plan: ${member.plan||"-"}
-Joining Date: ${member.joiningDate||"-"}
-Expiry Date: ${member.expiryDate||"-"}
+Plan: ${member.plan || "-"}
+Joining Date: ${member.joiningDate || "-"}
+Expiry Date: ${member.expiryDate || "-"}
 
-Entry Fee: ₹${member.entryFee||0}
-Membership Fee: ₹${member.membershipFee||0}
+Entry Fee: ₹${member.entryFee || 0}
+Membership Fee: ₹${member.membershipFee || 0}
 
 TOTAL PAID: ₹${total}
 
 Thank you for choosing Dole Wala Gym. 💪`;
 
-let phone =
-String(member.phone)
-.replace(/\D/g,"");
 
-if(phone.length===10)
-phone="91"+phone;
+  let phone =
+  String(
+    member.phone
+  )
+  .replace(
+    /\D/g,
+    ""
+  );
 
-window.open(
-"https://wa.me/"+
-phone+
-"?text="+
-encodeURIComponent(message),
-"_blank"
-);
+
+  if(
+    phone.length === 10
+  )
+  phone =
+  "91" + phone;
+
+
+  window.open(
+    "https://wa.me/" +
+    phone +
+    "?text=" +
+    encodeURIComponent(
+      message
+    ),
+    "_blank"
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    BACKUP
-========================================================= */
+===================================================== */
 
 function backupData(){
 
-const backup={
-gym:"डोले Wala Gym",
-date:new Date().toISOString(),
-members:members
-};
+  const backup={
 
-const blob =
-new Blob(
-[JSON.stringify(backup,null,2)],
-{type:"application/json"}
-);
+    gym:
+    "डोले Wala Gym",
 
-const url =
-URL.createObjectURL(blob);
+    date:
+    new Date().toISOString(),
 
-const a =
-document.createElement("a");
+    members:
+    members
 
-a.href=url;
+  };
 
-a.download=
-"Dole-Wala-Gym-Backup-"+
-new Date().toISOString().split("T")[0]+
-".json";
 
-a.click();
+  const blob =
+  new Blob(
+    [
+      JSON.stringify(
+        backup,
+        null,
+        2
+      )
+    ],
+    {
+      type:
+      "application/json"
+    }
+  );
 
-URL.revokeObjectURL(url);
+
+  const url =
+  URL.createObjectURL(
+    blob
+  );
+
+
+  const a =
+  document.createElement(
+    "a"
+  );
+
+
+  a.href=url;
+
+  a.download =
+  "Dole-Wala-Gym-Backup-" +
+  new Date()
+  .toISOString()
+  .split("T")[0] +
+  ".json";
+
+
+  a.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    RESTORE
-========================================================= */
+===================================================== */
 
 async function restoreData(event){
 
-const file =
-event.target.files[0];
+  const file =
+  event.target.files[0];
 
-if(!file)return;
 
-try{
+  if(!file)
+    return;
 
-const text=await file.text();
 
-const backup=JSON.parse(text);
+  try{
 
-if(
-!backup.members||
-!Array.isArray(backup.members)
-)
-throw new Error("Invalid backup");
+    const text =
+    await file.text();
 
-if(!confirm(
-"Current list ko backup se replace karna hai?"
-))
-return;
 
-for(const member of backup.members){
+    const backup =
+    JSON.parse(text);
 
-await saveMemberToSupabase(member);
+
+    if(
+      !backup.members ||
+      !Array.isArray(
+        backup.members
+      )
+    )
+    throw new Error(
+      "Invalid backup"
+    );
+
+
+    if(
+      !confirm(
+        "Backup ke members Supabase mein restore karne hain?"
+      )
+    )
+    return;
+
+
+    for(
+      const oldMember
+      of backup.members
+    ){
+
+      const member = {
+
+        ...oldMember,
+
+        id:
+        crypto.randomUUID()
+
+      };
+
+
+      await saveMemberToSupabase(
+        member
+      );
+
+    }
+
+
+    await loadFromSupabase();
+
+    displayMembers();
+
+    updateDashboard();
+
+
+    alert(
+      "✅ Backup restored successfully."
+    );
+
+
+  }catch(error){
+
+    alert(
+      "❌ Restore fail hua\n\n" +
+      error.message
+    );
+
+  }
+
+
+  event.target.value="";
 
 }
 
-members=backup.members;
 
-saveLocal();
-
-displayMembers();
-
-updateDashboard();
-
-alert(
-"✅ Backup restored to Supabase."
-);
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"❌ Backup valid nahi hai ya restore fail hua."
-);
-
-}
-
-event.target.value="";
-
-}
-
-
-/* =========================================================
+/* =====================================================
    SYNC
-========================================================= */
+===================================================== */
 
 async function syncNow(){
 
-await loadFromSupabase();
+  await loadFromSupabase();
 
-displayMembers();
+  displayMembers();
 
-updateDashboard();
+  updateDashboard();
 
 }
+
 
 function setSync(text){
 
-document.getElementById(
-"syncStatus"
-).textContent=text;
+  document
+  .getElementById(
+    "syncStatus"
+  )
+  .textContent =
+  text;
 
 }
 
 
-/* =========================================================
-   MIGRATE OLD LOCAL MEMBERS
-========================================================= */
-
-async function migrateOldMembers(){
-
-const localRaw =
-localStorage.getItem(STORAGE_KEY);
-
-if(!localRaw)
-return;
-
-let oldMembers;
-
-try{
-
-oldMembers=JSON.parse(localRaw);
-
-}catch(e){
-
-return;
-
-}
-
-if(
-!Array.isArray(oldMembers)||
-!oldMembers.length
-)
-return;
-
-const {data,error} =
-await supabaseClient
-.from(TABLE)
-.select("id");
-
-if(error){
-
-console.error(error);
-
-return;
-
-}
-
-const existingIds =
-new Set(
-(data||[]).map(
-r=>String(r.id)
-)
-);
-
-const oldOnly =
-oldMembers.filter(
-m=>!existingIds.has(String(m.id))
-);
-
-if(!oldOnly.length)
-return;
-
-setSync(
-"☁️ Purane members Supabase mein save ho rahe hain..."
-);
-
-for(const member of oldOnly){
-
-try{
-
-/* old browser photo migration */
-
-if(!member.photoPath && member.id){
-
-const oldPhoto =
-await getOldIndexedPhoto(
-member.id
-);
-
-if(oldPhoto){
-
-member.photoPath =
-await uploadPhoto(
-member.id,
-oldPhoto
-);
-
-}
-
-}
-
-await saveMemberToSupabase(
-member
-);
-
-}catch(error){
-
-console.error(
-"Migration error:",
-error
-);
-
-}
-
-}
-
-}
-
-
-/* =========================================================
-   OLD INDEXEDDB PHOTO SUPPORT
-========================================================= */
-
-function getOldIndexedPhoto(id){
-
-return new Promise(
-resolve=>{
-
-try{
-
-const request =
-indexedDB.open(
-"DoleWalaGymPhotos"
-);
-
-request.onsuccess=function(){
-
-const db=request.result;
-
-if(
-!db.objectStoreNames.contains("photos")
-){
-
-resolve(null);
-return;
-
-}
-
-const tx =
-db.transaction(
-"photos",
-"readonly"
-);
-
-const req =
-tx.objectStore("photos")
-.get(String(id));
-
-req.onsuccess=()=>{
-
-resolve(
-req.result||null
-);
-
-};
-
-req.onerror=()=>resolve(null);
-
-};
-
-request.onerror=()=>resolve(null);
-
-}catch(e){
-
-resolve(null);
-
-}
-
-});
-
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-function resetForm(){
-
-document
-.getElementById("memberForm")
-.reset();
-
-document.getElementById(
-"editingId"
-).value="";
-
-document.getElementById(
-"formTitle"
-).textContent="👤 Add Member";
-
-document.getElementById(
-"entryFee"
-).value=0;
-
-document.getElementById(
-"membershipFee"
-).value=0;
-
-}
-
-
-/* =========================================================
+/* =====================================================
    DASHBOARD
-========================================================= */
+===================================================== */
 
 function updateDashboard(){
 
-let active=0;
-let expired=0;
-let expiring=0;
+  let active=0;
 
-members.forEach(m=>{
+  let expired=0;
 
-const s=getStatus(m);
+  let expiring=0;
 
-if(s==="Active")active++;
-else if(s==="Expired")expired++;
-else expiring++;
 
-});
+  members.forEach(
+    member=>{
 
-document.getElementById(
-"totalCount"
-).textContent=members.length;
+      const status =
+      getStatus(member);
 
-document.getElementById(
-"activeCount"
-).textContent=active;
 
-document.getElementById(
-"expiredCount"
-).textContent=expired;
+      if(
+        status === "Active"
+      )
+      active++;
 
-document.getElementById(
-"expiringCount"
-).textContent=expiring;
+      else if(
+        status === "Expired"
+      )
+      expired++;
+
+      else
+      expiring++;
+
+    }
+  );
+
+
+  document
+  .getElementById(
+    "totalCount"
+  )
+  .textContent =
+  members.length;
+
+
+  document
+  .getElementById(
+    "activeCount"
+  )
+  .textContent =
+  active;
+
+
+  document
+  .getElementById(
+    "expiredCount"
+  )
+  .textContent =
+  expired;
+
+
+  document
+  .getElementById(
+    "expiringCount"
+  )
+  .textContent =
+  expiring;
 
 }
 
 
-/* =========================================================
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetForm(){
+
+  document
+  .getElementById(
+    "memberForm"
+  )
+  .reset();
+
+
+  document
+  .getElementById(
+    "editingId"
+  )
+  .value="";
+
+
+  document
+  .getElementById(
+    "formTitle"
+  )
+  .textContent =
+  "👤 Add Member";
+
+
+  document
+  .getElementById(
+    "entryFee"
+  )
+  .value=0;
+
+
+  document
+  .getElementById(
+    "membershipFee"
+  )
+  .value=0;
+
+}
+
+
+/* =====================================================
    MESSAGE
-========================================================= */
+===================================================== */
 
 function showMessage(text){
 
-const box =
-document.getElementById(
-"formMessage"
-);
+  const box =
+  document
+  .getElementById(
+    "formMessage"
+  );
 
-box.textContent=text;
 
-box.classList.remove("hidden");
+  box.textContent=text;
 
-setTimeout(
-()=>box.classList.add("hidden"),
-3000
-);
+  box.classList.remove(
+    "hidden"
+  );
+
+
+  setTimeout(
+    ()=>{
+      box.classList.add(
+        "hidden"
+      );
+    },
+    3000
+  );
 
 }
 
 
-/* =========================================================
-   SAFE TEXT
-========================================================= */
+/* =====================================================
+   SAFE
+===================================================== */
 
 function safe(value){
 
-return String(value??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
 
-/* =========================================================
-   APP START
-========================================================= */
+/* =====================================================
+   START
+===================================================== */
 
 async function loadApp(){
 
-loadLocal();
+  loadLocal();
 
-updateStatuses();
+  updateStatuses();
 
-displayMembers();
+  displayMembers();
 
-updateDashboard();
+  updateDashboard();
 
-try{
 
-/* First bring old local members to Supabase */
-await migrateOldMembers();
+  await loadFromSupabase();
 
-/* Then load the actual Supabase copy */
-await loadFromSupabase();
+  displayMembers();
 
-displayMembers();
-
-updateDashboard();
-
-}catch(error){
-
-console.error(error);
-
-setSync(
-"⚠️ Offline/local mode"
-);
+  updateDashboard();
 
 }
 
-}
-
-
-/* =========================================================
-   START LOGIN
-========================================================= */
 
 if(
-localStorage.getItem(
-"doleWalaGymLoggedIn"
-)==="true"
+  localStorage.getItem(
+    "doleWalaGymLoggedIn"
+  ) === "true"
 ){
 
-showApp();
+  showApp();
 
 }
 
