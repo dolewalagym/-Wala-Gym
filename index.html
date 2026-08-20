@@ -1147,7 +1147,7 @@ async function uploadPhoto(
   const path =
   String(id) +
   "-" +
-  id: crypto.randomUUID(),
+  crypto.randomUUID() +
   "." +
   extension;
 
