@@ -333,12 +333,13 @@ th{
     <label>Password</label>
     <input id="loginPassword" type="password">
 
-    <button
-      class="green"
-      style="width:100%"
-      onclick="login()">
-      🔐 Login
-    </button>
+   <button
+  type="button"
+  class="green"
+  style="width:100%"
+  id="loginButton">
+  🔐 Login
+</button>
 
     <p style="font-size:12px;color:#777;text-align:center">
       Default Login: admin / 1234
@@ -781,7 +782,9 @@ function login(){
   }
 
 }
-
+document
+.getElementById("loginButton")
+.addEventListener("click", login);
 
 function logout(){
 
